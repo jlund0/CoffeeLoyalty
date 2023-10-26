@@ -9,23 +9,29 @@ import MainPage from './Home'
 
 function App() {
   const [hasAccount, setHasAccount] = useState(true)
+  const [isSignedIn, setSignIn] = useState(false)
   const handleClick = () => {
     setHasAccount(prevStatus => !prevStatus);
    };
   return (
     <>
     <h1 id="title">Coffee Loyality</h1>
-    <MainPage/>
-  
-    {hasAccount?
-      <div>
-        <Login handleClick={handleClick}/>
-      </div>:
-      <div>
-      <SignUp handleClick={handleClick}/>
-      </div>}
+    {isSignedIn ?    
+    <MainPage/>:
+    <LoginScreen hasAccount={hasAccount} handleClick={handleClick}/>}
     </>
 
+  )
+}
+
+function LoginScreen({hasAccount,handleClick}){
+  if(hasAccount){
+    return(
+     <Login handleClick={handleClick}/>
+    )
+  }
+  return(
+    <SignUp handleClick={handleClick}/>
   )
 }
 function handleEmailandPasswordLogin(email, password){
@@ -67,7 +73,7 @@ function Login({handleClick}){
             marginBottom: 30,
           }}
         >
-          <h2 style={{ textAlign: "center", color: "#666", marginBottom: 30 }}>
+          {/* <h2 style={{ textAlign: "center", color: "#666", marginBottom: 30 }}>
             Or, login with ...
           </h2>
           <FontAwesomeIcon
@@ -75,7 +81,7 @@ function Login({handleClick}){
             onClick={() => HandleFacebookLogin()} height={24} width={24} 
           />
           <FontAwesomeIcon icon={faGoogle} height={24} width={24} />
-          <FontAwesomeIcon icon={faTwitter} height={24} width={24}/>
+          <FontAwesomeIcon icon={faTwitter} height={24} width={24}/> */}
         </div>
   
         <div
@@ -120,7 +126,7 @@ function SignUp({handleClick}){
     
       return (
         <div>
-          <h2>Sign Up with</h2>
+          {/* <h2>Sign Up with</h2>
           <button
             onClick={() => {}}
             style={{
@@ -156,8 +162,8 @@ function SignUp({handleClick}){
             }}
           >
             <FontAwesomeIcon icon={faTwitter} height={24} width={24} />
-          </button>
-          <h2>Or Create account with Email</h2>
+          </button> */}
+          <h2>Sign Up your Coffee Shop</h2>
           <input
             
             placeholder="Store"
