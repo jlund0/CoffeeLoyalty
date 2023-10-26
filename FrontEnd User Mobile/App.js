@@ -29,6 +29,15 @@ export default function App() {
   const [userToken, setUserToken] = React.useState(null);
 
   const auth = getAuth(app);
+  testApi();
+  async function testApi() {
+    console.log("testing API....");
+    const response = await fetch("http://localhost:8080/", {
+      method: "GET",
+    });
+    const data = await response.json();
+    console.log(data);
+  }
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -56,8 +65,18 @@ export default function App() {
         {/*        */}
         {userToken == null ? (
           <>
-            <Stack.Screen name="Login" component={SignInScreen} />
-            <Stack.Screen name="Register" component={SignUpScreen} />
+            <Stack.Screen
+              name="Login"
+              component={SignInScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={SignUpScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
           </>
         ) : (
           <>
@@ -65,10 +84,7 @@ export default function App() {
               name="Home"
               component={Home}
               options={{
-                headerStyle: {
-                  opacity: 0,
-                  height: 0,
-                },
+                headerShown: false,
                 animation: "slide_from_left",
               }}
             />
@@ -84,10 +100,7 @@ export default function App() {
               name="stores"
               component={StoresScreen}
               options={{
-                headerStyle: {
-                  opacity: 0,
-                  height: 0,
-                },
+                headerShown: false,
                 animation: "slide_from_left",
               }}
             />
@@ -95,10 +108,7 @@ export default function App() {
               name="settings"
               component={SettingsScreen}
               options={{
-                headerStyle: {
-                  opacity: 0,
-                  height: 0,
-                },
+                headerShown: false,
               }}
             />
           </>
