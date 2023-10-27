@@ -103,18 +103,6 @@ function SocialButton({ name, onPress, colors, SVG }) {
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     const uid = user.uid;
-  //     console.log("user " + uid + " signed in");
-
-  //     return true;
-  //   } else {
-  //     navigation.navigate("Login");
-  //     console.log("no user signed in");
-  //     return false;
-  //   }
-  // });
 
   return (
     <SafeAreaView

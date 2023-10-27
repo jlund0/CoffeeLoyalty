@@ -122,7 +122,7 @@ export default function SignUpScreen({ navigation }) {
         // Signed up
         const user = userCredential.user;
         updateProfile(user, { displayName: name });
-        addUser(user);
+        // addUser(user);
 
         // ...
       })

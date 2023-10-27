@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 
 //get user info
 app.get("/:userId/", (req, res) => {
+  console.log("getting user info");
   const userID = req.params.userId;
   const user = getUser(userID);
   res.send(user);
@@ -41,6 +42,7 @@ async function getUser(userID) {
 //adding new user
 app.post("/:userId/", (req, res) => {
   const userDetail = req.body;
+  console.log(`adding user:${userDetail.userID} to database`);
   if (!userDetail) {
     res.status(418).send({ message: "no user info" });
   }
@@ -64,6 +66,7 @@ async function addUser(userDetails) {
 
 //Get Stores in Distance to User
 app.get("/stores", (req, res) => {
+  console.log("getting stores");
   const distance = req.body.distance;
   const stores = getStores(distance);
 });
@@ -76,11 +79,13 @@ async function getStores(distance) {
 app.post("/:userID/:shopID", (req, res) => {
   const userID = req.params.userID;
   const shopID = req.params.shopID;
+  console.log(`adding shop: ${shopID} card to userID: ${userID}`);
 });
 
 //Getting Users Cards
 app.get("/:userID/cards/", (req, res) => {
   const userID = req.params.userID;
+  console.log(`getting users: ${userID} cards`);
   cards = getUserCards(userID);
   res.send(cards);
 });

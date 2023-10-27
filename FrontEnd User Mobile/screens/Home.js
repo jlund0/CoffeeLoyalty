@@ -48,6 +48,7 @@ function UserButton() {
   );
 }
 
+//TODO fix fetching userDetails to get coffee saved
 export default function Home({ navigation }) {
   getAuth(app);
   const user = getAuth().currentUser;
@@ -66,7 +67,7 @@ export default function Home({ navigation }) {
     return userDetails;
   }
 
-  userDetails = getCards();
+  const userDetails = getCards();
 
   return (
     <View style={styles.maincontainer}>
@@ -77,7 +78,8 @@ export default function Home({ navigation }) {
         </Text>
         <UserButton />
       </View>
-      <CoffeeSaved coffeenumber={userDetails.freeCoffees} />
+      {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
+      <CoffeeSaved coffeenumber={0} />
       <View style={styles.qr}>
         <Image
           source={require("../assets/QR_code_for_mobile_English_Wikipedia.svg")}
@@ -108,7 +110,6 @@ function CardScreen({ navigation, route }) {
 }
 
 function CoffeeSaved(coffeenumber) {
-  const [freeCoffeeCount, setFreeCoffees] = useState(coffeenumber);
   return (
     <View style={styles.coffeesaved}>
       <Text
@@ -140,7 +141,7 @@ function CoffeeSaved(coffeenumber) {
             alignSelf: "center",
           }}
         >
-          {freeCoffeeCount}
+          {coffeenumber}
         </Text>
       </View>
     </View>
