@@ -50,6 +50,7 @@ function UserButton() {
 
 //TODO fix fetching userDetails to get coffee saved
 export default function Home({ navigation }) {
+  console.log("Home Page")
   getAuth(app);
   const user = getAuth().currentUser;
   const name = user.displayName;
@@ -67,7 +68,7 @@ export default function Home({ navigation }) {
     return userDetails;
   }
 
-  const userDetails = getCards();
+  // const userDetails = getCards();
 
   return (
     <View style={styles.maincontainer}>
@@ -109,7 +110,7 @@ function CardScreen({ navigation, route }) {
   );
 }
 
-function CoffeeSaved(coffeenumber) {
+function CoffeeSaved({coffeenumber}) {
   return (
     <View style={styles.coffeesaved}>
       <Text

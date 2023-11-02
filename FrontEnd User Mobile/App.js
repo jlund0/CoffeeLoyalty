@@ -12,13 +12,14 @@ import StoresScreen from "./screens/Shops";
 import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
+import LoyaltyCard from "./screens/loyaltyCard";
 
 const Stack = createNativeStackNavigator();
 
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Getting token...</Text>
+      <Text>Roasting Coffee...</Text>
       <ActivityIndicator size="large" />
     </View>
   );
@@ -62,7 +63,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        {/*        */}
         {userToken == null ? (
           <>
             <Stack.Screen
@@ -93,6 +93,7 @@ export default function App() {
               component={CardScreen}
               options={{
                 headerStyle: {},
+                headerShown: false,
                 animation: "slide_from_left",
               }}
             />
@@ -110,6 +111,14 @@ export default function App() {
               options={{
                 headerShown: false,
               }}
+              
+            />
+            <Stack.Screen 
+            name="loyaltyCard" 
+            component={LoyaltyCard}
+            options={{
+              headerShown: false,
+            }}
             />
           </>
         )}

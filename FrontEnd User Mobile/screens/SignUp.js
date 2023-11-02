@@ -21,7 +21,6 @@ import {
 } from "firebase/auth";
 
 import { app } from "../firebase";
-import { NewUser } from "../components/database";
 import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
 
 const auth = getAuth(app);
@@ -93,6 +92,7 @@ function SocialButton({ name, onPress, colors, SVG }) {
 }
 
 export default function SignUpScreen({ navigation }) {
+  console.log("sign up screen")
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
   const [lastname, setLastname] = React.useState("");

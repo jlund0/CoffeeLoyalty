@@ -101,6 +101,7 @@ function SocialButton({ name, onPress, colors, SVG }) {
 }
 
 export default function SignInScreen({ navigation }) {
+  console.log("Sign In Screen")
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 

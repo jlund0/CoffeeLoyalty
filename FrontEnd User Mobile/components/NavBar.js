@@ -8,7 +8,7 @@ export default function NavBar({ navigation, isFocused }) {
     <View style={styles.navbar}>
       <Pressable
         style={
-          isFocused == "card" ? styles.activeNav : { backgroundColor: "0" }
+          isFocused == "card" ? [styles.activeNav , styles.navIcon]: { backgroundColor: "0" }
         }
         onPress={() => navigation.navigate("card")}
       >
@@ -50,7 +50,7 @@ export default function NavBar({ navigation, isFocused }) {
 const styles = StyleSheet.create({
   navbar: {
     backgroundColor: "#d3d3d3",
-    flex: 0.75,
+    height:"10%",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
