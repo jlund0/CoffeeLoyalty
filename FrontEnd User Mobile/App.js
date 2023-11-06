@@ -1,4 +1,4 @@
-import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
 
 import * as React from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
@@ -19,6 +19,7 @@ const Stack = createNativeStackNavigator();
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <Image source={require("./assets/3dCup.png")} width={50} height={50} />
       <Text>Roasting Coffee...</Text>
       <ActivityIndicator size="large" />
     </View>
@@ -111,14 +112,13 @@ export default function App() {
               options={{
                 headerShown: false,
               }}
-              
             />
-            <Stack.Screen 
-            name="loyaltyCard" 
-            component={LoyaltyCard}
-            options={{
-              headerShown: false,
-            }}
+            <Stack.Screen
+              name="loyaltyCard"
+              component={LoyaltyCard}
+              options={{
+                headerShown: false,
+              }}
             />
           </>
         )}

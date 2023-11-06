@@ -13,6 +13,7 @@ import NavBar from "../components/NavBar";
 import { getAuth, signOut } from "firebase/auth";
 import app from "../firebase";
 import { useState } from "react";
+import { CoffeeIconSVG } from "../assets/socialSVG.js";
 
 function UserButton() {
   const [showMenu, setShowMenu] = useState(false);
@@ -50,7 +51,7 @@ function UserButton() {
 
 //TODO fix fetching userDetails to get coffee saved
 export default function Home({ navigation }) {
-  console.log("Home Page")
+  console.log("Home Page");
   getAuth(app);
   const user = getAuth().currentUser;
   const name = user.displayName;
@@ -110,7 +111,7 @@ function CardScreen({ navigation, route }) {
   );
 }
 
-function CoffeeSaved({coffeenumber}) {
+function CoffeeSaved({ coffeenumber }) {
   return (
     <View style={styles.coffeesaved}>
       <Text
