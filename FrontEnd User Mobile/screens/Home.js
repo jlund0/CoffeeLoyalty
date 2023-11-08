@@ -54,7 +54,8 @@ export default function Home({ navigation }) {
   console.log("Home Page");
   getAuth(app);
   const user = getAuth().currentUser;
-  const name = user.displayName;
+  let name = user.displayName.substring(0, user.displayName.indexOf(" "));
+  name = name.charAt(0).toUpperCase() + name.slice(1);
   const isFocused = useIsFocused();
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];

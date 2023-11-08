@@ -5,7 +5,7 @@ const getCoffeesEarnt = () => {
   return 1;
 };
 
-function CoffeeTicker({ i, n }) {
+function CoffeeTicker({ i, n, logo }) {
   return (
     <View
       style={{
@@ -13,19 +13,45 @@ function CoffeeTicker({ i, n }) {
         height: "auto",
         backgroundColor: "#FFFDD0",
         alignItems: "center",
-        padding: 20,
-        borderRadius: 25,
+        justifyContent: "center",
+        borderRadius: 60,
         borderWidth: 4,
         borderColor: "#C4A484",
+        width: 100,
+        height: 100,
       }}
     >
       {i < n ? (
-        <Image
-          source={require("../assets/bean_stamp.png")}
-          style={{ width: 50, height: 50 }}
-        />
+        <View>
+          {" "}
+          <Image
+            source={require("../assets/starbuck_test/logo.png")}
+            style={{
+              width: 50,
+              height: 50,
+              opacity: 0.4,
+            }}
+          ></Image>
+          <Image
+            source={require("../assets/bean_stamp.png")}
+            style={{
+              width: 80,
+              height: 80,
+              position: "absolute",
+
+              top: "50%",
+              left: "50%",
+              transform: "translateY(-50%) translateX(-50%)",
+            }}
+          />
+        </View>
       ) : (
-        <View style={{ width: 50, height: 50 }}></View>
+        <View style={{ width: 50, height: 50 }}>
+          <Image
+            source={require("../assets/starbuck_test/logo.png")}
+            style={{ width: 50, height: 50, opacity: 0.4 }}
+          ></Image>
+        </View>
       )}
     </View>
   );

@@ -22,6 +22,7 @@ import {
 
 import { app } from "../firebase";
 import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
+import { AddUser } from "../firebasefunctions";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
@@ -37,6 +38,14 @@ const HandleGmailLogin = () => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
+      AddUser({
+        created_at: new Date(),
+        userID: user.uid,
+        name: user.displayName,
+        email: user.email,
+        earnt_coffees: 0,
+      });
+
       console.log("Logged in with:", user.email, user, token);
     })
     .catch((error) => {
@@ -71,15 +80,33 @@ const HandleTwitterLogin = () => {
     .catch((error) => alert(error.message));
 };
 
-function SocialButton({ name, onPress, colors, SVG }) {
+const handleEmailSignUp = (email, password, name) => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      const user = userCredential.user;
+      updateProfile(user, { displayName: name });
+      AddUser({
+        created_at: new Date(),
+        userID: user.uid,
+        name: user.displayName,
+        email: user.email,
+        earnt_coffees: 0,
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode + errorMessage);
+    });
+};
+
+function SocialButton({ onPress, SVG }) {
   return (
     <TouchableOpacity
-      onPress={() => {
-        onPress;
-      }}
+      onPress={() => onPress()}
       style={{
         borderColor: "#ddd",
-
         borderWidth: 2,
         borderRadius: 10,
         paddingHorizontal: 30,
@@ -92,46 +119,12 @@ function SocialButton({ name, onPress, colors, SVG }) {
 }
 
 export default function SignUpScreen({ navigation }) {
-  console.log("sign up screen")
+  console.log("sign up screen");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
   const [lastname, setLastname] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [passwordCheck, setPasswordCheck] = React.useState("");
-  async function addUser() {
-    console.log("adding user to Database");
-    const response = await fetch("http://localhost:8080/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: user.uid,
-        name: user.displayName,
-        email: user.email,
-        points: 0,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
-  }
-
-  const handleEmailSignUp = (email, password, name) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        updateProfile(user, { displayName: name });
-        // addUser(user);
-
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode + errorMessage);
-      });
-  };
 
   return (
     <SafeAreaView
@@ -241,20 +234,17 @@ export default function SignUpScreen({ navigation }) {
         >
           <SocialButton
             name="facebook"
-            onPress={() => HandleFacebookLogin()}
-            colors="#1877F2"
+            onPress={HandleFacebookLogin}
             SVG={FacebookSVG}
           />
           <SocialButton
             name="google"
             onPress={HandleGmailLogin}
-            colors="#4285F4,#DB4437,#F4B400,#0F9D58"
             SVG={GoogleSVG}
           />
           <SocialButton
             name="twitter"
-            onPress={() => HandleTwitterLogin()}
-            colors="#1DA1F2"
+            onPress={HandleTwitterLogin}
             SVG={TwitterSVG}
           />
         </View>
