@@ -1,12 +1,13 @@
-import { async } from "@firebase/util";
 import app from "./firebase";
 import {
   collection,
+  doc,
   addDoc,
   getFirestore,
   query,
   where,
   getDocs,
+  setDoc
 } from "firebase/firestore";
 
 const db = getFirestore(app);
@@ -14,7 +15,7 @@ const db = getFirestore(app);
 export function AddUser(userDetails) {
   console.log("adding user" + userDetails);
   try {
-    const docRef = addDoc(collection(db, "users"), userDetails);
+    const docRef = setDoc(doc(db, "users",userDetails.userid), userDetails);
     console.log("User written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);

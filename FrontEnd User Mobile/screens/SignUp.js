@@ -14,71 +14,13 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   updateProfile,
-  TwitterAuthProvider,
-  FacebookAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
 } from "firebase/auth";
-
+import { AddUser } from "../firebasefunctions";
 import { app } from "../firebase";
-import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
 import { AddUser } from "../firebasefunctions";
 import { SocialButtons } from "../components/socialSignin";
 const auth = getAuth(app);
 auth.languageCode = "it";
-const GoogleProvider = new GoogleAuthProvider();
-const TwitterProvider = new TwitterAuthProvider();
-const FacebookProvider = new FacebookAuthProvider();
-
-const HandleGmailLogin = () => {
-  console.log("Login in Gmail");
-  signInWithPopup(auth, GoogleProvider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      AddUser({
-        created_at: new Date(),
-        userID: user.uid,
-        name: user.displayName,
-        email: user.email,
-        earnt_coffees: 0,
-      });
-
-      console.log("Logged in with:", user.email, user, token);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
-};
-const HandleFacebookLogin = () => {
-  console.log("Loggin in Facebook");
-  auth
-    .signInWithPopup(FacebookProvider)
-    .then((userCredentials) => {
-      const user = userCredentials.user;
-      console.log("Logged in with:", user.email);
-    })
-    .catch((error) => alert(error.message));
-};
-const HandleTwitterLogin = () => {
-  console.log("Login in Twitter");
-  auth
-    .signInWithPopup(TwitterProvider)
-    .then((userCredentials) => {
-      const user = userCredentials.user;
-      console.log("Logged in with:", user.email);
-    })
-    .catch((error) => alert(error.message));
-};
 
 const handleEmailSignUp = (email, password, name) => {
   createUserWithEmailAndPassword(auth, email, password)
@@ -86,13 +28,7 @@ const handleEmailSignUp = (email, password, name) => {
       // Signed up
       const user = userCredential.user;
       updateProfile(user, { displayName: name });
-      AddUser({
-        created_at: new Date(),
-        userID: user.uid,
-        name: user.displayName,
-        email: user.email,
-        earnt_coffees: 0,
-      });
+      AddUser(user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -100,23 +36,6 @@ const handleEmailSignUp = (email, password, name) => {
       console.log(errorCode + errorMessage);
     });
 };
-
-function SocialButton({ onPress, SVG }) {
-  return (
-    <TouchableOpacity
-      onPress={() => onPress()}
-      style={{
-        borderColor: "#ddd",
-        borderWidth: 2,
-        borderRadius: 10,
-        paddingHorizontal: 30,
-        paddingVertical: 10,
-      }}
-    >
-      <SVG height={24} width={24} />
-    </TouchableOpacity>
-  );
-}
 
 export default function SignUpScreen({ navigation }) {
   console.log("sign up screen");
@@ -233,21 +152,6 @@ export default function SignUpScreen({ navigation }) {
           }}
         >
           <SocialButtons />
-          {/* <SocialButton
-            name="facebook"
-            onPress={HandleFacebookLogin}
-            SVG={FacebookSVG}
-          />
-          <SocialButton
-            name="google"
-            onPress={HandleGmailLogin}
-            SVG={GoogleSVG}
-          />
-          <SocialButton
-            name="twitter"
-            onPress={HandleTwitterLogin}
-            SVG={TwitterSVG}
-          /> */}
         </View>
 
         <View
