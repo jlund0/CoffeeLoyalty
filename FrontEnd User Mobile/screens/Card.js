@@ -57,7 +57,7 @@ export default function Card({ navigation }) {
 
         <View
           style={{
-            padding: 40,
+            padding: 20,
             height: "auto",
           }}
         >

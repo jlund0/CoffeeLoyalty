@@ -10,22 +10,12 @@ import {
   Image,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  TwitterAuthProvider,
-  FacebookAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";
-import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG.js";
+import { SocialButtons } from "../components/socialSignin";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
-const GoogleProvider = new GoogleAuthProvider();
-const TwitterProvider = new TwitterAuthProvider();
-const FacebookProvider = new FacebookAuthProvider();
 
 //Sign Ins
 const handleEmailandPasswordLogin = (email, password) => {
@@ -37,71 +27,8 @@ const handleEmailandPasswordLogin = (email, password) => {
     .catch((error) => alert(error.message));
 };
 
-//Social Sign Ins
-const HandleGmailLogin = () => {
-  console.log("Login in Gmail");
-  signInWithPopup(auth, GoogleProvider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      console.log("Logged in with:", user.email, user, token);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
-};
-const HandleFacebookLogin = () => {
-  console.log("Loggin in Facebook");
-  auth
-    .signInWithPopup(FacebookProvider)
-    .then((userCredentials) => {
-      const user = userCredentials.user;
-      console.log("Logged in with:", user.email);
-    })
-    .catch((error) => alert(error.message));
-};
-const HandleTwitterLogin = () => {
-  console.log("Login in Twitter");
-  auth
-    .signInWithPopup(TwitterProvider)
-    .then((userCredentials) => {
-      const user = userCredentials.user;
-      console.log("Logged in with:", user.email);
-    })
-    .catch((error) => alert(error.message));
-};
-
-function SocialButton({ name, onPress, colors, SVG }) {
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        onPress;
-      }}
-      style={{
-        borderColor: "#ddd",
-
-        borderWidth: 2,
-        borderRadius: 10,
-        paddingHorizontal: 30,
-        paddingVertical: 10,
-      }}
-    >
-      <SVG height={24} width={24} />
-    </TouchableOpacity>
-  );
-}
-
 export default function SignInScreen({ navigation }) {
-  console.log("Sign In Screen")
+  console.log("Sign In Screen");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -189,24 +116,7 @@ export default function SignInScreen({ navigation }) {
             marginBottom: 30,
           }}
         >
-          <SocialButton
-            name="facebook"
-            onPress={() => HandleFacebookLogin()}
-            colors="#1877F2"
-            SVG={FacebookSVG}
-          />
-          <SocialButton
-            name="google"
-            onPress={HandleGmailLogin}
-            colors="#4285F4,#DB4437,#F4B400,#0F9D58"
-            SVG={GoogleSVG}
-          />
-          <SocialButton
-            name="twitter"
-            onPress={() => HandleTwitterLogin()}
-            colors="#1DA1F2"
-            SVG={TwitterSVG}
-          />
+          <SocialButtons />
         </View>
 
         <View

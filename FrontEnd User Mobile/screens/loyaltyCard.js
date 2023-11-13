@@ -21,7 +21,13 @@ function CoffeeTicker({ i, n, logo }) {
         height: 100,
       }}
     >
-      {i < n ? (
+      {i == n ? (
+        <View>
+          {" "}
+          <Image src={require("../assets/coffeeGuy.png")} />
+          <Text>Free Coffee</Text>
+        </View>
+      ) : i < n ? (
         <View>
           {" "}
           <Image
@@ -84,20 +90,6 @@ export default function LoyaltyCard({ navigation, route }) {
         alignItems: "center",
       }}
     >
-      <Pressable
-        onPress={() => navigation.navigate("card")}
-        style={{ position: "absolute", left: 0, top: 0, margin: 25 }}
-      >
-        <AntIcon
-          name="back"
-          size={30}
-          style={{
-            borderWidth: 2,
-            padding: 10,
-            borderRadius: 40,
-          }}
-        />
-      </Pressable>
       <Image
         source={require("../assets/" + cardDetails.logo)}
         style={{
@@ -112,6 +104,20 @@ export default function LoyaltyCard({ navigation, route }) {
           return <CoffeeTicker i={i} n={coffeesEarnt} />;
         })}
       </View>
+      <Pressable
+        onPress={() => navigation.navigate("card")}
+        style={{ position: "absolute", left: 0, top: 0, margin: 25 }}
+      >
+        <AntIcon
+          name="back"
+          size={30}
+          style={{
+            borderWidth: 2,
+            padding: 10,
+            borderRadius: 40,
+          }}
+        />
+      </Pressable>
     </View>
   );
 }

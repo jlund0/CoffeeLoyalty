@@ -31,15 +31,6 @@ export default function App() {
   const [userToken, setUserToken] = React.useState(null);
 
   const auth = getAuth(app);
-  testApi();
-  async function testApi() {
-    console.log("testing API....");
-    const response = await fetch("http://localhost:8080/", {
-      method: "GET",
-    });
-    const data = await response.json();
-    console.log(data);
-  }
 
   onAuthStateChanged(auth, (user) => {
     if (user) {

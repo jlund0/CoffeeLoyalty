@@ -23,7 +23,7 @@ import {
 import { app } from "../firebase";
 import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
 import { AddUser } from "../firebasefunctions";
-
+import { SocialButtons } from "../components/socialSignin";
 const auth = getAuth(app);
 auth.languageCode = "it";
 const GoogleProvider = new GoogleAuthProvider();
@@ -232,7 +232,8 @@ export default function SignUpScreen({ navigation }) {
             marginBottom: 30,
           }}
         >
-          <SocialButton
+          <SocialButtons />
+          {/* <SocialButton
             name="facebook"
             onPress={HandleFacebookLogin}
             SVG={FacebookSVG}
@@ -246,7 +247,7 @@ export default function SignUpScreen({ navigation }) {
             name="twitter"
             onPress={HandleTwitterLogin}
             SVG={TwitterSVG}
-          />
+          /> */}
         </View>
 
         <View
