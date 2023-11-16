@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase";
 import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
-import { AddUser } from "../firebasefunctions";
 import {
   View,
   TextInput,
@@ -20,40 +19,13 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-
 import { AddUser } from "../firebasefunctions";
-import { doc, getDoc } from "firebase/firestore";
-
-
 
 const auth = getAuth(app);
 auth.languageCode = "it";
 const GoogleProvider = new GoogleAuthProvider();
 const TwitterProvider = new TwitterAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
-
-
-async function addUser({user}){
-
-  const docRef = doc(db, "user", user.uid);
-  const docSnap = await getDoc(docRef);
-  
-if (docSnap.exists()) {
-  console.log("user already added with")
-  console.log("Document data:", docSnap.data());
-  
-}
-else {
-  console.log("adding user " +user.uid)
-  AddUser({
-    created_at: new Date(),
-    name: user.displayName,
-    email: user.email,
-    earnt_coffees: 0,
-  },user.uid)}
- 
-}
-
 
 const HandleGmailLogin = ({}) => {
   console.log("Login in Gmail");
@@ -63,7 +35,7 @@ const HandleGmailLogin = ({}) => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      AddUser(user);
+      AddUser(user.displayName, user.email, user.uid);
 
       console.log("Logged in with:", user.email, user, token);
     })

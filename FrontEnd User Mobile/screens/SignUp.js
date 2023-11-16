@@ -17,7 +17,6 @@ import {
 } from "firebase/auth";
 import { AddUser } from "../firebasefunctions";
 import { app } from "../firebase";
-import { AddUser } from "../firebasefunctions";
 import { SocialButtons } from "../components/socialSignin";
 const auth = getAuth(app);
 auth.languageCode = "it";

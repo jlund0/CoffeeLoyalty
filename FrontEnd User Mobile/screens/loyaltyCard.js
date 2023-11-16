@@ -1,63 +1,78 @@
-import { View, Image, Dimensions, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  Text,
+} from "react-native";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
 const getCoffeesEarnt = () => {
-  return 1;
+  return 3;
 };
 
-function CoffeeTicker({ i, n, logo }) {
+function CoffeeTicker({ coffeesEarnt, pointsneeded, logo }) {
+  console.log(pointsneeded, coffeesEarnt);
+  const list = [...Array(pointsneeded).keys()];
   return (
-    <View
-      style={{
-        width: "auto",
-        height: "auto",
-        backgroundColor: "#FFFDD0",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: 60,
-        borderWidth: 4,
-        borderColor: "#C4A484",
-        width: 100,
-        height: 100,
-      }}
-    >
-      {i == n ? (
-        <View>
-          {" "}
+    <View style={styles.CheckBox}>
+      {coffeesEarnt === list.length ? (
+        <View style={{ width: "100%", height: "100%", backgroundColor: "FFF" }}>
           <Image src={require("../assets/coffeeGuy.png")} />
           <Text>Free Coffee</Text>
-        </View>
-      ) : i < n ? (
-        <View>
-          {" "}
-          <Image
-            source={require("../assets/starbuck_test/logo.png")}
-            style={{
-              width: 50,
-              height: 50,
-              opacity: 0.4,
+          <Pressable
+            onPress={() => {
+              RedeemCoffee;
             }}
-          ></Image>
-          <Image
-            source={require("../assets/bean_stamp.png")}
-            style={{
-              width: 80,
-              height: 80,
-              position: "absolute",
-
-              top: "50%",
-              left: "50%",
-              transform: "translateY(-50%) translateX(-50%)",
-            }}
-          />
+          >
+            Redeem
+          </Pressable>
         </View>
       ) : (
-        <View style={{ width: 50, height: 50 }}>
-          <Image
-            source={require("../assets/starbuck_test/logo.png")}
-            style={{ width: 50, height: 50, opacity: 0.4 }}
-          ></Image>
-        </View>
+        <>
+          {list.map((i) => {
+            return (
+              <View
+                style={{
+                  width: "40%",
+                  height: "auto",
+                  backgroundColor: "#FFFDD0",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 40,
+                  borderWidth: 4,
+                  borderColor: "#C4A484",
+                  aspectRatio: 1,
+                }}
+              >
+                <View>
+                  <Image
+                    source={require("../assets/starbuck_test/logo.png")}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      opacity: 0.4,
+                    }}
+                  />
+                  {i < coffeesEarnt ? (
+                    <Image
+                      source={require("../assets/bean_stamp.png")}
+                      style={{
+                        width: 80,
+                        height: 80,
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translateY(-50%) translateX(-50%)",
+                      }}
+                    />
+                  ) : null}
+                </View>
+              </View>
+            );
+          })}
+        </>
       )}
     </View>
   );
@@ -93,17 +108,18 @@ export default function LoyaltyCard({ navigation, route }) {
       <Image
         source={require("../assets/" + cardDetails.logo)}
         style={{
-          height: 300,
-          width: 300,
+          height: 250,
+          width: 250,
           resizeMode: "contain",
           alignSelf: "center",
+          flex: 1.5,
+          padding: 30,
         }}
       />
-      <View style={styles.CheckBox}>
-        {list.map((i) => {
-          return <CoffeeTicker i={i} n={coffeesEarnt} />;
-        })}
-      </View>
+      <CoffeeTicker
+        pointsneeded={cardDetails.pointsTotal}
+        coffeesEarnt={coffeesEarnt}
+      />
       <Pressable
         onPress={() => navigation.navigate("card")}
         style={{ position: "absolute", left: 0, top: 0, margin: 25 }}
@@ -135,5 +151,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderColor: "#4B2D0B",
+    flex: 2,
+    marginBottom: 40,
   },
 });

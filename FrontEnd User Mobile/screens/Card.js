@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import NavBar from "../components/NavBar";
 import { useIsFocused } from "@react-navigation/native";
@@ -13,22 +14,34 @@ import { useIsFocused } from "@react-navigation/native";
 import { useState } from "react";
 import { UserButton } from "../components/buttons";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import { getUserCards, getStoreInfo, getStoreLogo } from "../firebasefunctions";
+import { useEffect } from "react";
 
 export default function Card({ navigation }) {
   console.log("Card page");
   const isFocused = useIsFocused();
+  const [cards, setCards] = useState([]);
   const [searchStoreFilter, setSearchFilter] = useState("");
-  //  List of loyality cards customer has
-  let cards = [
-    {
-      name: "Starbucks",
-      pointsTotal: 6,
-      logo: "starbuck_test/logo.png",
-      stamp: "bean_stamp.png",
-      address: "10 test street perth",
-    },
-  ];
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // set loading to true before calling API
+        setLoading(true);
+        const data = await getUserCards();
+        setCards(data);
+        // switch loading to false after fetch is complete
+        setLoading(false);
+      } catch (error) {
+        // add error handling here
+        setLoading(false);
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
   const navigateLoyaltyPage = (card) => {
     console.log(card);
     navigation.replace("loyaltyCard", card);
@@ -68,15 +81,25 @@ export default function Card({ navigation }) {
               borderColor: "#d3d3d3",
               width: "100%",
               backgroundColor: "#fff",
-
               marginBottom: 15,
             }}
             placeholder="Find Store"
             onChangeText={(newVal) => setSearchFilter(newVal)}
           ></TextInput>
-          {cards.map((card, i) => (
-            <StoreCard key={i} card={card} navigation={navigateLoyaltyPage} />
-          ))}
+
+          {loading ? (
+            <ActivityIndicator size="large" />
+          ) : (
+            <>
+              {cards.map((card) => (
+                <StoreCard
+                  card={card}
+                  navigation={navigateLoyaltyPage}
+                  key={card}
+                />
+              ))}
+            </>
+          )}
         </View>
       </View>
       <NavBar navigation={navigation} isFocused={isFocused ? "card" : null} />
@@ -88,6 +111,29 @@ function StoreCard({ navigation, card }) {
   const getDistance = (lat1, lon1, lat2, lon2) => {
     return 0;
   };
+  const [store, setStore] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [storeimg, setStoreimg] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // set loading to true before calling API
+        setLoading(true);
+        const data = await getStoreInfo(card.store);
+        setStore(data[0]);
+        const img = await getStoreLogo(data[1]);
+        setStoreimg(img);
+        // switch loading to false after fetch is complete
+        setLoading(false);
+      } catch (error) {
+        // add error handling here
+        setLoading(false);
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <Pressable
       style={{
@@ -111,7 +157,8 @@ function StoreCard({ navigation, card }) {
           width: 60,
           height: 60,
         }}
-        source={require(`../assets/${card.logo}`)}
+        //find logo under
+        source={storeimg}
       />
       <View
         style={{
@@ -128,9 +175,9 @@ function StoreCard({ navigation, card }) {
             textTransform: "uppercase",
           }}
         >
-          {card.name}
+          {store.name}
         </Text>
-        <Text style={{ fontSize: 15 }}>{card.address} </Text>
+        <Text style={{ fontSize: 15 }}>{store.location} </Text>
         <Text>{getDistance} Away</Text>
       </View>
       <View style={{ paddingRight: 25 }}>
@@ -140,7 +187,8 @@ function StoreCard({ navigation, card }) {
             height: "100%",
           }}
         >
-          0/{card.pointsTotal} <FeatherIcon size={30} name="coffee" />
+          {card.coffees_purchased}/{store.coffees_required}{" "}
+          <FeatherIcon size={30} name="coffee" />
         </Text>
       </View>
     </Pressable>

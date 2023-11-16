@@ -23,9 +23,7 @@ export default function NavBar({ navigation, isFocused }) {
         backgroundColor="0"
         color={isFocused == "main" ? "black" : "white"}
         style={
-          isFocused == "main"
-            ? [styles.activeNav, styles.navIcon]
-            : styles.navIcon
+          isFocused == "main" ? styles.activeNav : { backgroundColor: "0" }
         }
         size={isFocused == "main" ? 70 : 50}
       />
