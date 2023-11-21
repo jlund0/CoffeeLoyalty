@@ -13,8 +13,10 @@ import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import LoyaltyCard from "./screens/loyaltyCard";
+import { getUserInfo, getUserCards } from "./firebasefunctions";
 
 const Stack = createNativeStackNavigator();
+const auth = getAuth(app);
 
 function SplashScreen() {
   return (
@@ -27,28 +29,34 @@ function SplashScreen() {
 }
 
 export default function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setUserToken] = React.useState(null);
+  const [userInfo, setUserInfo] = React.useState(null);
+  const [userCards, setUserCards] = React.useState(null);
 
-  const auth = getAuth(app);
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setUserToken(user.uid);
-      console.log("user " + userToken + " signed in");
-      console.log(user);
-      setIsLoading(false);
-      return true;
-    } else {
-      console.log("no user signed in");
-      setUserToken(null);
-      setIsLoading(false);
-
-      return false;
+  React.useEffect(() => {
+    console.log("checking user auth");
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserToken(user.uid);
+        console.log(user);
+      } else setUserToken(null);
+    });
+  }, []);
+  React.useEffect(() => {
+    async function fetchFirebaseInfo() {
+      if (userToken !== null) {
+        const usercards = await getUserCards();
+        setUserCards(usercards);
+        const userinfo = await getUserInfo();
+        setUserInfo(userinfo);
+      }
     }
-  });
-  if (isLoading) {
+    fetchFirebaseInfo();
+  }, [userToken]);
+
+  if (userInfo === null) {
     // We haven't finished checking for the token yet
+    console.log("loading");
     return <SplashScreen />;
   }
 
@@ -79,6 +87,7 @@ export default function App() {
                 headerShown: false,
                 animation: "slide_from_left",
               }}
+              initialParams={userInfo}
             />
             <Stack.Screen
               name="card"
@@ -88,6 +97,7 @@ export default function App() {
                 headerShown: false,
                 animation: "slide_from_left",
               }}
+              initialParams={userCards}
             />
             <Stack.Screen
               name="stores"

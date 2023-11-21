@@ -13,38 +13,38 @@ import { useIsFocused } from "@react-navigation/native";
 // import GetLocation from "react-native-get-location";
 import { useState } from "react";
 import { UserButton } from "../components/buttons";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getUserCards, getStoreInfo, getStoreLogo } from "../firebasefunctions";
 import { useEffect } from "react";
+import { CoffeeCupIcon } from "../assets/socialSVG";
 
-export default function Card({ navigation }) {
+export default function CardScreen({ navigation, route }) {
   console.log("Card page");
   const isFocused = useIsFocused();
-  const [cards, setCards] = useState([]);
+  console.log(route.params);
+  const [cards, setCards] = useState(route.params);
   const [searchStoreFilter, setSearchFilter] = useState("");
 
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // set loading to true before calling API
-        setLoading(true);
-        const data = await getUserCards();
-        setCards(data);
-        // switch loading to false after fetch is complete
-        setLoading(false);
-      } catch (error) {
-        // add error handling here
-        setLoading(false);
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       // set loading to true before calling API
+  //       setLoading(true);
+  //       const data = await getUserCards();
+  //       setCards(data);
+  //       // switch loading to false after fetch is complete
+  //       setLoading(false);
+  //     } catch (error) {
+  //       // add error handling here
+  //       setLoading(false);
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
   const navigateLoyaltyPage = (card) => {
-    console.log(card);
-    navigation.replace("loyaltyCard", card);
+    console.log("push: " + card);
+    navigation.push("loyaltyCard", card);
   };
 
   // GetLocation.getCurrentPosition({
@@ -87,19 +87,13 @@ export default function Card({ navigation }) {
             onChangeText={(newVal) => setSearchFilter(newVal)}
           ></TextInput>
 
-          {loading ? (
-            <ActivityIndicator size="large" />
-          ) : (
-            <>
-              {cards.map((card) => (
-                <StoreCard
-                  card={card}
-                  navigation={navigateLoyaltyPage}
-                  key={card}
-                />
-              ))}
-            </>
-          )}
+          {cards.map((card) => (
+            <CardWidget
+              card={card}
+              navigation={navigateLoyaltyPage}
+              key={card.cardid}
+            />
+          ))}
         </View>
       </View>
       <NavBar navigation={navigation} isFocused={isFocused ? "card" : null} />
@@ -107,32 +101,30 @@ export default function Card({ navigation }) {
   );
 }
 
-function StoreCard({ navigation, card }) {
+function CardWidget({ navigation, card }) {
+  console.log("card: " + card);
   const getDistance = (lat1, lon1, lat2, lon2) => {
     return 0;
   };
-  const [store, setStore] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [storeimg, setStoreimg] = useState(null);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // set loading to true before calling API
-        setLoading(true);
-        const data = await getStoreInfo(card.store);
-        setStore(data[0]);
-        const img = await getStoreLogo(data[1]);
-        setStoreimg(img);
-        // switch loading to false after fetch is complete
-        setLoading(false);
-      } catch (error) {
-        // add error handling here
-        setLoading(false);
-        console.log(error);
-      }
-    }
-    fetchData();
-  }, []);
+  // const [cardInfo, setCardInfo] = useState({});
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       setLoading(true);
+  //       const data = await getStoreInfo(card.store);
+  //       data.coffees_purchased = card.coffees_purchased;
+  //       setCardInfo(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       // add error handling here
+  //       setLoading(false);
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchData();
+  //   console.log(cardInfo);
+  // }, []);
 
   return (
     <Pressable
@@ -148,17 +140,20 @@ function StoreCard({ navigation, card }) {
         padding: 20,
       }}
       onPress={() => {
-        navigation(card);
-        console.log(card);
+        navigation(cardInfo);
       }}
     >
       <Image
         style={{
           width: 60,
           height: 60,
+          loading: "lazy",
         }}
         //find logo under
-        source={storeimg}
+        // source={storeimg}
+        source={{
+          uri: cardInfo.logo,
+        }}
       />
       <View
         style={{
@@ -175,22 +170,32 @@ function StoreCard({ navigation, card }) {
             textTransform: "uppercase",
           }}
         >
-          {store.name}
+          {cardInfo.name}
         </Text>
-        <Text style={{ fontSize: 15 }}>{store.location} </Text>
-        <Text>{getDistance} Away</Text>
+        <Text style={{ fontSize: 15 }}>{cardInfo.location} </Text>
+        <Text>{getDistance}Away</Text>
       </View>
-      <View style={{ paddingRight: 25 }}>
+      {/* TODO add cup icon that filled based on amount of coffees on loyalty card */}
+      {/* <View
+        style={{
+          height: "100%",
+          justifyContent: "center",
+          padding: "auto",
+        }}
+      >
         <Text
           style={{
             fontSize: 30,
             height: "100%",
+            textAlign: "center",
+            margin: "auto",
           }}
         >
-          {card.coffees_purchased}/{store.coffees_required}{" "}
-          <FeatherIcon size={30} name="coffee" />
+          {cardInfo.coffees_purchased}/{cardInfo.coffees_required}{" "}
         </Text>
-      </View>
+        
+        <CoffeeCupIcon width={70} height={70} />
+      </View> */}
     </Pressable>
   );
 }

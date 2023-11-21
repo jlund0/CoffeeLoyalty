@@ -14,6 +14,7 @@ import { getAuth, signOut } from "firebase/auth";
 import app from "../firebase";
 import { useState } from "react";
 import { CoffeeIconSVG } from "../assets/socialSVG.js";
+import QRCode from "react-native-qrcode-svg";
 
 function UserButton() {
   const [showMenu, setShowMenu] = useState(false);
@@ -49,28 +50,14 @@ function UserButton() {
   );
 }
 
-//TODO fix fetching userDetails to get coffee saved
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
   console.log("Home Page");
-  getAuth(app);
-  const user = getAuth().currentUser;
-  let name = user.displayName.substring(0, user.displayName.indexOf(" "));
+  const userDetails = route.params;
+  let name = userDetails.name.substring(0, userDetails.name.indexOf(" "));
   name = name.charAt(0).toUpperCase() + name.slice(1);
   const isFocused = useIsFocused();
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  async function getCards() {
-    const userDetails = await fetch(`http://localhost:8080/${user.userID}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return userDetails;
-  }
-
-  // const userDetails = getCards();
 
   return (
     <View style={styles.maincontainer}>
@@ -82,32 +69,17 @@ export default function Home({ navigation }) {
         <UserButton />
       </View>
       {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
-      <CoffeeSaved coffeenumber={0} />
+      <CoffeeSaved coffeenumber={userDetails.coffee_earnt} />
       <View style={styles.qr}>
-        <Image
-          source={require("../assets/QR_code_for_mobile_English_Wikipedia.svg")}
-          style={{
-            height: "100%",
-            width: "80%",
-            resizeMode: "contain",
-            borderRadius: 30,
-            borderWidth: 5,
-            backgroundColor: "#d3d3d3",
-          }}
+        <QRCode
+          value={userDetails.userId}
+          size={250}
+          backgroundColor={"transparent"}
+          logo={require("../assets/coffeeGuy.png")}
+          logoSize={150}
         />
       </View>
       <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} />
-    </View>
-  );
-}
-function CardScreen({ navigation, route }) {
-  return (
-    <View>
-      <Text>card Screen</Text>
-      <NavBar
-        navigation={navigation}
-        isFocused={useIsFocused() ? "card" : null}
-      />
     </View>
   );
 }
@@ -150,6 +122,10 @@ function CoffeeSaved({ coffeenumber }) {
     </View>
   );
 }
+const colors = {
+  bg: "#fff8e7",
+  widgetbg: "#cdb891",
+};
 
 const styles = StyleSheet.create({
   maincontainer: {
@@ -160,10 +136,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     rowGap: 50,
     justifyContent: "space-between",
+    overflow: "hidden",
+    backgroundColor: colors.bg,
   },
   greetings: {
     flex: 1.25,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.widgetbg,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     flexDirection: "row",
@@ -174,7 +152,7 @@ const styles = StyleSheet.create({
   },
   coffeesaved: {
     flex: 1,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.widgetbg,
     borderRadius: 44,
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -184,14 +162,18 @@ const styles = StyleSheet.create({
   },
   qr: {
     flex: 3,
-    width: "100%",
+    width: "auto",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+    borderRadius: 30,
+    borderWidth: 10,
+    backgroundColor: colors.widgetbg,
+    padding: 30,
   },
   coffeesaved: {
     flex: 1,
-    backgroundColor: "#d3d3d3",
+    backgroundColor: colors.widgetbg,
     borderRadius: 44,
     flexDirection: "row",
     justifyContent: "space-evenly",

@@ -8,16 +8,12 @@ import {
 } from "react-native";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
-const getCoffeesEarnt = () => {
-  return 3;
-};
-
-function CoffeeTicker({ coffeesEarnt, pointsneeded, logo }) {
-  console.log(pointsneeded, coffeesEarnt);
-  const list = [...Array(pointsneeded).keys()];
+function CoffeeTicker({ cardDetails }) {
+  console.log(cardDetails.coffees_required, cardDetails.coffees_purchased);
+  const list = [...Array(cardDetails.coffees_required).keys()];
   return (
     <View style={styles.CheckBox}>
-      {coffeesEarnt === list.length ? (
+      {cardDetails.coffees_purcbased === list.length ? (
         <View style={{ width: "100%", height: "100%", backgroundColor: "FFF" }}>
           <Image src={require("../assets/coffeeGuy.png")} />
           <Text>Free Coffee</Text>
@@ -48,14 +44,14 @@ function CoffeeTicker({ coffeesEarnt, pointsneeded, logo }) {
               >
                 <View>
                   <Image
-                    source={require("../assets/starbuck_test/logo.png")}
+                    source={{ uri: cardDetails.logo }}
                     style={{
                       width: 50,
                       height: 50,
                       opacity: 0.4,
                     }}
                   />
-                  {i < coffeesEarnt ? (
+                  {i < cardDetails.coffees_purchased ? (
                     <Image
                       source={require("../assets/bean_stamp.png")}
                       style={{
@@ -80,19 +76,9 @@ function CoffeeTicker({ coffeesEarnt, pointsneeded, logo }) {
 
 export default function LoyaltyCard({ navigation, route }) {
   console.log("LoyaltyCard");
-  //   const cardDetails = route.params;
-  const cardDetails = {
-    name: "Starbucks",
-    pointsTotal: 6,
-    logo: "starbuck_test/logo.png",
-    stamp: "bean_stamp.png",
-    address: "10 test street perth",
-  };
-  const coffeesEarnt = getCoffeesEarnt();
+  const cardDetails = route.params;
   console.log(cardDetails);
-  console.log(cardDetails.pointsTotal + " " + coffeesEarnt);
-  const list = [...Array(cardDetails.pointsTotal).keys()];
-  console.log(list);
+  const list = [...Array(cardDetails.coffees_required).keys()];
   return (
     <View
       style={{
@@ -106,7 +92,7 @@ export default function LoyaltyCard({ navigation, route }) {
       }}
     >
       <Image
-        source={require("../assets/" + cardDetails.logo)}
+        source={{ uri: cardDetails.logo }}
         style={{
           height: 250,
           width: 250,
@@ -116,10 +102,7 @@ export default function LoyaltyCard({ navigation, route }) {
           padding: 30,
         }}
       />
-      <CoffeeTicker
-        pointsneeded={cardDetails.pointsTotal}
-        coffeesEarnt={coffeesEarnt}
-      />
+      <CoffeeTicker cardDetails={cardDetails} />
       <Pressable
         onPress={() => navigation.navigate("card")}
         style={{ position: "absolute", left: 0, top: 0, margin: 25 }}

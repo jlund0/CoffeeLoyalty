@@ -100,3 +100,25 @@ export function CoffeeIconSVG(props) {
     />
   </Svg>;
 }
+
+export function CoffeeCupIcon(props) {
+  return (
+    <Svg
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        id="Vector"
+        d="M4 20h6.943m0 0h.114m-.114 0h.114m-.114 0A7 7 0 014 13V8.923c0-.51.413-.923.923-.923h12.154c.51 0 .923.413.923.923V9m-6.943 11H18m-6.943 0A7 7 0 0018 13m0-4h1.5a2.5 2.5 0 010 5H18v-1m0-4v4M15 3l-1 2m-2-2l-1 2M9 3L8 5"
+        stroke="#000"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}

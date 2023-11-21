@@ -18,7 +18,7 @@ export default function NavBar({ navigation, isFocused }) {
       />
 
       <MaterialIcons.Button
-        name="qr-code"
+        name="home"
         onPress={() => navigation.navigate("Home")}
         backgroundColor="0"
         color={isFocused == "main" ? "black" : "white"}
