@@ -13,7 +13,7 @@ the app shops will use to add cards and coffees to users apps
 no longer in use 
 
 ## Getting Started
-### Requirements
+### prerequisite
 install node.js
 
 ### For User Interface 
