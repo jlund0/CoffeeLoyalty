@@ -28,9 +28,9 @@ npx expo start`
 
 ## TODO
 What is needed in each file
--FrontEnd_User
- -Add sorting by distnace from user 
- -add card adding with camera or store search
--FrontEnd_Admin
--Website/Admin console
+- FrontEnd_User
+ - Add sorting by distnace from user 
+ - add card adding with camera or store search
+- FrontEnd_Admin
+- Website/Admin console
 
