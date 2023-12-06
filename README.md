@@ -20,12 +20,14 @@ no longer in use
 install node.js
 
 ### For User Interface 
-`cd ./FrontEnd_User_Moblie
-npx expo start`
+`cd ./FrontEnd_User_Moblie`
+
+`npx expo start`
 
 ### For Admin Interface
-`cd ./FrontEnd_Admin
-npx expo start`
+`cd ./FrontEnd_Admin`
+
+`npx expo start`
 
 ### For Website 
 
