@@ -5,7 +5,8 @@ backend is done with firebase
 The project is split into 3 folders
 1. FrontEnd_Uesr
 for the app the users use to track there loyalty cards
-![Uploading image.png…]()
+![image](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/5b649866-86c6-46e0-812a-a12c433a089b)
+
 
 
 3. FrontEnd_Admin 
