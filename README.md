@@ -12,21 +12,21 @@ the app shops will use to add cards and coffees to users apps
 3. Backend 
 no longer in use 
 
-##Getting Started
-###Requirements
+## Getting Started
+### Requirements
 install node.js
 
-###For User Interface 
+### For User Interface 
 `cd ./FrontEnd_User_Moblie
 npx expo start`
 
-###For Admin Interface
+### For Admin Interface
 `cd ./FrontEnd_Admin
 npx expo start`
 
-###For Website 
+### For Website 
 
-##TODO
+## TODO
 What is needed in each file
 -FrontEnd_User
  -Add sorting by distnace from user 
