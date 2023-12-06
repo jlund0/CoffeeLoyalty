@@ -4,12 +4,14 @@ backend is done with firebase
 
 The project is split into 3 folders
 1. FrontEnd_Uesr
-for the app the users use to track there loyalty cards 
+for the app the users use to track there loyalty cards
+![Uploading image.png…]()
 
-2. FrontEnd_Admin 
+
+3. FrontEnd_Admin 
 the app shops will use to add cards and coffees to users apps 
 
-3. Backend 
+4. Backend 
 no longer in use 
 
 ## Getting Started
