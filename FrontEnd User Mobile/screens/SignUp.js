@@ -46,14 +46,20 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", backgroundColor: "#FAF0E6" }}
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        backgroundColor: "#FAF0E6",
+        overflow: "hidden",
+      }}
     >
       <View style={{ padding: 25 }}>
         <View style={{ alignItems: "center", marginBottom: 30 }}>
           {/*Animated card login image*/}
           <Image
-            source={require("../assets/Loyalty-Cards19.png")}
+            source={require("../assets/coffeelogin.png")}
             style={{ height: 300, width: 300 }}
+            resizeMode="contain"
           ></Image>
         </View>
         <Text

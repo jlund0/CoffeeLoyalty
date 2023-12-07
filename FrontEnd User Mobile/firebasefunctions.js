@@ -65,28 +65,36 @@ export async function getUserCards() {
   const cards = [];
   const auth = getAuth();
   const user = auth.currentUser;
+  const completeCards = [];
   // const user = auth.currentUser;
   console.log(`fetching ${user.uid} cards`);
   const querySnapshot = await getDocs(
     collection(db, "users", user.uid, "cards")
   );
-  querySnapshot.forEach(async (doc) => {
-    const cardInfo = doc.data();
-    const data = await getStoreInfo(cardInfo.store);
-    data.coffees_purchased = cardInfo.coffees_purchased;
-    data.cardid = doc.id;
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    data.cardId = doc.id;
     cards.push(data);
   });
+  for (let card of cards) {
+    let storedata = await getStoreInfo(card.store);
+    completeCards.push(Object.assign({}, storedata, card));
+  }
   console.log("users cards:");
-  console.log(cards);
-  return cards;
+  console.log(completeCards);
+  return completeCards;
 }
 
 export async function getStoreInfo(storeref) {
   let docSnap = await getDoc(storeref);
-  let logo = await getStoreLogo(docSnap.id);
+  console.log("store ref: ");
+  console.log(docSnap.id);
+
   console.log("fetching store info");
   if (docSnap.exists()) {
+    let logo = await getDownloadURL(
+      ref(storage, `STORES/${docSnap.id}/logo.png`)
+    );
     console.log("Store data:", docSnap.data());
     let data = docSnap.data();
     data.coffeeId = docSnap.id;

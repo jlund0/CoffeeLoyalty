@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   Text,
+  ImageBackground,
 } from "react-native";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
@@ -80,7 +81,9 @@ export default function LoyaltyCard({ navigation, route }) {
   console.log(cardDetails);
   const list = [...Array(cardDetails.coffees_required).keys()];
   return (
-    <View
+    <ImageBackground
+      source={require("../assets/card_background.png")}
+      resizeMode="cover"
       style={{
         minHeight: Dimensions.get("window").height,
         maxHeight: Dimensions.get("window").height,
@@ -117,7 +120,7 @@ export default function LoyaltyCard({ navigation, route }) {
           }}
         />
       </Pressable>
-    </View>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
@@ -134,6 +137,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     borderColor: "#4B2D0B",
+    backgroundColor: "#cdb891",
     flex: 2,
     marginBottom: 40,
   },

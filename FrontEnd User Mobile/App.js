@@ -30,31 +30,24 @@ function SplashScreen() {
 
 export default function App() {
   const [userToken, setUserToken] = React.useState(null);
-  const [userInfo, setUserInfo] = React.useState(null);
-  const [userCards, setUserCards] = React.useState(null);
-
-  React.useEffect(() => {
-    console.log("checking user auth");
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserToken(user.uid);
-        console.log(user);
-      } else setUserToken(null);
-    });
-  }, []);
-  React.useEffect(() => {
-    async function fetchFirebaseInfo() {
-      if (userToken !== null) {
-        const usercards = await getUserCards();
-        setUserCards(usercards);
-        const userinfo = await getUserInfo();
-        setUserInfo(userinfo);
-      }
+  // const [userInfo, setUserInfo] = React.useState(null);
+  // const [userCards, setUserCards] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  // React.useEffect(() => {
+  //   console.log("checking user auth");
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setUserToken(user.uid);
+      console.log(user);
+      setLoading(false);
+    } else {
+      setUserToken(null);
+      setLoading(false);
     }
-    fetchFirebaseInfo();
-  }, [userToken]);
+  });
+  // }, []);
 
-  if (userInfo === null) {
+  if (loading) {
     // We haven't finished checking for the token yet
     console.log("loading");
     return <SplashScreen />;
@@ -87,7 +80,7 @@ export default function App() {
                 headerShown: false,
                 animation: "slide_from_left",
               }}
-              initialParams={userInfo}
+              initialParams={{ userid: userToken }}
             />
             <Stack.Screen
               name="card"
@@ -97,16 +90,16 @@ export default function App() {
                 headerShown: false,
                 animation: "slide_from_left",
               }}
-              initialParams={userCards}
+              // initialParams={userCards}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="stores"
               component={StoresScreen}
               options={{
                 headerShown: false,
                 animation: "slide_from_left",
               }}
-            />
+            /> */}
             <Stack.Screen
               name="settings"
               component={SettingsScreen}

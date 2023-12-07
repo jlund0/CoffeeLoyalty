@@ -20,6 +20,10 @@ export function UserButton() {
       });
   };
 
+  //TODO
+  const addCardtoWallet = () => {
+    console.log("add card");
+  };
   return (
     <>
       <FontAwesome.Button
@@ -31,6 +35,7 @@ export function UserButton() {
       {showMenu ? (
         <View>
           <Button title="Edit Profile" />
+          <Button title="Add the Wallet" onPress={addCardtoWallet} />
           <Button title="Log Out" onPress={handleClick} />
         </View>
       ) : null}

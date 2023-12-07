@@ -40,8 +40,9 @@ export default function SignInScreen({ navigation }) {
         <View style={{ alignItems: "center", marginBottom: 30 }}>
           {/*Animated card login image*/}
           <Image
-            source={require("../assets/Loyalty-Cards19.png")}
+            source={require("../assets/coffeelogin.png")}
             style={{ height: 300, width: 300 }}
+            resizeMode="contain"
           ></Image>
         </View>
         <Text
@@ -71,7 +72,7 @@ export default function SignInScreen({ navigation }) {
             value={email}
             onChangeText={setEmail}
             inputMode="email"
-            style={{ flex: 1, paddingVertical: 0 }}
+            style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
           />
         </View>
         <View
@@ -89,7 +90,7 @@ export default function SignInScreen({ navigation }) {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            style={{ flex: 1, paddingVertical: 0 }}
+            style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
           />
           <TouchableOpacity>Forgot your password?</TouchableOpacity>
         </View>
