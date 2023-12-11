@@ -21,12 +21,12 @@ install node.js
 
 ### For User Interface 
 `cd ./FrontEnd_User_Moblie`
-
+`npm install`
 `npx expo start`
 
 ### For Admin Interface
 `cd ./FrontEnd_Admin`
-
+`npm install`
 `npx expo start`
 
 ### For Website 
