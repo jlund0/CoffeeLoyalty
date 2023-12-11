@@ -6,6 +6,7 @@ import {
   getDocs,
   where,
   query,
+  getDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -36,4 +37,24 @@ export async function getStores(userid) {
 export async function getStoreLogoUrl(url) {
   let imageurl = await getDownloadURL(ref(storage, url));
   return imageurl;
+}
+
+export async function getUserCard(userid, storeid) {
+  const cardRef = collection(db, "cards");
+  const q = query(
+    cardRef,
+    where("user", "==", userid),
+    where("shop", "==", storeid)
+  );
+  const docSnap = await getDocs(q);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data();
+  } else {
+  }
+}
+
+export async function getUser(userid) {
+  const docSnap = await getDocs(doc(db, "users", userid));
+  console.log(docSnap.data());
 }

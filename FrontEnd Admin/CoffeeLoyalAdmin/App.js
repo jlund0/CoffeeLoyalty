@@ -23,7 +23,7 @@ function SplashScreen() {
 }
 
 export default function App() {
-  const [userToken, setUserToken] = React.useState(false);
+  const [userToken, setUserToken] = React.useState();
   const [loading, setLoading] = React.useState(true);
   onAuthStateChanged(auth, (user) => {
     if (user) {
