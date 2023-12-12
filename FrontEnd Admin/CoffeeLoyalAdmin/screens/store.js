@@ -63,14 +63,15 @@ export function StoreScreen({ navigation, route }) {
               title={"Tap to Scan Again"}
               onPress={() => setScanned(false)}
             />
-            <ScannedPopUp userid={scannedUser} storeid={store.id} />
+            <ScannedPopUp
+              userid={scannedUser}
+              storeid={store.id}
+              stampsRequired={store.coffee_required}
+            />
           </>
         )}
         {temp && (
-          <ScannedPopUp
-            userid={"jsRvlL3bb4hE4HOV7hr1bUpWAY32"}
-            storeid={store.id}
-          />
+          <ScannedPopUp userid={"jsRvlL3bb4hE4HOV7hr1bUpWAY32"} store={store} />
         )}
       </View>
     </View>

@@ -79,7 +79,7 @@ export default function LoyaltyCard({ navigation, route }) {
   console.log("LoyaltyCard");
   const cardDetails = route.params;
   console.log(cardDetails);
-  const list = [...Array(cardDetails.coffees_required).keys()];
+  // const list = [...Array(cardDetails.coffees_required).keys()];
   return (
     <ImageBackground
       source={require("../assets/card_background.png")}

@@ -40,21 +40,31 @@ export async function getStoreLogoUrl(url) {
 }
 
 export async function getUserCard(userid, storeid) {
-  const cardRef = collection(db, "cards");
-  const q = query(
-    cardRef,
-    where("user", "==", userid),
-    where("shop", "==", storeid)
-  );
-  const docSnap = await getDocs(q);
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    return docSnap.data();
-  } else {
+  console.log("userid: " + userid + "  storeid: " + storeid);
+  try {
+    const cardRef = collection(db, "cards");
+    const q = query(
+      cardRef,
+      where("userId", "==", userid),
+      where("storeId", "==", storeid)
+    );
+    const docSnap = await getDocs(q);
+    if (docSnap.empty) {
+      console.log(
+        "No matching card found for the user in the specified store."
+      );
+      return null; // or handle accordingly
+    }
+    const card = docSnap.docs[0].data();
+    return card;
+  } catch (error) {
+    console.error("Error getting card:", error);
+    throw error;
   }
 }
 
 export async function getUser(userid) {
-  const docSnap = await getDocs(doc(db, "users", userid));
+  const docSnap = await getDoc(doc(db, "users", userid));
   console.log(docSnap.data());
+  return docSnap.data();
 }
