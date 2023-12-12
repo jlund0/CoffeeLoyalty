@@ -8,5 +8,8 @@ export function ScannedPopUp({ userid, storeid }) {
   const user = getUser(userid);
   const customerName = "julian";
   const currentcard = "1234";
-  return <View></View>;
+  return <View>
+    <Text>{user.name}</Text>
+    <Button>+</Button>
+  </View>;
 }
