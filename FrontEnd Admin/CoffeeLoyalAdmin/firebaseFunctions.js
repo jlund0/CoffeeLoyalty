@@ -7,6 +7,8 @@ import {
   where,
   query,
   getDoc,
+  updateDoc,
+  setDoc
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -67,4 +69,21 @@ export async function getUser(userid) {
   const docSnap = await getDoc(doc(db, "users", userid));
   console.log(docSnap.data());
   return docSnap.data();
+}
+
+export async function createNewCard(userid, storeid, coffeeEarnt=0) {
+  let data = {coffeeEarnt: coffeeEarnt, completed: false, storeId: storeid, userId: userid}
+  const cardRef = collection(db, "cards");
+  await setDoc(doc(cardRef),data)
+  console.log(`added card with ${data} to user: ${userid}`)
+}
+export async function updateUserCard(coffeeEarnt, cardId) {
+  const cardRef = collection(db, "cards",cardId);
+  await updateDoc(cardRef, {coffeesEarnt: increment(coffeeEarnt)})
+  console.log(`added ${coffeeEarnt} to ${cardId}`)
+}
+
+export async function setCardComplete(cardId){
+  const cardRef = doc(db, "cards", cardId);
+  await updateDoc(cardRef, {completed: true})
 }
