@@ -6,7 +6,7 @@ import {
 } from "../firebaseFunctions";
 import { useState } from "react";
 
-export function ConfirmCoffee(user, card, store, stampsToAdd) {
+export function ConfirmCoffee({user, card, store, stampsToAdd}) {
   const [showConfirmAlert, setShowConfirm] = useState(false);
   const onConfirm = () => {
     if (stampsToAdd + currentStamps >= stampsRequired) {
@@ -22,19 +22,17 @@ export function ConfirmCoffee(user, card, store, stampsToAdd) {
 
   return (
     <>
-      <Pressable title="Stamp Card" onPress={() => setShowConfirm(true)}>
-        <Button title="Stamp Card"></Button>
+      <Pressable>
+        <Button title="Stamp Card" onPress={()=>setShowConfirm(true)}></Button>
       </Pressable>
       <View>
         {showConfirmAlert && (
-          <Alert
-            title="Confirm Stamp"
-            message={`Are you sure you want to stamp ${user.name} with ${stampsToAdd} stamps?`}
-            buttons={[
-              { text: "Cancel", onPress: () => setShowConfirm(false) },
-              { text: "Stamp", onPress: () => setShowConfirm(false) },
-            ]}
-          />
+          <View>
+            <Text>Confirm Stamp</Text>
+            <Text>{`Are you sure you want to stamp ${user.name} with ${stampsToAdd} stamps?`}</Text>
+            <Button title="Cancel" ></Button>
+            <Button title="Confirm" ></Button>
+          </View>
         )}
       </View>
     </>
