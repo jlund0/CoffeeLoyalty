@@ -34,6 +34,10 @@ export function ScannedPopUp({ userid, store }) {
     return(null)
   }
 
+  const onUndoPress = () => {
+    setAddCoffees(0)
+    setChanged(false)
+  }
   return (
     <View>
       <Text>Customer Details</Text>
@@ -69,7 +73,7 @@ export function ScannedPopUp({ userid, store }) {
             </View>
           );
         })}
-        {changed && <Button onPress={() => setAddCoffees(0)} title="Undo"></Button>}
+        {changed && <Button onPress={() => onUndoPress()} title="Undo"></Button>}
       </Pressable>
       <Text>Coffees Added: {addCoffees}</Text>
       <Pressable>
