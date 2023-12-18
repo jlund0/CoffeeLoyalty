@@ -70,12 +70,6 @@ export function ScannedPopUp({ userid, store }) {
         )}
       </Pressable>
       <Text>Coffees Added: {addCoffees}</Text>
-      <Button
-        onPress={() => {
-          showConfirm(true);
-        }}
-        title="Stamp Card"
-      ></Button>
       <ConfirmCoffee
         user={user}
         card={userCard}

@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable, Alert, Button } from "react-native";
 import {
   createNewCard,
   updateUserCard,
@@ -22,7 +22,9 @@ export function ConfirmCoffee(user, card, store, stampsToAdd) {
 
   return (
     <>
-      <Pressable title="Stamp Card">{() => showConfirmAlert(true)}</Pressable>
+      <Pressable title="Stamp Card" onPress={() => setShowConfirm(true)}>
+        <Button title="Stamp Card"></Button>
+      </Pressable>
       <View>
         {showConfirmAlert && (
           <Alert
