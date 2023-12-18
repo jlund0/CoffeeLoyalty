@@ -15,6 +15,8 @@ export function ScannedPopUp({ userid, store }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [cardsCompleted, setCardsCompleted] = useState(0);
+  const [stampCardCount, setStampCardCount] = useState(user.coffeesEarnt)
   useEffect(() => {
     async function fetchdata() {
       const card = await getUserCard(userid, store.id);
@@ -29,6 +31,10 @@ export function ScannedPopUp({ userid, store }) {
     console.log("adding coffee");
     setAddCoffees((prev) => prev + 1);
     setChanged(true);
+    if(addCoffees + userCard.coffeesEarnt % store.coffees_required == 0) 
+      {setCardsCompleted(cardsCompleted + 1)
+        ;}
+    
   };
   if (user == null || userCard == null) {
     return null;
@@ -71,7 +77,8 @@ export function ScannedPopUp({ userid, store }) {
         })}
         {changed && <Button onPress={() => onUndoPress()} title="Undo"></Button>}
       </Pressable>
-      <Text>Coffees Added: {addCoffees}</Text>
+      <Text>Stamps Added: {addCoffees}</Text>
+      <Text>Cards completed: {cardsCompleted}</Text>
       <ConfirmCoffee
         user={user}
         card={userCard}
