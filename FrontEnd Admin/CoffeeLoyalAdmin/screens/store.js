@@ -10,6 +10,7 @@ import {
   View,
   Pressable,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { ScannedPopUp } from "../components/scannedPopup";
 
@@ -39,7 +40,12 @@ export function StoreScreen({ navigation, route }) {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return (
+      <View>
+        <ActivityIndicator />
+        <Text>Waiting for Camera Permission</Text>
+      </View>
+    );
   }
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;

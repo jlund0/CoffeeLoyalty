@@ -1,7 +1,8 @@
-import { View, Text, Button, Pressable ,Alert} from "react-native";
+import { View, Text, Button, Pressable, Alert } from "react-native";
 import { getUser, getUserCard } from "../firebaseFunctions";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
+import { ConfirmCoffee } from "./confirmCoffeeStamp";
 
 export function ScannedPopUp({ userid, store }) {
   const [changed, setChanged] = useState(false);
@@ -12,15 +13,14 @@ export function ScannedPopUp({ userid, store }) {
   // console.log(user);
   const [userCard, setUserCard] = useState(null);
   const [user, setUser] = useState(null);
-   const [loading,setLoading] = useState(true)
-
+  const [loading, setLoading] = useState(true);
+  const [showConfirm, setShowConfirm] = useState(false);
   useEffect(() => {
     async function fetchdata() {
       const card = await getUserCard(userid, store.id);
       const userdata = await getUser(userid);
       setUserCard(card);
       setUser(userdata);
-      
     }
     fetchdata();
   }, []);
@@ -30,8 +30,8 @@ export function ScannedPopUp({ userid, store }) {
     setAddCoffees((prev) => prev + 1);
     setChanged(true);
   };
-  if(user==null || userCard == null){
-    return(null)
+  if (user == null || userCard == null) {
+    return null;
   }
 
   const onUndoPress = () => {
@@ -43,11 +43,7 @@ export function ScannedPopUp({ userid, store }) {
       <Text>Customer Details</Text>
       <Text>Name: {user.name}</Text>
       <Text>Stamp Card</Text>
-      <Pressable
-        onPress={
-          handleAdd
-        }
-      >
+      <Pressable onPress={handleAdd}>
         {stamplist.map((i) => {
           return (
             <View style={{}} key={i}>
@@ -76,16 +72,12 @@ export function ScannedPopUp({ userid, store }) {
         {changed && <Button onPress={() => onUndoPress()} title="Undo"></Button>}
       </Pressable>
       <Text>Coffees Added: {addCoffees}</Text>
-      <Pressable>
-        <Button title="Confirm" onPress={() => Alert.alert("Coffees Stamped",`Confirm ${user.name} brought ${addCoffees} coffees`, [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ])} />
-      </Pressable>
+      <ConfirmCoffee
+        user={user}
+        card={userCard}
+        store={store}
+        stampsToAdd={addCoffees}
+      />
     </View>
   );
 }
