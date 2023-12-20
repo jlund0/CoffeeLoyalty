@@ -5,9 +5,8 @@ import FontistoIcon from "react-native-vector-icons/Fontisto";
 import { ConfirmCoffee } from "./confirmCoffeeStamp";
 
 // export function ScannedPopUp({ userid, store, navigation , route }) {
-export function ScannedPopUp({ userid, store, navigation, route }) {
-  const userid = route.params.data;
-
+export function ScannedPopUp({route ,navigation }) {
+  const {userid , store} = route.params;
   const [changed, setChanged] = useState(false);
   const [addCoffees, setAddCoffees] = useState(0);
   const [userCard, setUserCard] = useState(null);

@@ -50,7 +50,7 @@ export default function App() {
         <Stack.Navigator initialRouteName={"Main Page"}>
           <Stack.Screen name="Main Page" component={MainScreen} />
           <Stack.Screen
-            name="Home"
+            name="Change Store"
             component={HomeScreen}
             initialParams={{ userToken }}
           />
