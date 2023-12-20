@@ -1,6 +1,7 @@
 import { getStoreLogo, getStores } from "../firebaseFunctions";
 import { View, Text, Image, Pressable } from "react-native";
 import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function HomeScreen({ navigation, route }) {
   const { userToken } = route.params;
@@ -8,7 +9,7 @@ export function HomeScreen({ navigation, route }) {
   const [stores, setStores] = useState([]);
 
   function navigateToStorePage(store) {
-    navigation.push("Store Page", store);
+    navigation.push("Main Page", store);
   }
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export function HomeScreen({ navigation, route }) {
 
   return (
     <View>
+      <Text>Change Store</Text>
       {stores.map((store, index) => (
         <StoreSelectionWidget
           navigation={navigation}
@@ -40,8 +42,18 @@ export function HomeScreen({ navigation, route }) {
 
 function StoreSelectionWidget({ store, navigation }) {
   const { name, logo, location } = store;
+  const storeData = async (value) => {
+    try {
+      console.log("writting to default store");
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("default-store", jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
   const navigateToStorePage = () => {
-    navigation.push("Store Page", store);
+    storeData(store);
+    navigation.push("Main Page", store);
   };
   return (
     <Pressable onPress={() => navigateToStorePage()}>

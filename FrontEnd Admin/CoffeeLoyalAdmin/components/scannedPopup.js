@@ -4,25 +4,23 @@ import { useState, useEffect } from "react";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import { ConfirmCoffee } from "./confirmCoffeeStamp";
 
-export function ScannedPopUp({ userid, store }) {
+// export function ScannedPopUp({ userid, store, navigation , route }) {
+export function ScannedPopUp({ userid, store, navigation, route }) {
+  const userid = route.params.data;
+
   const [changed, setChanged] = useState(false);
   const [addCoffees, setAddCoffees] = useState(0);
-  // const card = getUserCard(userid, store.id);
-  // const user = getUser(userid);
-  // console.log(card);
-  // console.log(user);
   const [userCard, setUserCard] = useState(null);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [cardsCompleted, setCardsCompleted] = useState(0);
-  const [stampCardCount, setStampCardCount] = useState(user.coffeesEarnt)
+  const [stampCardCount, setStampCardCount] = useState(0);
   useEffect(() => {
     async function fetchdata() {
       const card = await getUserCard(userid, store.id);
       const userdata = await getUser(userid);
       setUserCard(card);
       setUser(userdata);
+      setStampCardCount(card.coffeesEarnt);
     }
     fetchdata();
   }, []);
@@ -30,20 +28,24 @@ export function ScannedPopUp({ userid, store }) {
   const handleAdd = () => {
     console.log("adding coffee");
     setAddCoffees((prev) => prev + 1);
+    setStampCardCount(stampCardCount + 1);
     setChanged(true);
-    if(addCoffees + userCard.coffeesEarnt % store.coffees_required == 0) 
-      {setCardsCompleted(cardsCompleted + 1)
-        ;}
-    
+
+    if ((addCoffees + userCard.coffeesEarnt) % store.coffees_required == 0) {
+      setCardsCompleted(cardsCompleted + 1);
+      setStampCardCount(1);
+    }
   };
   if (user == null || userCard == null) {
     return null;
   }
 
   const onUndoPress = () => {
-    setAddCoffees(0)
-    setChanged(false)
-  }
+    setAddCoffees(0);
+    setChanged(false);
+    setStampCardCount(userCard.coffeesEarnt);
+    setCardsCompleted(0);
+  };
   return (
     <View>
       <Text>Customer Details</Text>
@@ -54,7 +56,8 @@ export function ScannedPopUp({ userid, store }) {
           return (
             <View style={{}} key={i}>
               <View>
-                {i < userCard.coffeesEarnt + addCoffees ? (
+                {/* {i < userCard.coffeesEarnt + addCoffees ? ( */}
+                {i < stampCardCount ? (
                   <FontistoIcon
                     name="checkbox-active"
                     style={{
@@ -75,7 +78,9 @@ export function ScannedPopUp({ userid, store }) {
             </View>
           );
         })}
-        {changed && <Button onPress={() => onUndoPress()} title="Undo"></Button>}
+        {changed && (
+          <Button onPress={() => onUndoPress()} title="Undo"></Button>
+        )}
       </Pressable>
       <Text>Stamps Added: {addCoffees}</Text>
       <Text>Cards completed: {cardsCompleted}</Text>
@@ -84,6 +89,8 @@ export function ScannedPopUp({ userid, store }) {
         card={userCard}
         store={store}
         stampsToAdd={addCoffees}
+        cardsCompleted={cardsCompleted}
+        navigation={navigation}
       />
     </View>
   );

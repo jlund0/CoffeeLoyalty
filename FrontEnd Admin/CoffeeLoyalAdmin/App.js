@@ -2,13 +2,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { HomeScreen } from "./screens/home";
+import { HomeScreen } from "./screens/changeStore";
 import { AdminSignInScreen } from "./screens/adminSignIn";
 import { EmployeeSignInScreen } from "./screens/employeeSignIn";
-import { StoreScreen } from "./screens/store";
+import { MainScreen } from "./screens/main";
 import { NavigationContainer } from "@react-navigation/native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "./firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScannedPopUp } from "./components/scannedPopup";
 
 const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
@@ -25,6 +27,7 @@ function SplashScreen() {
 export default function App() {
   const [userToken, setUserToken] = React.useState();
   const [loading, setLoading] = React.useState(true);
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setUserToken(user.uid);
@@ -42,15 +45,17 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer initialRouteName="Home">
+    <NavigationContainer>
       {userToken ? (
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={"Main Page"}>
+          <Stack.Screen name="Main Page" component={MainScreen} />
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             initialParams={{ userToken }}
           />
-          <Stack.Screen name="Store Page" component={StoreScreen} />
+          <Stack.Screen name="Scanned Popup" component={ScannedPopUp} />
+
           {/* <Stack.Screen name="Settings" component={Settings} /> */}
         </Stack.Navigator>
       ) : (
