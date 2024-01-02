@@ -48,7 +48,11 @@ export default function App() {
     <NavigationContainer>
       {userToken ? (
         <Stack.Navigator initialRouteName={"Main Page"}>
-          <Stack.Screen name="Main Page" component={MainScreen} />
+          <Stack.Screen
+            name="Main Page"
+            component={MainScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Change Store"
             component={HomeScreen}

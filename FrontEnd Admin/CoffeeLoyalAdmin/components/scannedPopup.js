@@ -5,8 +5,8 @@ import FontistoIcon from "react-native-vector-icons/Fontisto";
 import { ConfirmCoffee } from "./confirmCoffeeStamp";
 
 // export function ScannedPopUp({ userid, store, navigation , route }) {
-export function ScannedPopUp({route ,navigation }) {
-  const {userid , store} = route.params;
+export function ScannedPopUp({ route, navigation }) {
+  const { userid, store } = route.params;
   const [changed, setChanged] = useState(false);
   const [addCoffees, setAddCoffees] = useState(0);
   const [userCard, setUserCard] = useState(null);
@@ -35,9 +35,27 @@ export function ScannedPopUp({route ,navigation }) {
       setStampCardCount(1);
     }
   };
+
   if (user == null || userCard == null) {
     return null;
   }
+
+  // setTimeout(() => {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: "green",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <Text style={{ color: "white", fontSize: 50 }}>
+  //         {user.name} Scanned
+  //       </Text>
+  //     </View>
+  //   );
+  // }, 500000);
 
   const onUndoPress = () => {
     setAddCoffees(0);
@@ -45,6 +63,7 @@ export function ScannedPopUp({route ,navigation }) {
     setStampCardCount(userCard.coffeesEarnt);
     setCardsCompleted(0);
   };
+
   return (
     <View>
       <Text>Customer Details</Text>
