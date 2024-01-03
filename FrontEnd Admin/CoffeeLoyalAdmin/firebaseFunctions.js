@@ -71,9 +71,9 @@ export async function getUser(userid) {
   return docSnap.data();
 }
 
-export async function createNewCard(userid, storeid, coffeeEarnt = 0) {
+export async function createNewCard(userid, storeid, addStamps = 0) {
   let data = {
-    coffeeEarnt: coffeeEarnt,
+    coffeeEarnt: addStamps,
     completed: false,
     storeId: storeid,
     userId: userid,
@@ -82,13 +82,18 @@ export async function createNewCard(userid, storeid, coffeeEarnt = 0) {
   await setDoc(doc(cardRef), data);
   console.log(`added card with ${data} to user: ${userid}`);
 }
-export async function updateUserCard(coffeeEarnt, cardId) {
+export async function updateUserCard(AddStamps, cardId) {
   const cardRef = collection(db, "cards", cardId);
-  await updateDoc(cardRef, { coffeesEarnt: increment(coffeeEarnt) });
-  console.log(`added ${coffeeEarnt} to ${cardId}`);
+  await updateDoc(cardRef, { coffeesEarnt: increment(AddStamps)});
+  console.log(`added ${AddStamps} to ${cardId}`);
 }
 
-export async function setCardComplete(cardId) {
+export async function AddCompleteCards(userid,storeid,stampsrequired) {
+  let data={
+    coffeeEarnt: stampsrequired,
+    storeId: storeid,
+    userId: userid,
+  }
   const cardRef = doc(db, "cards", cardId);
   await updateDoc(cardRef, { completed: true });
 }
