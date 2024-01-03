@@ -25,19 +25,22 @@ export function ConfirmCoffee({
     let completedCards = Math.floor(totalStamps / stampsRequired);
 
     if (completedCards == 0) {
-      // updateUserCard(user.id, store.id, stampsToAdd);
       console.log(`no cards complete: adding ${stampsToAdd} to users card`);
+      updateUserCard(card.id, stampsToAdd);
     } else if (completedCards >= 1) {
       console.log(
         ` completeing users card and adding ${AddtoNewCard} to new card `
       );
-      // updateUserCard(user.id, store.id, stampsRequired - card.coffeesEarnt);
-      // createNewCard(user.id, store.id, AddtoNewCard);
+      updateUserCard(card.id , stampsRequired - card.coffeesEarnt);
+      createNewCard(user.id, store.id, AddtoNewCard);
       if (completedCards > 1) {
         console.log(`adding ${completedCards - 1} completed cards`);
-        // addCompletedCards(user.id, store.id, completedCards - 1);
+        for(let i = 0; i < completedCards - 1; i++)
+        {createNewCard(user.id, store.id, stampsRequired);}
+  
       }
-    }
+      }
+    
     navigation.navigate("Main Page");
   };
 
@@ -54,7 +57,7 @@ export function ConfirmCoffee({
           <View>
             <Text>Confirm Stamp</Text>
             <Text>{`Add ${stampsToAdd} stamps to ${user.name}`}</Text>
-            <Button title="Cancel"></Button>
+            <Button title="Cancel" onPress={()=>setShowConfirm(false)}></Button>
             <Button title="Confirm" onPress={onConfirm}></Button>
           </View>
         )}
