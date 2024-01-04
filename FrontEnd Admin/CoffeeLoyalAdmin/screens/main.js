@@ -110,7 +110,6 @@ export function MainScreen({ navigation, route }) {
 
   return (
     <View style={styles.maincontainer}>
-      <Text style={styles.coffeeLoyal}>Coffee Loyalty</Text>
       <View style={styles.storeinfoContainer}>
         <Text style={styles.storename}>{store.name}</Text>
         <Image style={styles.logo} source={{ uri: store.logo }} />

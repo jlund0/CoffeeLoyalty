@@ -15,6 +15,9 @@ import { ScannedPopUp } from "./components/scannedPopup";
 const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
+
+const TopBanner = {title: "Coffee Loyalty" , headerStyle:{backgroundColor:"#5E3023"},headerTintColor: "#F3E9DC",headerTitleStyle:{fontWeight:'bold',fontSize:30},headerTitleAlign: 'center'}
+
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -47,18 +50,19 @@ export default function App() {
   return (
     <NavigationContainer>
       {userToken ? (
-        <Stack.Navigator initialRouteName={"Main Page"}>
+        <Stack.Navigator initialRouteName={"Main Page"} >
           <Stack.Screen
             name="Main Page"
             component={MainScreen}
-            options={{ headerShown: false }}
+            options={TopBanner}
           />
           <Stack.Screen
             name="Change Store"
             component={HomeScreen}
             initialParams={{ userToken }}
+            options={TopBanner}
           />
-          <Stack.Screen name="Scanned Popup" component={ScannedPopUp} />
+          <Stack.Screen name="Scanned Popup" component={ScannedPopUp} options={TopBanner}/>
 
           {/* <Stack.Screen name="Settings" component={Settings} /> */}
         </Stack.Navigator>
@@ -85,4 +89,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  
+    coffeeLoyal: {
+      fontSize: 30,
+      width: "100%",
+      backgroundColor: "black",
+      color: "white",
+      // justifyContent: "center",
+      textAlign: "center",
+    },
 });

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert, Button } from "react-native";
+import { View, Text, Pressable, Alert, Button,StyleSheet } from "react-native";
 import {
   createNewCard,
   updateUserCard,
@@ -46,22 +46,27 @@ export function ConfirmCoffee({
 
   return (
     <>
-      <Pressable>
-        <Button
-          title="Stamp Card"
-          onPress={() => setShowConfirm(true)}
-        ></Button>
+      <Pressable style={styles.stampbutton} onPress={() => setShowConfirm(true)}>
+        <Text style={{textAlign:"center",fontSize:30}}>Stamp Card</Text>
       </Pressable>
       <View>
         {showConfirmAlert && (
-          <View>
-            <Text>Confirm Stamp</Text>
-            <Text>{`Add ${stampsToAdd} stamps to ${user.name}`}</Text>
-            <Button title="Cancel" onPress={()=>setShowConfirm(false)}></Button>
-            <Button title="Confirm" onPress={onConfirm}></Button>
+          <View style={styles.popup}>
+            <Text style={{fontSize:35,textAlign:'center' , color:"#3b2621"}}>Confirm Stamp</Text>
+            <Text style={{fontSize:28,textAlign:'center' , color:"#3b2621"}}>{`Add ${stampsToAdd} stamps to ${user.name}`}</Text>
+            
+            <Pressable onPress={onConfirm}><Text>Confirm</Text></Pressable>
+            <Pressable onPress={() => setShowConfirm(false)}>
+              <Text style={{textDecorationLine: 'underline', fontSize:16,textAlign:"center",color:"grey"}}>Cancel</Text>
+            </Pressable> 
           </View>
         )}
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  stampbutton:{borderRadius:20, backgroundColor:"#c08552" ,alignSelf:"center", width:"100%",padding:15,},
+  popup:{ zIndex:1,backgroundColor:"#fff",position:"absolute",top:"50%",left:"50%",transform:"translate(-50%, -50%)" , width:"100%", height:"90%"}
+});

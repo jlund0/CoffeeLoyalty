@@ -1,8 +1,9 @@
-import { View, Text, Button, Pressable, Alert } from "react-native";
+import { View, Text, Button, Pressable, StyleSheet,Image } from "react-native";
 import { getUser, getUserCard } from "../firebaseFunctions";
 import { useState, useEffect } from "react";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import { ConfirmCoffee } from "./confirmCoffeeStamp";
+import { TouchableOpacity,Dimensions } from 'react-native';
 
 // export function ScannedPopUp({ userid, store, navigation , route }) {
 export function ScannedPopUp({ route, navigation }) {
@@ -13,6 +14,7 @@ export function ScannedPopUp({ route, navigation }) {
   const [user, setUser] = useState(null);
   const [cardsCompleted, setCardsCompleted] = useState(0);
   const [stampCardCount, setStampCardCount] = useState(0);
+  
   useEffect(() => {
     async function fetchdata() {
       const card = await getUserCard(userid, store.id);
@@ -65,19 +67,20 @@ export function ScannedPopUp({ route, navigation }) {
   };
 
   return (
-    <View>
-      <Text>Customer Details</Text>
-      <Text>Name: {user.name}</Text>
-      <Text>Stamp Card</Text>
-      <Pressable onPress={handleAdd}>
+    <View style={styles.mainContainer}>
+      <Text style={[styles.text,{fontWeight:"bold"}]}>{user.name}</Text>
+      <Text style={styles.text}> Stamp Card</Text>
+      <Pressable style={styles.stampContainer} onPress={handleAdd}>
+      <Image source={{ uri: store.logo  }} style={styles.storelogo} />
         {stamplist.map((i) => {
           return (
-            <View style={{}} key={i}>
+            <View style={styles.stamps} key={i}>
               <View>
                 {/* {i < userCard.coffeesEarnt + addCoffees ? ( */}
                 {i < stampCardCount ? (
                   <FontistoIcon
                     name="checkbox-active"
+                    size={80}
                     style={{
                       width: 80,
                       height: 80,
@@ -86,22 +89,31 @@ export function ScannedPopUp({ route, navigation }) {
                 ) : (
                   <FontistoIcon
                     name="checkbox-passive"
+
+                    size={80}
                     style={{
                       width: 80,
                       height: 80,
                     }}
                   />
                 )}
+                
               </View>
+              
             </View>
+            
           );
+          
         })}
-        {changed && (
-          <Button onPress={() => onUndoPress()} title="Undo"></Button>
-        )}
+       
+        {/* <View style={{borderWidth:6,alignItems:'center',width:80,height:80}}>
+        <Text style={{textAlign:"center",fontStyle:"bold"}}>Free</Text><Text style={{textAlign:"center",fontStyle:"bold"}}>Coffee</Text></View>  */}
+     
       </Pressable>
-      <Text>Stamps Added: {addCoffees}</Text>
-      <Text>Cards completed: {cardsCompleted}</Text>
+     
+      {/* <Text style={styles.text}>Stamps: {addCoffees}</Text> */}
+      {/* {cardsCompleted > 0 && <Text style={styles.text}>Cards completed: {cardsCompleted}</Text>} */}
+      <View>
       <ConfirmCoffee
         user={user}
         card={userCard}
@@ -109,7 +121,25 @@ export function ScannedPopUp({ route, navigation }) {
         stampsToAdd={addCoffees}
         cardsCompleted={cardsCompleted}
         navigation={navigation}
-      />
+      /> {changed && (
+        <Pressable onPress={() => onUndoPress()} style={{borderRadius:20, backgroundColor:"#c08552" ,alignSelf:"center", width:"50%"}}><Text style={{fontSize:20, textAlign:"center", padding:15}}>X</Text></Pressable>
+        )}</View>
+      <TouchableOpacity onPress={() => navigation.navigate("Main Page")}>
+        <Text style={{textDecorationLine: 'underline', fontSize:16,textAlign:"center",color:"grey"}}>Cancel</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  customerDetails:{fontStyle:"bold"},
+  stampContainer:{flexDirection:"row",rowGap:20,borderRadius:20,
+width:"100%",flex:7,borderWidth:2,flexWrap:"wrap",justifyContent:"space-around",alignItems:"stretch",alignContent:"space-around",backgroundColor:"#DAB49D",gap:40,padding:20
+},
+  stamps:{},
+  text:{fontSize:35,textAlign:"center",textTransform:"capitalize"},
+  stampbutton:{flex:1},
+  mainContainer:{flex:1 ,padding:20},
+  storelogo:{position:"absolute",width: Dimensions.get('window').width*0.60 ,height:Dimensions.get('window').width*0.60, resizeMode:"contain",opacity:0.7,top:"50%",left:"50%",transform:"translate(-50%, -50%)"}
+
+})
