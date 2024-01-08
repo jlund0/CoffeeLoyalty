@@ -9,11 +9,12 @@ import {
   Pressable,
   Image,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { ScannedPopUp } from "../components/scannedPopup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Camera, CameraType } from "expo-camera";
-
+// import { Camera, CameraType } from "expo-camera";
+import BarcodeCamera from "../components/camera";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "react-native-vector-icons/Ionicons";
 
@@ -44,11 +45,12 @@ export const useFocus = () => {
 export function MainScreen({ navigation, route }) {
   // const store= route.params;
   const [store, setStore] = useState();
-  const [hasPermission, setHasPermission] = useState(null);
+  // const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   // const [scannedUser, setScannedUser] = useState(null);
   const { focusCount, isFocused } = useFocus();
   // const [temp, setTemp] = useState(false);
+  // const [permission, requestPermission] = Camera.useCameraPermissions();
 
   useEffect(() => {
     if (focusCount > 1 && isFocused) {
@@ -58,21 +60,19 @@ export function MainScreen({ navigation, route }) {
     }
   });
 
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-    getBarCodeScannerPermissions();
-  }, []);
+  // useEffect(() => {
+  //   const getBarCodeScannerPermissions = async () => {
+  //     const { status } = await Camera.getCameraPermissionsAsync();
+  //     if (status !== "granted") {
+  //       Camera.requestCameraPermissionsAsync();
+  //     }
+  //     setHasPermission(status === "granted");
+  //   };
+  //   getBarCodeScannerPermissions();
+  // }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    // setScannedUser(data);
-    // console.log(
-    //   `Bar code with type ${type} and data ${data} has been scanned!`
-    // );
-
     navigation.navigate("Scanned Popup", { userid: data, store: store });
   };
 
@@ -96,17 +96,17 @@ export function MainScreen({ navigation, route }) {
     return <Text>Getting Store</Text>;
   }
 
-  if (hasPermission === null) {
-    return (
-      <View>
-        <ActivityIndicator />
-        <Text>Waiting for Camera Permission</Text>
-      </View>
-    );
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  // if (hasPermission === null) {
+  //   return (
+  //     <View>
+  //       <ActivityIndicator />
+  //       <Text>Waiting for Camera Permission</Text>
+  //     </View>
+  //   );
+  // }
+  // if (hasPermission === false) {
+  //   return <Text>No access to camera</Text>;
+  // }
 
   return (
     <View style={styles.maincontainer}>
@@ -114,29 +114,25 @@ export function MainScreen({ navigation, route }) {
         <Text style={styles.storename}>{store.name}</Text>
         <Image style={styles.logo} source={{ uri: store.logo }} />
       </View>
+      <Text style={{ fontSize: 30 }}>{store.location}</Text>
       <Text style={{ fontSize: 24 }}>Scan Customers QR</Text>
       <View style={styles.cameracontainer}>
-        {/* <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-          barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-        /> */}
-        <Camera
-          style={styles.camera}
-          barCodeScannerSettings={{
-            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-
-            // }} onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          }}
-          onBarCodeScanned={handleBarCodeScanned}
-        ></Camera>
-        <IonIcons
+        <BarcodeCamera navigation={navigation} />
+        {/* <IonIcons
           name="scan"
           size={300}
           color="white"
           style={styles.cameraicon}
+        /> */}
+        <Button
+          title={"temp to move on"}
+          onPress={() =>
+            navigation.navigate("Scanned Popup", {
+              userid: "jsRvlL3bb4hE4HOV7hr1bUpWAY32",
+              store: store,
+            })
+          }
         />
-        {/* <Button title={"temp to move on"} onPress={() => setTemp(true)} /> */}
         {/* {scanned && (
           <>
             <Button
@@ -195,9 +191,7 @@ const styles = StyleSheet.create({
   },
   cameraicon: {
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    alignSelf: "center",
   },
   logo: { width: 80, height: 80 },
   storename: { fontSize: 56, textTransform: "capitalize" },

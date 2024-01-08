@@ -11,12 +11,20 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "./firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScannedPopUp } from "./components/scannedPopup";
-
+import { SuccessScreen } from "./screens/success";
 const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
-
-const TopBanner = {title: "Coffee Loyalty" , headerStyle:{backgroundColor:"#5E3023"},headerTintColor: "#F3E9DC",headerTitleStyle:{fontWeight:'bold',fontSize:30},headerTitleAlign: 'center'}
+const TopBanner = {
+  title: "CupCount",
+  headerStyle: { backgroundColor: "#5E3023" },
+  headerTintColor: "#F3E9DC",
+  headerTitleStyle: { fontWeight: "bold", fontSize: 40 },
+  headerTitleAlign: "center",
+  headerBackTitleVisible: false,
+  headerLargeStyle: true,
+  animation: "none",
+};
 
 function SplashScreen() {
   return (
@@ -50,7 +58,7 @@ export default function App() {
   return (
     <NavigationContainer>
       {userToken ? (
-        <Stack.Navigator initialRouteName={"Main Page"} >
+        <Stack.Navigator initialRouteName={"Main Page"}>
           <Stack.Screen
             name="Main Page"
             component={MainScreen}
@@ -60,10 +68,18 @@ export default function App() {
             name="Change Store"
             component={HomeScreen}
             initialParams={{ userToken }}
+            options={[TopBanner, { headerBackVisible: false }]}
+          />
+          <Stack.Screen
+            name="Scanned Popup"
+            component={ScannedPopUp}
             options={TopBanner}
           />
-          <Stack.Screen name="Scanned Popup" component={ScannedPopUp} options={TopBanner}/>
-
+          <Stack.Screen
+            name="Success"
+            component={SuccessScreen}
+            options={[TopBanner, { headerBackVisible: false }]}
+          />
           {/* <Stack.Screen name="Settings" component={Settings} /> */}
         </Stack.Navigator>
       ) : (
@@ -89,13 +105,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  
-    coffeeLoyal: {
-      fontSize: 30,
-      width: "100%",
-      backgroundColor: "black",
-      color: "white",
-      // justifyContent: "center",
-      textAlign: "center",
-    },
+
+  coffeeLoyal: {
+    fontSize: 30,
+    width: "100%",
+    backgroundColor: "black",
+    color: "white",
+    // justifyContent: "center",
+    textAlign: "center",
+  },
 });

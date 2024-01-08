@@ -9,6 +9,8 @@ import {
   getDoc,
   updateDoc,
   setDoc,
+  increment,
+  addDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -41,6 +43,51 @@ export async function getStoreLogoUrl(url) {
   return imageurl;
 }
 
+export async function getUser(userid) {
+  const docSnap = await getDoc(doc(db, "users", userid));
+  const userData = docSnap.data();
+
+  userData["userID"] = docSnap.id;
+  console.log(docSnap.data());
+  return userData;
+}
+
+export async function createNewCard(userid, storeid, addStamps = 0) {
+  let data = {
+    coffeesEarnt: addStamps,
+    completed: false,
+    storeId: storeid,
+    userId: userid,
+    redeemed: false,
+  };
+  const cardRef = collection(db, "cards");
+  const docRef = await addDoc(cardRef, data);
+  data["cardID"] = docRef.id;
+  console.log(`added card with ${data} to user: ${userid}`);
+  return data;
+}
+export async function updateUserCard(cardId, AddStamps, completed = false) {
+  console.log(cardId);
+  const cardRef = doc(db, "cards", cardId);
+  console.log(`${AddStamps} to ${cardId}`);
+  completed
+    ? await updateDoc(cardRef, {
+        completed: true,
+        coffeesEarnt: increment(AddStamps),
+      })
+    : await updateDoc(cardRef, { coffeesEarnt: increment(AddStamps) });
+  console.log(`added ${AddStamps} to ${cardId}`);
+}
+
+export async function AddCompleteCards(userid, storeid, stampsrequired) {
+  let data = {
+    coffeeEarnt: stampsrequired,
+    storeId: storeid,
+    userId: userid,
+  };
+  const cardRef = doc(db, "cards", cardId);
+  await updateDoc(cardRef, { completed: true });
+}
 export async function getUserCard(userid, storeid) {
   console.log("userid: " + userid + "  storeid: " + storeid);
   try {
@@ -48,52 +95,23 @@ export async function getUserCard(userid, storeid) {
     const q = query(
       cardRef,
       where("userId", "==", userid),
-      where("storeId", "==", storeid)
+      where("storeId", "==", storeid),
+      where("completed", "==", false)
     );
     const docSnap = await getDocs(q);
     if (docSnap.empty) {
       console.log(
         "No matching card found for the user in the specified store."
       );
-      return null; // or handle accordingly
+
+      return await createNewCard(userid, storeid);
     }
     const card = docSnap.docs[0].data();
+    card["cardID"] = docSnap.docs[0].id;
+    console.log(card.cardID);
     return card;
   } catch (error) {
     console.error("Error getting card:", error);
     throw error;
   }
-}
-
-export async function getUser(userid) {
-  const docSnap = await getDoc(doc(db, "users", userid));
-  console.log(docSnap.data());
-  return docSnap.data();
-}
-
-export async function createNewCard(userid, storeid, addStamps = 0) {
-  let data = {
-    coffeeEarnt: addStamps,
-    completed: false,
-    storeId: storeid,
-    userId: userid,
-  };
-  const cardRef = collection(db, "cards");
-  await setDoc(doc(cardRef), data);
-  console.log(`added card with ${data} to user: ${userid}`);
-}
-export async function updateUserCard(AddStamps, cardId) {
-  const cardRef = collection(db, "cards", cardId);
-  await updateDoc(cardRef, { coffeesEarnt: increment(AddStamps)});
-  console.log(`added ${AddStamps} to ${cardId}`);
-}
-
-export async function AddCompleteCards(userid,storeid,stampsrequired) {
-  let data={
-    coffeeEarnt: stampsrequired,
-    storeId: storeid,
-    userId: userid,
-  }
-  const cardRef = doc(db, "cards", cardId);
-  await updateDoc(cardRef, { completed: true });
 }
