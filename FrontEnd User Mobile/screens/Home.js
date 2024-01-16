@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Dimensions } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import NavBar from "../components/NavBar";
 import { getAuth, signOut } from "firebase/auth";
 import app from "../firebase";
@@ -68,39 +67,37 @@ export default function Home({ navigation }) {
   }
   return (
     <View style={styles.maincontainer}>
-      <ImageBackground
+      {/* <ImageBackground
         source={require("../assets/background.png")}
         resizeMode="cover"
         style={styles.image}
-      >
-        <View style={[styles.greetings]}>
-          <Text
-            style={{
-              fontSize: 30,
+      > */}
+      <View style={[styles.greetings]}>
+        <Text
+          style={{
+            fontSize: 30,
 
-              fontFamily: "TitanOne_400Regular",
-            }}
-          >
-            {randomGreeting},{"\n"}
-            <Text style={{ fontWeight: "bold", fontSize: 40 }}>
-              {getName()}
-            </Text>
-          </Text>
-          <UserButton />
-        </View>
-        {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
-        <CoffeeSaved coffeenumber={userDetails.coffee_earnt} />
-        <View style={[styles.qr]}>
-          <QRCode
-            value={userDetails.userId}
-            size={250}
-            backgroundColor={"transparent"}
-            logo={require("../assets/coffeeGuy.png")}
-            logoSize={150}
-          />
-        </View>
-        <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} />
-      </ImageBackground>
+            fontFamily: "TitanOne_400Regular",
+          }}
+        >
+          {randomGreeting},{"\n"}
+          <Text style={{ fontWeight: "bold", fontSize: 40 }}>{getName()}</Text>
+        </Text>
+        <UserButton />
+      </View>
+      {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
+      <CoffeeSaved coffeenumber={userDetails.coffee_earnt} />
+      <View style={[styles.qr]}>
+        <QRCode
+          value={userDetails.userId}
+          size={250}
+          backgroundColor={"transparent"}
+          logo={require("../assets/coffeeGuy.png")}
+          logoSize={150}
+        />
+      </View>
+      <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} />
+      {/* </ImageBackground> */}
     </View>
   );
 }
@@ -168,7 +165,7 @@ const styles = StyleSheet.create({
     rowGap: 50,
     justifyContent: "space-between",
     overflow: "hidden",
-    backgroundColor: colors.bg,
+    backgroundColor: "#936748",
   },
   greetings: {
     flex: 1.25,
@@ -198,9 +195,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 30,
-    borderWidth: 10,
+
     backgroundColor: colors.widgetbg,
-    padding: 30,
+    padding: 50,
   },
   coffeesaved: {
     flex: 1,
@@ -212,6 +209,5 @@ const styles = StyleSheet.create({
     width: "65%",
     alignSelf: "center",
     padding: 10,
-    borderWidth: 10,
   },
 });
