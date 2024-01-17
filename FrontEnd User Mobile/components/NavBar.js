@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(205, 184, 145, 0.90))",
     height: "auto",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     alignItems: "center",
     width: "85%",
     borderRadius: 20,
@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     borderRadius: 20,
+    height: "100%",
+    paddingHorizontal: 20,
   },
   shadowProp: {
     shadowColor: "#171717",

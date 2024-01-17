@@ -291,3 +291,64 @@ export function ColoredHome(props) {
     </Svg>
   );
 }
+
+export const CupTop = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="150mm"
+    height="150mm"
+    viewBox="0 0 150 150"
+    {...props}
+  >
+    <ellipse
+      cx={70.652}
+      cy={80.281}
+      rx={70.652}
+      ry={69.719}
+      style={{
+        fill: "#faebdc",
+        fillOpacity: 1,
+        strokeWidth: 4.80901,
+        strokeLinecap: "square",
+        paintOrder: "stroke fill markers",
+      }}
+    />
+    <ellipse
+      cx={68.176}
+      cy={80.281}
+      rx={56.553}
+      ry={55.806}
+      style={{
+        fill: "#392400",
+        fillOpacity: 1,
+        strokeWidth: 3.84937,
+        strokeLinecap: "square",
+        paintOrder: "stroke fill markers",
+      }}
+    />
+    <ellipse
+      cx={70.652}
+      cy={84.707}
+      rx={53.899}
+      ry={50.831}
+      style={{
+        fill: "#513200",
+        fillOpacity: 1,
+        strokeWidth: 3.58652,
+        strokeLinecap: "square",
+        paintOrder: "stroke fill markers",
+      }}
+    />
+    <path
+      d="M122.779 16.557a15.997 15.997 45.38 0 1 15.89 16.103v12.115h-31.993V32.66a16.102 16.102 135 0 1 16.103-16.103z"
+      style={{
+        fill: "#faebdc",
+        fillOpacity: 1,
+        strokeWidth: 3,
+        strokeLinecap: "square",
+        paintOrder: "stroke fill markers",
+      }}
+      transform="matrix(.90342 .81073 -1.09498 1.12928 52.113 -114.037)"
+    />
+  </svg>
+);

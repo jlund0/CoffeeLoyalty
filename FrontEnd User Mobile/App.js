@@ -3,7 +3,7 @@ import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
 import * as React from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { app } from "./firebase.js";
+import { app, signOut } from "./firebase.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 //SCREENS
 import Home from "./screens/Home";
@@ -17,6 +17,16 @@ import { getUserInfo, getUserCards } from "./firebasefunctions";
 
 const Stack = createNativeStackNavigator();
 const auth = getAuth(app);
+
+const TopBanner = {
+  title: "CupCount",
+  headerStyle: { backgroundColor: "#5E3023" },
+  headerTintColor: "#F3E9DC",
+  headerTitleStyle: { fontWeight: "bold", fontSize: 40 },
+  headerTitleAlign: "center",
+  headerBackTitleVisible: false,
+  headerLargeStyle: true,
+};
 
 function SplashScreen() {
   return (
@@ -37,9 +47,10 @@ export default function App() {
   //   console.log("checking user auth");
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      setUserToken(user.uid);
       console.log(user);
       setLoading(false);
+
+      setUserToken(user.uid);
     } else {
       setUserToken(null);
       setLoading(false);
@@ -61,14 +72,12 @@ export default function App() {
             <Stack.Screen
               name="Login"
               component={SignInScreen}
-              options={{ headerShown: false }}
+              options={TopBanner}
             />
             <Stack.Screen
               name="Register"
               component={SignUpScreen}
-              options={{
-                headerShown: false,
-              }}
+              options={TopBanner}
             />
           </>
         ) : (
@@ -76,43 +85,31 @@ export default function App() {
             <Stack.Screen
               name="Home"
               component={Home}
-              options={{
-                headerShown: false,
-                animation: "slide_from_left",
-              }}
+              options={TopBanner}
               initialParams={{ userid: userToken }}
             />
             <Stack.Screen
               name="card"
               component={CardScreen}
-              options={{
-                headerStyle: {},
-                headerShown: false,
-                animation: "slide_from_left",
-              }}
+              options={TopBanner}
               // initialParams={userCards}
             />
             {/* <Stack.Screen
               name="stores"
               component={StoresScreen}
               options={{
-                headerShown: false,
-                animation: "slide_from_left",
+            TopBanner,                animation: "slide_from_left",
               }}
             /> */}
             <Stack.Screen
               name="settings"
               component={SettingsScreen}
-              options={{
-                headerShown: false,
-              }}
+              options={TopBanner}
             />
             <Stack.Screen
               name="loyaltyCard"
               component={LoyaltyCard}
-              options={{
-                headerShown: false,
-              }}
+              options={TopBanner}
             />
           </>
         )}

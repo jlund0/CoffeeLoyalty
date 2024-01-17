@@ -10,6 +10,7 @@ import {
   getDocs,
   setDoc,
   QueryStartAtConstraint,
+  serverTimestamp,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -33,7 +34,8 @@ export async function AddUser(name, email, id) {
       name: name,
       email: email,
       coffee_earnt: 0,
-      created_at: new Date(),
+      created_at: serverTimestamp(),
+      role: "customer",
     };
     try {
       const docRef = setDoc(doc(db, "users", id), userData);

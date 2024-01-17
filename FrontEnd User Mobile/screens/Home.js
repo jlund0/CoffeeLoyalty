@@ -18,6 +18,7 @@ import QRCode from "react-native-qrcode-svg";
 import { useFonts, TitanOne_400Regular } from "@expo-google-fonts/titan-one";
 import { getUserInfo } from "../firebasefunctions.js";
 import { UserButton } from "../components/buttons.js";
+import { CupTop } from "../assets/socialSVG.js";
 
 function SplashScreen() {
   return (
@@ -57,6 +58,7 @@ export default function Home({ navigation }) {
     return null;
   }
   const getName = () => {
+    console.log("userDetails");
     console.log(userDetails);
     let name = userDetails.name.substring(0, userDetails.name.indexOf(" "));
     name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -86,15 +88,20 @@ export default function Home({ navigation }) {
         <UserButton />
       </View>
       {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
-      <CoffeeSaved coffeenumber={userDetails.coffee_earnt} />
+      {/* <CoffeeSaved coffeenumber={userDetails.coffee_earnt} /> */}
       <View style={[styles.qr]}>
-        <QRCode
-          value={userDetails.userId}
-          size={250}
-          backgroundColor={"transparent"}
-          logo={require("../assets/coffeeGuy.png")}
-          logoSize={150}
-        />
+        <Text style={{ fontSize: 40 }}>Scan Here</Text>
+        <View
+          style={{ backgroundColor: "#eaded6", padding: 20, borderRadius: 20 }}
+        >
+          <QRCode
+            value={userDetails.userId}
+            size={340}
+            backgroundColor={"transparent"}
+            logo={require("../assets/coffeeGuy.png")}
+            logoSize={150}
+          />
+        </View>
       </View>
       <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} />
       {/* </ImageBackground> */}
@@ -107,7 +114,7 @@ function CoffeeSaved({ coffeenumber }) {
     <View style={[styles.coffeesaved]}>
       <Text
         style={{
-          fontSize: 25,
+          fontSize: 35,
           paddingLeft: 20,
           fontWeight: "bold",
           textAlign: "center",
@@ -115,22 +122,15 @@ function CoffeeSaved({ coffeenumber }) {
       >
         Free Coffees
       </Text>
-      <View>
-        <Image
-          source={require("../assets/3dCup.png")}
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: 40,
-          }}
-        />
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <CupTop width={90} height={90}></CupTop>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 40,
             fontWeight: "bold",
             position: "absolute",
-            top: "40%",
-            alignSelf: "center",
+            right: "42%",
+            color: "#eaded6",
           }}
         >
           {coffeenumber}
@@ -157,12 +157,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   maincontainer: {
-    minHeight: Dimensions.get("window").height,
-    maxHeight: Dimensions.get("window").height,
+    // minHeight: Dimensions.get("window").height,
+    // maxHeight: Dimensions.get("window").height,
+    flex: 1,
     width: "100%",
     // backgroundColor: "#fff",
     flexDirection: "column",
-    rowGap: 50,
+    rowGap: 30,
     justifyContent: "space-between",
     overflow: "hidden",
     backgroundColor: "#936748",
@@ -189,20 +190,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   qr: {
-    flex: 3,
+    flex: 5,
     width: "auto",
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    borderRadius: 30,
-
+    borderRadius: 20,
+    rowGap: 20,
     backgroundColor: colors.widgetbg,
-    padding: 50,
+    padding: 20,
   },
   coffeesaved: {
-    flex: 1,
+    flex: 1.5,
     backgroundColor: colors.widgetbg,
-    borderRadius: 44,
+    borderRadius: 20,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
