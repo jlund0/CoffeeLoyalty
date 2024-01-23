@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "596303599486",
+    "project_id": "loyal-coffee-bad9d",
+    "storage_bucket": "loyal-coffee-bad9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596303599486:android:61c342888ce0cbb307452f",
+        "android_client_info": {
+          "package_name": "com.coffeeloyalty.androidapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596303599486-00hf50qdnv5du8k8ti9rder8v13ff84t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaykTfCldiKPadLho8rQssIbiZY0EYANU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596303599486-00hf50qdnv5du8k8ti9rder8v13ff84t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "596303599486-ta2ur0mbl4i1ufdtg0omc0avisforlg1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "CoffeeLoyaltyIOS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
