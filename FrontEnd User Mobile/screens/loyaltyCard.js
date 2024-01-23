@@ -23,7 +23,7 @@ function CoffeeTicker({ cardDetails }) {
               RedeemCoffee;
             }}
           >
-            Redeem
+            <Text>Redeem</Text>
           </Pressable>
         </View>
       ) : (

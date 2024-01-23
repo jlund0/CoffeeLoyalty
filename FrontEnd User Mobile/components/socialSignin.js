@@ -6,6 +6,8 @@ import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  signInWithCredential,
 } from "firebase/auth";
 import { app } from "../firebase";
 import { FacebookSVG, TwitterSVG, GoogleSVG } from "../assets/socialSVG";
@@ -23,12 +25,30 @@ import { AddUser } from "../firebasefunctions";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
-const GoogleProvider = new GoogleAuthProvider();
+
 const TwitterProvider = new TwitterAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
+const GoogleProvider = new GoogleAuthProvider();
+
+// Build Firebase credential with the Google ID token.
+// const credential = GoogleAuthProvider.credential(id_token);
+
+// // Sign in with credential from the Google user.
+
+// signInWithCredential(auth, credential).catch((error) => {
+//   // Handle Errors here.
+//   const errorCode = error.code;
+//   const errorMessage = error.message;
+//   // The email of the user's account used.
+//   const email = error.customData.email;
+//   // The AuthCredential type that was used.
+//   const credential = GoogleAuthProvider.credentialFromError(error);
+//   // ...
+// });
 
 const HandleGmailLogin = ({}) => {
   console.log("Login in Gmail");
+
   signInWithPopup(auth, GoogleProvider)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);

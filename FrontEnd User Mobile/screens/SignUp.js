@@ -22,11 +22,16 @@ const auth = getAuth(app);
 auth.languageCode = "it";
 
 const handleEmailSignUp = (email, password, name) => {
+  const arr = name.split(" ");
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+  }
+  const nameUppercase = arr.join(" ");
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up
       const user = userCredential.user;
-      updateProfile(user, { displayName: name });
+      updateProfile(user, { displayName: nameUppercase });
       AddUser(user);
     })
     .catch((error) => {
@@ -86,7 +91,7 @@ export default function SignUpScreen({ navigation }) {
             placeholder={" Name"}
             value={name}
             onChangeText={setName}
-            style={{ flex: 1, paddingVertical: 0 }}
+            style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 20 }}
           />
         </View>
         <View

@@ -15,7 +15,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier":"com.cupcount"
+      ,"config":{
+        "googleMapsApiKey":"AIzaSyDwcLCjH4YI1Ft63j-VZGR6CSZ11mg5J7A"}
     },
     "android": {
       "adaptiveIcon": {
