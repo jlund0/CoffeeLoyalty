@@ -23,7 +23,6 @@ import { CupTop } from "../assets/socialSVG.js";
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Image source={require("../assets/3dCup.png")} width={50} height={50} />
       <Text>Roasting Coffee...</Text>
       <ActivityIndicator size="large" />
     </View>
@@ -82,7 +81,8 @@ export default function Home({ navigation }) {
             fontFamily: "TitanOne_400Regular",
           }}
         >
-          {randomGreeting},{"\n"}
+          {randomGreeting}
+          {"\n "}
           <Text style={{ fontWeight: "bold", fontSize: 40 }}>{getName()}</Text>
         </Text>
         <UserButton />
@@ -96,10 +96,10 @@ export default function Home({ navigation }) {
         >
           <QRCode
             value={userDetails.userId}
-            size={340}
+            size={Dimensions.get("window").height * 0.3}
             backgroundColor={"transparent"}
             logo={require("../assets/coffeeGuy.png")}
-            logoSize={150}
+            logoSize={Dimensions.get("window").width * 0.3}
           />
         </View>
       </View>

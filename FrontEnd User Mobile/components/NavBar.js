@@ -15,7 +15,7 @@ export default function NavBar({ navigation, isFocused }) {
     <View style={[styles.navbar]}>
       <Pressable
         onPress={isFocused == "card" ? null : () => navigation.navigate("card")}
-        style={[styles.navIconContainer, styles.active]}
+        style={[styles.navIconContainer, isFocused == "card" && styles.active]}
       >
         <MaterialCommunityIcons
           name="card-multiple"
@@ -40,7 +40,7 @@ export default function NavBar({ navigation, isFocused }) {
       </Pressable>
       <Pressable
         onPress={isFocused == "main" ? null : () => navigation.navigate("Home")}
-        style={styles.navIconContainer}
+        style={[styles.navIconContainer, isFocused == "main" && styles.active]}
       >
         <FontAwesome5
           name="home"
@@ -70,7 +70,7 @@ export default function NavBar({ navigation, isFocused }) {
       /> */}
       <Pressable
         onPress={isFocused == "map" ? null : () => navigation.navigate("map")}
-        style={styles.navIconContainer}
+        style={[styles.navIconContainer, isFocused == "map" && styles.active]}
       >
         <FontAwesome5 name="map-marked-alt" size={60} style={styles.navIcon} />
       </Pressable>
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     alignSelf: "center",
     overflow: "visible",
+    flex: 1,
   },
   active: {
     backgroundColor: "#eaded6",
@@ -101,6 +102,8 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "0",
     color: "#2b1e15",
+    fontSize: "250%",
+    flex: 1,
   },
   navIconContainer: {
     display: "flex",

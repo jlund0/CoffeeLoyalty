@@ -14,6 +14,7 @@ import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import LoyaltyCard from "./screens/loyaltyCard";
 import { getUserInfo, getUserCards } from "./firebasefunctions";
+import { MapScreen } from "./screens/maps.js";
 
 const Stack = createNativeStackNavigator();
 const auth = getAuth(app);
@@ -109,6 +110,11 @@ export default function App() {
             <Stack.Screen
               name="loyaltyCard"
               component={LoyaltyCard}
+              options={TopBanner}
+            />
+            <Stack.Screen
+              name="map"
+              component={MapScreen}
               options={TopBanner}
             />
           </>

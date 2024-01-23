@@ -12,7 +12,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";
-import { SocialButtons } from "../components/socialSignin";
+// import { SocialButtons } from "../components/socialSignin";
 
 const auth = getAuth(app);
 auth.languageCode = "it";
@@ -28,7 +28,6 @@ const handleEmailandPasswordLogin = (email, password) => {
 };
 
 export default function SignInScreen({ navigation }) {
-  console.log("Sign In Screen");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -92,14 +91,16 @@ export default function SignInScreen({ navigation }) {
             secureTextEntry
             style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
           />
-          <TouchableOpacity>Forgot your password?</TouchableOpacity>
+          <TouchableOpacity>
+            <Text>Forgot your password?</Text>
+          </TouchableOpacity>
         </View>
         <Button
           title="Login"
           onPress={() => handleEmailandPasswordLogin(email, password)}
         />
 
-        <Text
+        {/* <Text
           style={{
             textAlign: "center",
             color: "#666",
@@ -118,7 +119,7 @@ export default function SignInScreen({ navigation }) {
           }}
         >
           <SocialButtons />
-        </View>
+        </View> */}
 
         <View
           style={{
