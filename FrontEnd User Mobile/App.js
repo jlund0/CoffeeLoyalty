@@ -3,12 +3,11 @@ import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
 import * as React from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { app, signOut } from "./firebase.js";
+import { app, signOut, auth } from "./firebase.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 //SCREENS
 import Home from "./screens/Home";
 import CardScreen from "./screens/Card";
-import StoresScreen from "./screens/Shops";
 import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
@@ -17,7 +16,11 @@ import { getUserInfo, getUserCards } from "./firebasefunctions";
 import { MapScreen } from "./screens/maps.js";
 
 const Stack = createNativeStackNavigator();
-const auth = getAuth(app);
+
+//Workaround
+// window.navigator.userAgent = "ReactNative";
+
+// const auth = getAuth(app);
 
 const TopBanner = {
   title: "CupCount",
@@ -41,16 +44,11 @@ function SplashScreen() {
 
 export default function App() {
   const [userToken, setUserToken] = React.useState(null);
-  // const [userInfo, setUserInfo] = React.useState(null);
-  // const [userCards, setUserCards] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  // React.useEffect(() => {
-  //   console.log("checking user auth");
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log(user);
       setLoading(false);
-
       setUserToken(user.uid);
     } else {
       setUserToken(null);

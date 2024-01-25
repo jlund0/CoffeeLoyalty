@@ -21,28 +21,26 @@ import { SocialButtons } from "../components/socialSignin";
 const auth = getAuth(app);
 auth.languageCode = "it";
 
-const handleEmailSignUp = (email, password, name) => {
+const handleEmailSignUp = async (email, password, name) => {
   const arr = name.split(" ");
   for (var i = 0; i < arr.length; i++) {
-    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1).toLowerCase();
   }
-  const nameUppercase = arr.join(" ");
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
-      updateProfile(user, { displayName: nameUppercase });
-      AddUser(user);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode + errorMessage);
-    });
+
+  const formattedName = arr.join(" ");
+  try {
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    console.log(res);
+    await updateProfile(auth.currentUser, { displayName: formattedName });
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode + errorMessage);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default function SignUpScreen({ navigation }) {
-  console.log("sign up screen");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
   const [lastname, setLastname] = React.useState("");

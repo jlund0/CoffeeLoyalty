@@ -56,13 +56,7 @@ export default function Home({ navigation }) {
   if (!fontsLoaded) {
     return null;
   }
-  const getName = () => {
-    console.log("userDetails");
-    console.log(userDetails);
-    let name = userDetails.name.substring(0, userDetails.name.indexOf(" "));
-    name = name.charAt(0).toUpperCase() + name.slice(1);
-    return name;
-  };
+
   if (loading) {
     return <SplashScreen />;
   }
@@ -77,13 +71,14 @@ export default function Home({ navigation }) {
         <Text
           style={{
             fontSize: 30,
-
             fontFamily: "TitanOne_400Regular",
           }}
         >
           {randomGreeting}
           {"\n "}
-          <Text style={{ fontWeight: "bold", fontSize: 40 }}>{getName()}</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 40 }}>
+            {userDetails.name.split(" ")[0]}
+          </Text>
         </Text>
         <UserButton />
       </View>

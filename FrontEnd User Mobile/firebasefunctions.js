@@ -2,44 +2,40 @@ import app from "./firebase";
 import {
   collection,
   doc,
-  addDoc,
   getFirestore,
-  query,
-  where,
   getDoc,
   getDocs,
   setDoc,
-  QueryStartAtConstraint,
   serverTimestamp,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
-import { Image } from "react-native";
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export async function AddUser(name, email, id) {
-  console.log(`adding user ${id}`);
-  console.log(name, email, id);
-
-  const docRef = doc(db, "users", id);
+export async function AddUser(user) {
+  const { displayName, email, uid } = user;
+  console.log(displayName, email, uid);
+  console.log(`adding user ${displayName}`);
+  const docRef = doc(db, "users", uid);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     console.log("user already added with");
     console.log("Document data:", docSnap.data());
   } else {
-    console.log("adding user " + id);
+    console.log("adding user " + uid);
     const userData = {
-      name: name,
+      name: displayName,
       email: email,
       coffee_earnt: 0,
       created_at: serverTimestamp(),
       role: "customer",
     };
     try {
-      const docRef = setDoc(doc(db, "users", id), userData);
-      console.log("User written with ID: ", id);
+      setDoc(doc(db, "users", uid), userData);
+      console.log("User written with ID: ", uid);
+      return userData;
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -49,6 +45,8 @@ export async function AddUser(name, email, id) {
 export async function getUserInfo() {
   const auth = getAuth();
   const user = auth.currentUser;
+  console.log("getting user info");
+  console.log(user);
   console.log(`fetching ${user.uid} details`);
   const docRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(docRef);
@@ -60,6 +58,8 @@ export async function getUserInfo() {
     return data;
   } else {
     console.log("No such document!");
+    const data = await AddUser(user);
+    return data;
   }
 }
 
