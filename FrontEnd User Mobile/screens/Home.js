@@ -1,37 +1,24 @@
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  ImageBackground,
-  Button,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Dimensions } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
-import { getAuth, signOut } from "firebase/auth";
-import app from "../firebase";
 import { useState, useEffect } from "react";
-import { CoffeeIconSVG, Background } from "../assets/socialSVG.js";
 import QRCode from "react-native-qrcode-svg";
 import { useFonts, TitanOne_400Regular } from "@expo-google-fonts/titan-one";
 import { getUserInfo } from "../firebasefunctions.js";
 import { UserButton } from "../components/buttons.js";
 import { CupTop } from "../assets/socialSVG.js";
+import { LoadingScreen } from "./Loading.js";
+import { auth } from "../firebase";
+import { EnterName } from "./name.js";
 
-function SplashScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Roasting Coffee...</Text>
-      <ActivityIndicator size="large" />
-    </View>
-  );
-}
 export default function Home({ navigation }) {
   console.log("Home Page");
   const [userDetails, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  // const [hasDisplayName, setHasDisplayName] = useState(
+  //   auth.currentUser.displayName == null ? false : true
+  // );
   const isFocused = useIsFocused();
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
@@ -39,11 +26,13 @@ export default function Home({ navigation }) {
     TitanOne_400Regular,
   });
 
+  // if (!hasDisplayName) {
+  //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
+  // }
+  window.navigator.userAgent = "ReactNative";
   useEffect(() => {
     async function fetchFirebaseInfo() {
       if (userDetails === null) {
-        // const usercards = await getUserCards();
-        // setUserCards(usercards);
         console.log("getting user info");
         const userInfo = await getUserInfo();
         setUserInfo(userInfo);
@@ -58,7 +47,7 @@ export default function Home({ navigation }) {
   }
 
   if (loading) {
-    return <SplashScreen />;
+    return <LoadingScreen />;
   }
   return (
     <View style={styles.maincontainer}>
@@ -94,7 +83,7 @@ export default function Home({ navigation }) {
             size={Dimensions.get("window").height * 0.3}
             backgroundColor={"transparent"}
             logo={require("../assets/coffeeGuy.png")}
-            logoSize={Dimensions.get("window").width * 0.3}
+            logoSize={Dimensions.get("window").height * 0.15}
           />
         </View>
       </View>

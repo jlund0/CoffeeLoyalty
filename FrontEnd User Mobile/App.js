@@ -14,6 +14,7 @@ import SignUpScreen from "./screens/SignUp";
 import LoyaltyCard from "./screens/loyaltyCard";
 import { getUserInfo, getUserCards } from "./firebasefunctions";
 import { MapScreen } from "./screens/maps.js";
+import { EnterName } from "./screens/name.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,11 +46,15 @@ function SplashScreen() {
 export default function App() {
   const [userToken, setUserToken] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [hasDisplayName, setHasDisplayName] = React.useState(false);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setLoading(false);
       setUserToken(user.uid);
+      if (user.displayName !== null) {
+        setHasDisplayName(true);
+      }
     } else {
       setUserToken(null);
       setLoading(false);
@@ -81,6 +86,13 @@ export default function App() {
           </>
         ) : (
           <>
+            {!hasDisplayName && (
+              <Stack.Screen
+                name="EnterName"
+                component={EnterName}
+                options={TopBanner}
+              />
+            )}
             <Stack.Screen
               name="Home"
               component={Home}

@@ -24,7 +24,6 @@ export default function BarcodeCamera(navigation) {
   }
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
     navigation.navigate("Scanned Popup", { userid: data, store: store });
   };
 

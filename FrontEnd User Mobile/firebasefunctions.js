@@ -13,7 +13,7 @@ import { getStorage, getDownloadURL, ref } from "firebase/storage";
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-export async function AddUser(user) {
+export async function AddUser(user, name) {
   const { displayName, email, uid } = user;
   console.log(displayName, email, uid);
   console.log(`adding user ${displayName}`);

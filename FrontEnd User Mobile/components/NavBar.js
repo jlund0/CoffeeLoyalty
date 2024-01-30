@@ -22,21 +22,6 @@ export default function NavBar({ navigation, isFocused }) {
           size={60}
           style={[styles.navIcon, { transform: "scaleY(-1)" }]}
         />
-        {/* {isFocused == "card" ? (
-      <ColoredCoffeeCardIconSVG
-        fill="currentColor"
-        style={styles.navIcon}
-        width={80}
-        height={80}
-      />
-    ) : (
-      <BlackCoffeeCardIconSVG
-        width={80}
-        height={80}
-        fill="currentColor"
-        style={styles.navIcon}
-      />
-    )} */}
       </Pressable>
       <Pressable
         onPress={isFocused == "main" ? null : () => navigation.navigate("Home")}
@@ -47,27 +32,7 @@ export default function NavBar({ navigation, isFocused }) {
           size={60}
           style={styles.navIcon}
         ></FontAwesome5>
-        {/* {isFocused == "main" ? (
-          <ColoredHome style={styles.navIcon} width={80} height={80} />
-        ) : (
-          <MaterialIcons
-            name="home"
-            onPress={() => navigation.navigate("Home")}
-            backgroundColor="0"
-            color={"black"}
-            style={{ backgroundColor: "0" }}
-            size={80}
-          />
-        )} */}
       </Pressable>
-      {/* <MaterialCommunityIcons.Button
-        name="card-multiple-outline"
-        onPress={() => navigation.navigate("card")}
-        size={isFocused == "card" ? 70 : 50}
-        backgroundColor="0"
-        color={isFocused == "card" ? "black" : "white"}
-        style={styles.navIcon}
-      /> */}
       <Pressable
         onPress={isFocused == "map" ? null : () => navigation.navigate("map")}
         style={[styles.navIconContainer, isFocused == "map" && styles.active]}
@@ -102,7 +67,7 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "0",
     color: "#2b1e15",
-    fontSize: "250%",
+    fontSize: "80%",
     flex: 1,
   },
   navIconContainer: {

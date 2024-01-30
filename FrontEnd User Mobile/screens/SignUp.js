@@ -21,29 +21,28 @@ import { SocialButtons } from "../components/socialSignin";
 const auth = getAuth(app);
 auth.languageCode = "it";
 
-const handleEmailSignUp = async (email, password, name) => {
-  const arr = name.split(" ");
-  for (var i = 0; i < arr.length; i++) {
-    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1).toLowerCase();
-  }
+const handleEmailSignUp = async (email, password) => {
+  // const arr = name.split(" ");
+  // for (var i = 0; i < arr.length; i++) {
+  //   arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1).toLowerCase();
+  // }
 
-  const formattedName = arr.join(" ");
+  // const formattedName = arr.join(" ");
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     console.log(res);
-    await updateProfile(auth.currentUser, { displayName: formattedName });
+    // await updateProfile(auth.currentUser, { displayName: formattedName });
+  } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
     console.log(errorCode + errorMessage);
-  } catch (error) {
-    console.log(error);
   }
 };
 
 export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [lastname, setLastname] = React.useState("");
+  // const [name, setName] = React.useState("");
+  // const [lastname, setLastname] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [passwordCheck, setPasswordCheck] = React.useState("");
 
@@ -76,7 +75,7 @@ export default function SignUpScreen({ navigation }) {
         >
           Sign Up
         </Text>
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             borderBottomColor: "#ccc",
@@ -91,7 +90,7 @@ export default function SignUpScreen({ navigation }) {
             onChangeText={setName}
             style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 20 }}
           />
-        </View>
+        </View> */}
         <View
           style={{
             flexDirection: "row",
@@ -138,7 +137,7 @@ export default function SignUpScreen({ navigation }) {
         </View>
         <Button
           title="Create Account"
-          onPress={() => handleEmailSignUp(email, password, name)}
+          onPress={() => handleEmailSignUp(email, password)}
         />
 
         <Text

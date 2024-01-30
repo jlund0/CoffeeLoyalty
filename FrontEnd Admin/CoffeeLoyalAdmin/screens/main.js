@@ -18,47 +18,47 @@ import BarcodeCamera from "../components/camera";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "react-native-vector-icons/Ionicons";
 
-export const useFocus = () => {
-  const navigation = useNavigation();
-  const [isFocused, setIsFocused] = useState(false);
-  const [focusCount, setFocusCount] = useState(0);
-  const isFirstTime = focusCount === 1;
+// export const useFocus = () => {
+//   const navigation = useNavigation();
+//   const [isFocused, setIsFocused] = useState(false);
+//   const [focusCount, setFocusCount] = useState(0);
+//   const isFirstTime = focusCount === 1;
 
-  useEffect(() => {
-    const unsubscribeFocus = navigation.addListener("focus", () => {
-      setIsFocused(true);
-      setFocusCount((prev) => prev + 1);
-    });
-    const unsubscribeBlur = navigation.addListener("blur", () => {
-      setIsFocused(false);
-    });
+//   useEffect(() => {
+//     const unsubscribeFocus = navigation.addListener("focus", () => {
+//       setIsFocused(true);
+//       setFocusCount((prev) => prev + 1);
+//     });
+//     const unsubscribeBlur = navigation.addListener("blur", () => {
+//       setIsFocused(false);
+//     });
 
-    return () => {
-      unsubscribeFocus();
-      unsubscribeBlur();
-    };
-  });
+//     return () => {
+//       unsubscribeFocus();
+//       unsubscribeBlur();
+//     };
+//   });
 
-  return { isFocused, isFirstTime, focusCount };
-};
+//   return { isFocused, isFirstTime, focusCount };
+// };
 
 export function MainScreen({ navigation, route }) {
   // const store= route.params;
   const [store, setStore] = useState();
   // const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+  // const [scanned, setScanned] = useState(false);
   // const [scannedUser, setScannedUser] = useState(null);
   const { focusCount, isFocused } = useFocus();
   // const [temp, setTemp] = useState(false);
   // const [permission, requestPermission] = Camera.useCameraPermissions();
 
-  useEffect(() => {
-    if (focusCount > 1 && isFocused) {
-      // trigger when you navigate back from another screen
-      // you can background reload data here ...
-      setScanned(false);
-    }
-  });
+  // useEffect(() => {
+  //   if (focusCount > 1 && isFocused) {
+  //     // trigger when you navigate back from another screen
+  //     // you can background reload data here ...
+  //     // setScanned(false);
+  //   }
+  // });
 
   // useEffect(() => {
   //   const getBarCodeScannerPermissions = async () => {
@@ -72,7 +72,7 @@ export function MainScreen({ navigation, route }) {
   // }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
+    // setScanned(true);
     navigation.navigate("Scanned Popup", { userid: data, store: store });
   };
 
@@ -117,7 +117,10 @@ export function MainScreen({ navigation, route }) {
       <Text style={{ fontSize: 30 }}>{store.location}</Text>
       <Text style={{ fontSize: 24 }}>Scan Customers QR</Text>
       <View style={styles.cameracontainer}>
-        <BarcodeCamera navigation={navigation} />
+        <BarcodeCamera
+          navigation={navigation}
+          onBarCodeScanned={handleBarCodeScanned}
+        />
         {/* <IonIcons
           name="scan"
           size={300}
