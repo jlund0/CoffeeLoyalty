@@ -31,6 +31,7 @@ const TopBanner = {
   headerTitleAlign: "center",
   headerBackTitleVisible: false,
   headerLargeStyle: true,
+  animation: "none"
 };
 
 function SplashScreen() {
@@ -98,6 +99,7 @@ export default function App() {
               component={Home}
               options={TopBanner}
               initialParams={{ userid: userToken }}
+              
             />
             <Stack.Screen
               name="card"
@@ -121,11 +123,13 @@ export default function App() {
               name="loyaltyCard"
               component={LoyaltyCard}
               options={TopBanner}
+
             />
             <Stack.Screen
               name="map"
               component={MapScreen}
               options={TopBanner}
+
             />
           </>
         )}

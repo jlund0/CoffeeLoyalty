@@ -23,7 +23,7 @@ export default function Home({ navigation }) {
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
   let [fontsLoaded] = useFonts({
-    TitanOne_400Regular,
+    TitanOne_400Regular, 
   });
 
   // if (!hasDisplayName) {
@@ -59,13 +59,13 @@ export default function Home({ navigation }) {
       <View style={[styles.greetings]}>
         <Text
           style={{
-            fontSize: 30,
+            fontSize: 36,
             fontFamily: "TitanOne_400Regular",
           }}
         >
           {randomGreeting}
-          {"\n "}
-          <Text style={{ fontWeight: "bold", fontSize: 40 }}>
+          {"\n"}
+          <Text style={{ fontWeight: "bold", fontSize: 42 }}>
             {userDetails.name.split(" ")[0]}
           </Text>
         </Text>
@@ -153,15 +153,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#936748",
   },
   greetings: {
-    flex: 1.25,
+    flex: 1.5,
+    paddingHorizontal:30,
+    paddingBottom:20,
     backgroundColor: colors.widgetbg,
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    padding: 40,
+   
   },
   coffeesaved: {
     flex: 1,

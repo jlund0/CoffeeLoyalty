@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  Image,
+  Image,Keyboard,TouchableWithoutFeedback, Pressable 
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -30,23 +30,25 @@ const handleEmailandPasswordLogin = (email, password) => {
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isFocused,setIsFocused]= React.useState(false)
+ 
 
   return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#FAF0E6" }}
     >
       <View style={{ padding: 25 }}>
-        <View style={{ alignItems: "center", marginBottom: 30 }}>
+        <View style={[{ alignItems: "center", },]}>
           {/*Animated card login image*/}
           <Image
             source={require("../assets/coffeelogin.png")}
-            style={{ height: 300, width: 300 }}
+            style={[{ height: 300, width: 300 ,marginBottom: 30 },isFocused&&{position:"absolute",bottom:"10%", marginBottom:0}]}
             resizeMode="contain"
           ></Image>
         </View>
         <Text
           style={{
-            fontFamily: "Roboto-Medium",
             fontSize: 28,
             fontWeight: "500",
             color: "#333",
@@ -72,6 +74,10 @@ export default function SignInScreen({ navigation }) {
             onChangeText={setEmail}
             inputMode="email"
             style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+            onFocus={()=>setIsFocused(true)}
+            onBlur={()=>setIsFocused(false)}
+           
+            
           />
         </View>
         <View
@@ -90,15 +96,19 @@ export default function SignInScreen({ navigation }) {
             onChangeText={setPassword}
             secureTextEntry
             style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+            onFocus={()=>setIsFocused(true)}
+            onBlur={()=>setIsFocused(false)}
+            
           />
           <TouchableOpacity>
             <Text>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
-        <Button
+        <Pressable
           title="Login"
           onPress={() => handleEmailandPasswordLogin(email, password)}
-        />
+          style={styles.button}
+        ><Text style={{textAlign:"center", color: "white",fontSize:28,fontWeight:"bold"}} >LOGIN</Text></Pressable>
 
         {/* <Text
           style={{
@@ -126,6 +136,7 @@ export default function SignInScreen({ navigation }) {
             flexDirection: "row",
             justifyContent: "center",
             marginBottom: 30,
+            padding:20
           }}
         >
           <Text>New to the app?</Text>
@@ -135,9 +146,10 @@ export default function SignInScreen({ navigation }) {
               Register
             </Text>
           </TouchableOpacity>
-        </View>
       </View>
-    </SafeAreaView>
+        </View>
+        
+    </SafeAreaView></TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
@@ -148,4 +160,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
   },
+  button:{
+    backgroundColor:"#ADD8E6",
+    padding:10,
+    borderRadius:20,
+
+  }
 });

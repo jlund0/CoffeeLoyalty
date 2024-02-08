@@ -16,11 +16,14 @@ import { useIsFocused } from "@react-navigation/native";
 import * as Location from "expo-location";
 import { useState } from "react";
 import { UserButton } from "../components/buttons";
-import AntDesignIcon from "react-native-vector-icons/AntDesign";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getUserCards, getStoreInfo, getStoreLogo } from "../firebasefunctions";
 import { useEffect } from "react";
 import { CoffeeCupIcon } from "../assets/socialSVG";
 import { getDistanceFromLatLonInKm, geocode } from "../components/location";
+
+
+
 
 {
   /* TODO make filter sort by distance from store 
@@ -30,7 +33,7 @@ import { getDistanceFromLatLonInKm, geocode } from "../components/location";
 export default function CardScreen({ navigation }) {
   console.log("Card page");
   const isFocused = useIsFocused();
-  const [cards, setCards] = useState(null);
+  const [cards, setCards] = useState([]);
   const [searchStoreFilter, setSearchFilter] = useState("");
   const [location, setLocation] = useState();
   const [addCardPopupVisaible, setCardPopupVisabile] = useState(false);
@@ -73,8 +76,6 @@ export default function CardScreen({ navigation }) {
   };
 
   const filterList = (list) => {
-    console.log("filter");
-
     console.log(list);
     return list.filter((card) =>
       card.name.toLowerCase().includes(searchStoreFilter.toLowerCase())
@@ -84,12 +85,7 @@ export default function CardScreen({ navigation }) {
 
   return (
     <View style={styles.maincontainer}>
-      <ImageBackground
-        source={require("../assets/card_background.png")}
-        resizeMode="cover"
-        style={styles.image}
-      >
-        <View style={[styles.greetings, styles.shadowProp]}>
+        <View style={[styles.greetings,]}>
           <Text
             style={{
               fontWeight: "normal",
@@ -102,16 +98,13 @@ export default function CardScreen({ navigation }) {
           </Text>
           <UserButton />
         </View>
-        <View style={{ flex: 1, padding: 10 }}>
+        <View style={{ flex: 0.5, padding: 10 , flexDirection:"row" ,width: "90%",alignSelf:"center",columnGap:10}}>
           <TextInput
             style={{
-              borderRadius: 25,
-              borderWidth: 5,
-              borderColor: "black",
+              borderRadius: 20,
               width: "auto",
               backgroundColor: themes.widgetbg,
-              marginHorizontal: 20,
-
+              // marginHorizontal: 20,
               padding: 10,
               paddingHorizontal: 20,
               flex: 1,
@@ -119,6 +112,9 @@ export default function CardScreen({ navigation }) {
             placeholder="Find Store"
             onChangeText={(newVal) => setSearchFilter(newVal)}
           />
+          <Pressable style={{backgroundColor: themes.widgetbg,borderRadius: 25,padding:5,justifyContent:"center",alignItems:"center"}}>
+            <MaterialCommunityIcons name="sort" size={30} styles={{}}/>
+            </Pressable>
         </View>
         <View style={styles.cardsContainer}>
           {cards === null ? (
@@ -134,22 +130,25 @@ export default function CardScreen({ navigation }) {
               />
             ))
           )}
+          {cards.length == 0 && <View style={[styles.cardsContainer,{borderRadius: 25,
+    width: "100%",
+    backgroundColor: themes.widgetbg,}]}><Text style={styles.noCardText}>No active cards!{"\n"}Time to get a coffee</Text></View> }
           {/* <View style={{ height: 500 }}></View> */}
-          <Pressable
+          {/* <Pressable
             style={styles.addCard}
             onClick={() => setCardPopupVisabile(true)}
           >
             <AntDesignIcon name="pluscircle" size={60} />
             {addCardPopupVisaible ? AddCardPopup : null}
-          </Pressable>
+          </Pressable> */}
         </View>
 
         <NavBar
           navigation={navigation}
           isFocused={isFocused ? "card" : null}
-          style={{ flex: 1 }}
+          
         />
-      </ImageBackground>
+      
     </View>
   );
 }
@@ -281,17 +280,17 @@ function CardWidget({ navigation, card, location }) {
   );
 }
 
-function AddCardPopup() {
-  return (
-    <View style={{ position: "absolute" }}>
-      <TextInput placeholder="Enter Store" />
-      <Text>Or Scan Store QR</Text>
-      <Pressable>
-        <AntDesignIcon name="camera" size={50} />
-      </Pressable>
-    </View>
-  );
-}
+// function AddCardPopup() {
+//   return (
+//     <View style={{ position: "absolute" }}>
+//       <TextInput placeholder="Enter Store" />
+//       <Text>Or Scan Store QR</Text>
+//       <Pressable>
+//         <AntDesignIcon name="camera" size={50} />
+//       </Pressable>
+//     </View>
+//   );
+// }
 
 const themes = {
   bg: "#fff8e7",
@@ -315,16 +314,19 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     flex: 1,
+    backgroundColor: "#936748",
     // overflow: "hidden",
+    rowGap:20,
   },
   cardsContainer: {
     alignSelf: "stretch",
     paddingHorizontal: 20,
     // height: 500,
-    flex: 10,
+    flex: 6,
+    justifyContent:"center"
   },
   greetings: {
-    flex: 1,
+    flex: 0.75,
     backgroundColor: themes.widgetbg,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -358,4 +360,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
+  noCardText:{
+    alignSelf:"center",
+    fontSize:50,
+    textAlign:"center"
+
+
+},
+
 });

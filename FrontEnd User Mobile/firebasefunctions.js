@@ -6,10 +6,11 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  serverTimestamp,
+  serverTimestamp,query, orderBy, startAt, endAt
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
+import * as geofire from "geofire-common"
 const db = getFirestore(app);
 const storage = getStorage(app);
 
@@ -120,8 +121,54 @@ export async function getStoreLogo(storeid) {
   console.log("getting store logo: " + storeid);
 
   let imageurl = await getDownloadURL(
-    ref(storage, `STORES/${storeid}/logo.png`)
+    ref(storage, `STORES/Logos/${storeid}.jpg`)
   );
   console.log("logo url: " + imageurl);
   return imageurl;
 }
+
+
+
+export async function getStores(lat,lng,distance=1){
+  const center = [lat,lng]
+  const bounds = geofire.geohashQueryBounds(center, 1000);
+  const radiusInM = distance * 1000;
+
+const promises = [];
+for (const b of bounds) {
+  const q = query(
+    collection(db, 'stores'), 
+    orderBy('geohash'), 
+    startAt(b[0]), 
+    endAt(b[1]));
+
+  promises.push(getDocs(q));
+}
+// Collect all the query results together into a single list
+const snapshots = await Promise.all(promises);
+const matchingDocs = [];
+
+for (const snap of snapshots) {
+  for (const doc of snap.docs) {
+    const coords = doc.get('coords');
+    // We have to filter out a few false positives due to GeoHash
+    // accuracy, but most will match
+    const distanceInKm = geofire.distanceBetween([coords.latitude, coords.longitude], center);
+    
+    const distanceInM = distanceInKm * 1000;
+    if (distanceInM <= radiusInM) {
+     const data=doc.data()
+     data["distanceAway"] = distanceInM
+     data["id"]= doc.id
+     data["logo"] = await getDownloadURL(
+      ref(storage, `STORES/Logos/${doc.id}.jpg`)
+    );
+      matchingDocs.push(data);
+      
+    }
+  }
+  console.log(matchingDocs)
+  
+  return(matchingDocs.sort((p1,p2)=>{(p1.distanceAway > p2.distanceAway) ? 1 : (p1.distanceAway < p2.distanceAway) ? -1 : 0}))
+
+}}

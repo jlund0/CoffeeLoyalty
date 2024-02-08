@@ -1,6 +1,6 @@
 import { View, Text, ActivityIndicator } from "react-native";
 
-export function LoadingScreen(userdetails) {
+export function LoadingScreen() {
   console.log("loading");
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

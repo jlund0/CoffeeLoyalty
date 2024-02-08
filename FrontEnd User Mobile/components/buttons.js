@@ -3,6 +3,7 @@ import app from "../firebase";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { View, Button } from "react-native";
+// import WalletManager from 'react-native-wallet-manager';
 
 export function UserButton() {
   const [showMenu, setShowMenu] = useState(false);

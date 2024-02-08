@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier":"com.cupcount"
+      "bundleIdentifier":"com.loyalcoffee.cupcount"
       ,"config":{
         "googleMapsApiKey":"AIzaSyDwcLCjH4YI1Ft63j-VZGR6CSZ11mg5J7A"}
     },
@@ -28,6 +28,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+    
+      ]
+    ]
   }
 }

@@ -44,8 +44,8 @@ export default function NavBar({ navigation, isFocused }) {
 }
 const styles = StyleSheet.create({
   navbar: {
-    backgroundColor: "rgba(205, 184, 145, 0.90))",
-    height: "auto",
+    backgroundColor: "rgb(205, 184, 145))",
+    height: 75,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     alignSelf: "center",
     overflow: "visible",
-    flex: 1,
+    // flex: 1,
   },
   active: {
     backgroundColor: "#eaded6",
@@ -65,9 +65,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     margin: 10,
-    backgroundColor: "0",
+ 
     color: "#2b1e15",
-    fontSize: "80%",
+    fontSize: 50,
     flex: 1,
   },
   navIconContainer: {
