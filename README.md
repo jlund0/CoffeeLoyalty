@@ -1,7 +1,7 @@
 # CoffeeLoyalty
 
-A React native app that allows a users to have all there coffee loyalty cards in one place
-backend is done with firebase
+A React native app that allows users to have all their coffee loyalty cards in one place
+backend is done with Firebase
 
 The project is split into 3 folders
 
@@ -10,14 +10,14 @@ The project is split into 3 folders
    ![image](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/5b649866-86c6-46e0-812a-a12c433a089b)
 
 2. FrontEnd_Admin
-   the app shops will use to add cards and coffees to users apps
+   the app shops will use to add cards and coffees to users' apps
 
 3. Backend
    no longer in use
 
 ## Getting Started
 
-### prerequisite
+### Prerequisite
 
 install node.js
 
@@ -44,8 +44,8 @@ install node.js
 What is needed in each file
 
 - FrontEnd_User
-- Add sorting by distnace from user
-- add card adding with camera or store search
+- Add sorting by distance from user
+- add card with camera or store search
 - add pop up for when stamps are added to users app
 - FrontEnd_Admin
 - Website/Admin console
