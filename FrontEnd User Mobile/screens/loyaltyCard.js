@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Image,
@@ -9,13 +10,9 @@ import {
 } from "react-native";
 import AntIcon from "react-native-vector-icons/AntDesign";
 
-function CoffeeTicker({ cardDetails }) {
-  console.log(cardDetails.coffees_required, cardDetails.coffees_purchased);
-  const list = [...Array(cardDetails.coffees_required).keys()];
-  return (
-    <View style={styles.CheckBox}>
-      {cardDetails.coffees_purcbased === list.length ? (
-        <View style={{ width: "100%", height: "100%", backgroundColor: "FFF" }}>
+function Redeem(){
+  return(
+<View style={{ width: "100%", height: "100%", backgroundColor: "FFF" }}>
           <Image src={require("../assets/coffeeGuy.png")} />
           <Text>Free Coffee</Text>
           <Pressable
@@ -26,51 +23,65 @@ function CoffeeTicker({ cardDetails }) {
             <Text>Redeem</Text>
           </Pressable>
         </View>
+  )
+}
+
+function CoffeeTicker({ cardDetails }) {
+  console.log(cardDetails.coffees_required, cardDetails.coffeesEarnt);
+  const list = [...Array(cardDetails.coffees_required).keys()];
+  const [stampBoxSize, setStampSize]= useState({height:10})
+  let stampHeight = (stampBoxSize.height / (list.length/2) )
+  return (
+      
+    <View style={styles.card}>
+      <View style={styles.title}>
+        <Text adjustsFontSizeToFit={true} style={styles.titleText}>{cardDetails.name}</Text>
+      </View>
+      {cardDetails.coffeesEarnt === list.length ? (
+        <Redeem/>
       ) : (
-        <>
+        <View style={styles.stampContainer} onLayout={(event)=>{setStampSize(event.nativeEvent.layout)}}>
           {list.map((i) => {
             return (
               <View
-                style={{
-                  width: "40%",
-                  height: "auto",
-                  backgroundColor: "#FFFDD0",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 40,
-                  borderWidth: 4,
-                  borderColor: "#C4A484",
-                  aspectRatio: 1,
-                }}
+                style={[styles.stamp, {maxHeight:stampHeight ,width:stampHeight ,maxWidth:"40%"}
+                  // {
+                  // maxHeight:stampHeight-20 ,maxWidth:"30%",aspectRatio:1}
+                ]
+                }
+                key={i}
               >
-                <View>
                   <Image
                     source={{ uri: cardDetails.logo }}
                     style={{
-                      width: 50,
-                      height: 50,
+                      width:"100%",
+                      height: "100%",
                       opacity: 0.4,
+                      aspectRatio:1,
                     }}
                   />
-                  {i < cardDetails.coffees_purchased ? (
+                  {i < cardDetails.coffeesEarnt &&
                     <Image
                       source={require("../assets/bean_stamp.png")}
                       style={{
-                        width: 80,
-                        height: 80,
+                        width: "100%",
+                        height: "100%",
                         position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translateY(-50%) translateX(-50%)",
+                        // top: "50%",
+                        // left: "50%",
+                        // transform: "translateY(-50%) translateX(-50%)",
                       }}
                     />
-                  ) : null}
-                </View>
+                   }
               </View>
             );
           })}
-        </>
+          
+        </View>
       )}
+      <View style={styles.freeCoffeeStamp}>
+        <Text style={styles.freeCoffeeText}>Free Coffee</Text>
+      </View>
     </View>
   );
 }
@@ -79,66 +90,82 @@ export default function LoyaltyCard({ navigation, route }) {
   console.log("LoyaltyCard");
   const cardDetails = route.params;
   console.log(cardDetails);
-  // const list = [...Array(cardDetails.coffees_required).keys()];
   return (
-    <ImageBackground
-      source={require("../assets/card_background.png")}
-      resizeMode="cover"
-      style={{
-        minHeight: Dimensions.get("window").height,
-        maxHeight: Dimensions.get("window").height,
-        width: "100%",
-        flexDirection: "column",
-        justifyContent: "space-evenly",
-        overflow: "hidden",
-        alignItems: "center",
-      }}
+    <View
+      style={styles.mainContainer}
     >
-      <Image
-        source={{ uri: cardDetails.logo }}
-        style={{
-          height: 250,
-          width: 250,
-          resizeMode: "contain",
-          alignSelf: "center",
-          flex: 1.5,
-          padding: 30,
-        }}
-      />
       <CoffeeTicker cardDetails={cardDetails} />
-      <Pressable
-        onPress={() => navigation.navigate("card")}
-        style={{ position: "absolute", left: 0, top: 0, margin: 25 }}
-      >
-        <AntIcon
-          name="back"
-          size={30}
-          style={{
-            borderWidth: 2,
-            padding: 10,
-            borderRadius: 40,
-          }}
-        />
-      </Pressable>
-    </ImageBackground>
+    </View>
   );
 }
 const styles = StyleSheet.create({
-  CheckBox: {
-    alignContent: "space-around",
-    flexDirection: "row",
-    width: "80%",
-    justifyContent: "center",
+  mainContainer:{
+    flex:1,
+    justifyContent:"center",
+    alignContent:"center",
+    padding:30,
+    paddingVertical:50,
+    backgroundColor: "#936748"
+  },
+  titleText:{
+    textAlign:"center",
+    fontSize:36
+  },
+
+  freeCoffeeStamp:{
+    justifyContent:"center",
+    alignContent:"center",
+    borderRadius:20,
+    backgroundColor:"#EADDCA",
+  alignSelf:"center",
+  marginVertical:10,
+  },
+  freeCoffeeText:{
+    textAlign:"center",
+    paddingHorizontal:40,
+    paddingVertical:20,
+    fontSize:30
+  },
+  stamp:{
+    maxWidth:"50%",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:20,
+    backgroundColor:"#EADDCA",
+    padding:10,
+    aspectRatio:"1/1",
+    alignSelf:"center"
+  },
+  card: {
+    // alignContent: "space-around",
+    justifyContent: "space-evenly",
     flexWrap: "wrap",
-    borderWidth: 4,
-    gap: 40,
-    padding: 20,
-    paddingVertical: 40,
-    alignItems: "center",
-    borderRadius: 25,
+    borderWidth: 10,
+    borderRadius: 10,
     borderColor: "#4B2D0B",
-    backgroundColor: "#cdb891",
-    flex: 2,
-    marginBottom: 40,
+    backgroundColor: "#cdb891",   
+    flex:1,
+    padding:20,
+  },
+  title:{
+    
+    justifyContent:"center",
+    alignItems:"center",
+    padding:20,
+   }
+    ,
+  stampContainer:{
+    alignContent:"stretch",
+    width:"100%",
+    flexWrap:"wrap",
+    justifyContent:"space-evenly",
+    flexDirection:"row",
+    flex:1,
+    padding:"auto",
+    // r1wGap:20,
+    gap:5
+
+
+
   },
 });

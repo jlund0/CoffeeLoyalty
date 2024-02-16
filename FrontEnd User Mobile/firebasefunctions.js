@@ -6,7 +6,7 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  serverTimestamp,query, orderBy, startAt, endAt
+  serverTimestamp,query, orderBy, startAt, endAt,where
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -70,17 +70,16 @@ export async function getUserCards() {
   const user = auth.currentUser;
   const completeCards = [];
   // const user = auth.currentUser;
-  console.log(`fetching ${user.uid} cards`);
-  const querySnapshot = await getDocs(
-    collection(db, "users", user.uid, "cards")
-  );
+  console.log(`fetching ${user.uid} cards`); 
+  const querySnapshot = await getDocs(query(collection(db, "cards"), where("userId" , "==", user.uid)))
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     data.cardId = doc.id;
     cards.push(data);
   });
+  console.log(cards)
   for (let card of cards) {
-    let storedata = await getStoreInfo(card.store);
+    let storedata = await getStoreInfo(card.storeId);
     completeCards.push(Object.assign({}, storedata, card));
   }
   console.log("users cards:");
@@ -88,15 +87,15 @@ export async function getUserCards() {
   return completeCards;
 }
 
-export async function getStoreInfo(storeref) {
-  let docSnap = await getDoc(storeref);
+export async function getStoreInfo(storeId) {
+  let docSnap = await getDoc(doc(db,"stores",storeId));
   console.log("store ref: ");
   console.log(docSnap.id);
 
   console.log("fetching store info");
   if (docSnap.exists()) {
     let logo = await getDownloadURL(
-      ref(storage, `STORES/${docSnap.id}/logo.png`)
+      ref(storage, docSnap.data().logo)
     );
     console.log("Store data:", docSnap.data());
     let data = docSnap.data();
@@ -131,7 +130,7 @@ export async function getStoreLogo(storeid) {
 
 export async function getStores(lat,lng,distance=1){
   const center = [lat,lng]
-  const bounds = geofire.geohashQueryBounds(center, 1000);
+  const bounds = geofire.geohashQueryBounds(center,2000);
   const radiusInM = distance * 1000;
 
 const promises = [];
@@ -161,7 +160,7 @@ for (const snap of snapshots) {
      data["distanceAway"] = distanceInM
      data["id"]= doc.id
      data["logo"] = await getDownloadURL(
-      ref(storage, `STORES/Logos/${doc.id}.jpg`)
+      ref(storage, data.logo)
     );
       matchingDocs.push(data);
       

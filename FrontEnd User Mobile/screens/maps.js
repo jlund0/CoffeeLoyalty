@@ -71,7 +71,6 @@ export function MapScreen({ navigation }) {
   
   }, []);
   useEffect(()=>{
-    
     scrollX.addListener(({ value }) => {
       if(markers != null){
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item

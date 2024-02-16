@@ -9,20 +9,21 @@ import {
   ActivityIndicator,
   ScrollView,
   Linking,
-  ImageBackground,
+  ImageBackground,RefreshControl,
 } from "react-native";
 import NavBar from "../components/NavBar";
 import { useIsFocused } from "@react-navigation/native";
 import * as Location from "expo-location";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { UserButton } from "../components/buttons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getUserCards, getStoreInfo, getStoreLogo } from "../firebasefunctions";
 import { useEffect } from "react";
 import { CoffeeCupIcon } from "../assets/socialSVG";
 import { getDistanceFromLatLonInKm, geocode } from "../components/location";
-
-
+import { LinearGradient } from "expo-linear-gradient";
+import * as geofire from "geofire-common"
+import { sortListbyDistance } from "../useful-functions";
 
 
 {
@@ -37,6 +38,7 @@ export default function CardScreen({ navigation }) {
   const [searchStoreFilter, setSearchFilter] = useState("");
   const [location, setLocation] = useState();
   const [addCardPopupVisaible, setCardPopupVisabile] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   // useEffect(() => {
   //   const getPermissions = async () => {
   //     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -52,6 +54,25 @@ export default function CardScreen({ navigation }) {
   //   };
   //   getPermissions();
   // }, []);
+
+  useEffect(() => {
+    const getLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("gotlocation")
+      console.log(location)
+      setLocation(location.coords);
+    }
+      getLocation();
+    }
+   
+    ,[])
+
   useEffect(() => {
     async function fetchCards() {
       try {
@@ -65,7 +86,8 @@ export default function CardScreen({ navigation }) {
 
     fetchCards();
   }, []);
-  console.log(cards);
+
+
   const Loading = () => {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -76,12 +98,22 @@ export default function CardScreen({ navigation }) {
   };
 
   const filterList = (list) => {
-    console.log(list);
+    // console.log(location)
+    if(location){
+      list = sortListbyDistance(location,list)
+    }
     return list.filter((card) =>
       card.name.toLowerCase().includes(searchStoreFilter.toLowerCase())
     );
     // return Array(10).fill(list[0]);
   };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
 
   return (
     <View style={styles.maincontainer}>
@@ -98,7 +130,7 @@ export default function CardScreen({ navigation }) {
           </Text>
           <UserButton />
         </View>
-        <View style={{ flex: 0.5, padding: 10 , flexDirection:"row" ,width: "90%",alignSelf:"center",columnGap:10}}>
+        <View style={{ flex: 0.5, padding: 10 , flexDirection:"row" ,width: "95%",alignSelf:"center",columnGap:10}}>
           <TextInput
             style={{
               borderRadius: 20,
@@ -116,7 +148,10 @@ export default function CardScreen({ navigation }) {
             <MaterialCommunityIcons name="sort" size={30} styles={{}}/>
             </Pressable>
         </View>
-        <View style={styles.cardsContainer}>
+        <View style={styles.scrollWrapper}>
+        <ScrollView style={styles.cardsContainer} refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
           {cards === null ? (
             <Loading />
           ) : (
@@ -130,19 +165,11 @@ export default function CardScreen({ navigation }) {
               />
             ))
           )}
-          {cards.length == 0 && <View style={[styles.cardsContainer,{borderRadius: 25,
+          {cards.length == 0 && <View style={[{borderRadius: 20,
     width: "100%",
-    backgroundColor: themes.widgetbg,}]}><Text style={styles.noCardText}>No active cards!{"\n"}Time to get a coffee</Text></View> }
-          {/* <View style={{ height: 500 }}></View> */}
-          {/* <Pressable
-            style={styles.addCard}
-            onClick={() => setCardPopupVisabile(true)}
-          >
-            <AntDesignIcon name="pluscircle" size={60} />
-            {addCardPopupVisaible ? AddCardPopup : null}
-          </Pressable> */}
+    backgroundColor: themes.widgetbg,height:"100%", padding:20}]}><Text style={styles.noCardText}>No active cards!{"\n"}Time to get a coffee</Text></View> }
+        </ScrollView >
         </View>
-
         <NavBar
           navigation={navigation}
           isFocused={isFocused ? "card" : null}
@@ -192,12 +219,11 @@ function CardWidget({ navigation, card, location }) {
       style={{
         flexDirection: "row",
         borderRadius: 25,
-        borderWidth: 5,
         width: "100%",
         backgroundColor: themes.widgetbg,
         minHeight: 100,
         alignItems: "center",
-        padding: 20,
+        padding: 10,
         marginVertical: 5,
       }}
       onPress={() => {
@@ -212,7 +238,8 @@ function CardWidget({ navigation, card, location }) {
         style={{
           width: 60,
           height: 60,
-          loading: "lazy",
+          resizeMode:"center"
+          
         }}
         source={{
           uri: card.logo,
@@ -222,7 +249,7 @@ function CardWidget({ navigation, card, location }) {
         style={{
           justifyContent: "center",
           width: "60%",
-          paddingHorizontal: 20,
+          paddingHorizontal: 10,
         }}
       >
         <Text
@@ -255,26 +282,37 @@ function CardWidget({ navigation, card, location }) {
       {/* TODO add cup icon that filled based on amount of coffees on loyalty card */}
       <View
         style={{
-          height: "100%",
-          justifyContent: "center",
-          padding: "auto",
+          // height: "100%",
+          // justifyContent: "center",
+          // padding: "auto",
         }}
       >
         <CoffeeCupIcon width={70} height={70} fill="transparent" />
-        <View
+        <LinearGradient style={{
+            position: "absolute",
+            borderBottomLeftRadius: 25,
+            borderBottomRightRadius: 25,
+            height: 35 ,
+            width: 40,
+            bottom: "15%",
+            right: "25%",
+            zIndex: -1,
+            elevation: -1,
+          }} colors={["transparent", "transparent","#fdf5c9","#be9b7b"]} locations={[0,1-(card.coffeesEarnt / card.coffees_required),1-(card.coffeesEarnt / card.coffees_required),1] }/>
+        {/* <View
           style={{
             position: "absolute",
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
+            borderBottomLeftRadius: 25,
+            borderBottomRightRadius: 25,
             backgroundColor: "#583927",
-            height: 35 * (card.coffees_purchased / card.coffees_required),
+            height: 35 * (card.coffeesEarnt / card.coffees_required),
             width: 40,
             bottom: "15%",
             right: "25%",
             zIndex: -1,
             elevation: -1,
           }}
-        ></View>
+        ></View> */}
       </View>
     </Pressable>
   );
@@ -306,7 +344,7 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "hidden",
   },
-
+scrollWrapper:{flex:6},
   maincontainer: {
     height: Dimensions.get("window").height,
     width: "100%",
@@ -316,17 +354,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#936748",
     // overflow: "hidden",
-    rowGap:20,
+    rowGap:10,
   },
   cardsContainer: {
-    alignSelf: "stretch",
     paddingHorizontal: 20,
     // height: 500,
-    flex: 6,
-    justifyContent:"center"
+    height:"100%",
+  
   },
   greetings: {
-    flex: 0.75,
+    paddingHorizontal:20,
+    height:"15%",
     backgroundColor: themes.widgetbg,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -334,7 +372,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 40,
+   
   },
   cards: {
     flexDirection: "row",
@@ -362,7 +400,7 @@ const styles = StyleSheet.create({
   },
   noCardText:{
     alignSelf:"center",
-    fontSize:50,
+    fontSize:40,
     textAlign:"center"
 
 

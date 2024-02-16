@@ -82,8 +82,8 @@ export default function Home({ navigation }) {
             value={userDetails.userId}
             size={Dimensions.get("window").height * 0.3}
             backgroundColor={"transparent"}
-            logo={require("../assets/coffeeGuy.png")}
-            logoSize={Dimensions.get("window").height * 0.15}
+            // logo={require("../assets/coffeeGuy.png")}
+            // logoSize={Dimensions.get("window").height * 0.15}
           />
         </View>
       </View>
