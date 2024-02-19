@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   ScrollView,
   Linking,
-  ImageBackground,RefreshControl,
+  ImageBackground,
+  RefreshControl,
 } from "react-native";
 import NavBar from "../components/NavBar";
 import { useIsFocused } from "@react-navigation/native";
@@ -22,9 +23,8 @@ import { useEffect } from "react";
 import { CoffeeCupIcon } from "../assets/socialSVG";
 import { getDistanceFromLatLonInKm, geocode } from "../components/location";
 import { LinearGradient } from "expo-linear-gradient";
-import * as geofire from "geofire-common"
+import * as geofire from "geofire-common";
 import { sortListbyDistance } from "../useful-functions";
-
 
 {
   /* TODO make filter sort by distance from store 
@@ -64,14 +64,12 @@ export default function CardScreen({ navigation }) {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      console.log("gotlocation")
-      console.log(location)
+      console.log("gotlocation");
+      console.log(location);
       setLocation(location.coords);
-    }
-      getLocation();
-    }
-   
-    ,[])
+    };
+    getLocation();
+  }, []);
 
   useEffect(() => {
     async function fetchCards() {
@@ -87,7 +85,6 @@ export default function CardScreen({ navigation }) {
     fetchCards();
   }, []);
 
-
   const Loading = () => {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -99,8 +96,8 @@ export default function CardScreen({ navigation }) {
 
   const filterList = (list) => {
     // console.log(location)
-    if(location){
-      list = sortListbyDistance(location,list)
+    if (location) {
+      list = sortListbyDistance(location, list);
     }
     return list.filter((card) =>
       card.name.toLowerCase().includes(searchStoreFilter.toLowerCase())
@@ -117,41 +114,61 @@ export default function CardScreen({ navigation }) {
 
   return (
     <View style={styles.maincontainer}>
-        <View style={[styles.greetings,]}>
-          <Text
-            style={{
-              fontWeight: "normal",
-              fontSize: 30,
+      <View style={[styles.greetings]}>
+        <Text
+          style={{
+            fontWeight: "normal",
+            fontSize: 30,
 
-              fontFamily: "TitanOne_400Regular",
-            }}
-          >
-            Your Cards
-          </Text>
-          <UserButton />
-        </View>
-        <View style={{ flex: 0.5, padding: 10 , flexDirection:"row" ,width: "95%",alignSelf:"center",columnGap:10}}>
-          <TextInput
-            style={{
-              borderRadius: 20,
-              width: "auto",
-              backgroundColor: themes.widgetbg,
-              // marginHorizontal: 20,
-              padding: 10,
-              paddingHorizontal: 20,
-              flex: 1,
-            }}
-            placeholder="Find Store"
-            onChangeText={(newVal) => setSearchFilter(newVal)}
-          />
-          <Pressable style={{backgroundColor: themes.widgetbg,borderRadius: 25,padding:5,justifyContent:"center",alignItems:"center"}}>
-            <MaterialCommunityIcons name="sort" size={30} styles={{}}/>
-            </Pressable>
-        </View>
-        <View style={styles.scrollWrapper}>
-        <ScrollView style={styles.cardsContainer} refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
+            fontFamily: "TitanOne_400Regular",
+          }}
+        >
+          Your Cards
+        </Text>
+        <UserButton />
+      </View>
+      <View
+        style={{
+          flex: 0.5,
+          padding: 10,
+          flexDirection: "row",
+          width: "95%",
+          alignSelf: "center",
+          columnGap: 10,
+        }}
+      >
+        <TextInput
+          style={{
+            borderRadius: 20,
+            width: "auto",
+            backgroundColor: themes.widgetbg,
+            // marginHorizontal: 20,
+            padding: 10,
+            paddingHorizontal: 20,
+            flex: 1,
+          }}
+          placeholder="Find Store"
+          onChangeText={(newVal) => setSearchFilter(newVal)}
+        />
+        <Pressable
+          style={{
+            backgroundColor: themes.widgetbg,
+            borderRadius: 25,
+            padding: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MaterialCommunityIcons name="sort" size={30} styles={{}} />
+        </Pressable>
+      </View>
+      <View style={styles.scrollWrapper}>
+        <ScrollView
+          style={styles.cardsContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {cards === null ? (
             <Loading />
           ) : (
@@ -165,17 +182,26 @@ export default function CardScreen({ navigation }) {
               />
             ))
           )}
-          {cards.length == 0 && <View style={[{borderRadius: 20,
-    width: "100%",
-    backgroundColor: themes.widgetbg,height:"100%", padding:20}]}><Text style={styles.noCardText}>No active cards!{"\n"}Time to get a coffee</Text></View> }
-        </ScrollView >
-        </View>
-        <NavBar
-          navigation={navigation}
-          isFocused={isFocused ? "card" : null}
-          
-        />
-      
+          {cards.length == 0 && (
+            <View
+              style={[
+                {
+                  borderRadius: 20,
+                  width: "100%",
+                  backgroundColor: themes.widgetbg,
+                  height: "100%",
+                  padding: 20,
+                },
+              ]}
+            >
+              <Text style={styles.noCardText}>
+                No active cards!{"\n"}Time to get a coffee
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+      </View>
+      <NavBar navigation={navigation} isFocused={isFocused ? "card" : null} />
     </View>
   );
 }
@@ -238,8 +264,7 @@ function CardWidget({ navigation, card, location }) {
         style={{
           width: 60,
           height: 60,
-          resizeMode:"center"
-          
+          resizeMode: "center",
         }}
         source={{
           uri: card.logo,
@@ -281,14 +306,17 @@ function CardWidget({ navigation, card, location }) {
 
       {/* TODO add cup icon that filled based on amount of coffees on loyalty card */}
       <View
-        style={{
-          // height: "100%",
-          // justifyContent: "center",
-          // padding: "auto",
-        }}
+        style={
+          {
+            // height: "100%",
+            // justifyContent: "center",
+            // padding: "auto",
+          }
+        }
       >
         <CoffeeCupIcon width={70} height={70} fill="transparent" />
-        <LinearGradient style={{
+
+        {/* <View<LinearGradient style={{
             position: "absolute",
             borderBottomLeftRadius: 25,
             borderBottomRightRadius: 25,
@@ -299,7 +327,6 @@ function CardWidget({ navigation, card, location }) {
             zIndex: -1,
             elevation: -1,
           }} colors={["transparent", "transparent","#fdf5c9","#be9b7b"]} locations={[0,1-(card.coffeesEarnt / card.coffees_required),1-(card.coffeesEarnt / card.coffees_required),1] }/>
-        {/* <View
           style={{
             position: "absolute",
             borderBottomLeftRadius: 25,
@@ -344,7 +371,7 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "hidden",
   },
-scrollWrapper:{flex:6},
+  scrollWrapper: { flex: 6 },
   maincontainer: {
     height: Dimensions.get("window").height,
     width: "100%",
@@ -354,17 +381,16 @@ scrollWrapper:{flex:6},
     flex: 1,
     backgroundColor: "#936748",
     // overflow: "hidden",
-    rowGap:10,
+    rowGap: 10,
   },
   cardsContainer: {
     paddingHorizontal: 20,
     // height: 500,
-    height:"100%",
-  
+    height: "100%",
   },
   greetings: {
-    paddingHorizontal:20,
-    height:"15%",
+    paddingHorizontal: 20,
+    height: "15%",
     backgroundColor: themes.widgetbg,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -372,7 +398,6 @@ scrollWrapper:{flex:6},
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-   
   },
   cards: {
     flexDirection: "row",
@@ -398,12 +423,9 @@ scrollWrapper:{flex:6},
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
-  noCardText:{
-    alignSelf:"center",
-    fontSize:40,
-    textAlign:"center"
-
-
-},
-
+  noCardText: {
+    alignSelf: "center",
+    fontSize: 40,
+    textAlign: "center",
+  },
 });
