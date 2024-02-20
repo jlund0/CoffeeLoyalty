@@ -12,15 +12,15 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 
 function Redeem(){
   return(
-<View style={{ width: "100%", height: "100%", backgroundColor: "FFF" }}>
+<View style={styles.redeemBox}>
           <Image src={require("../assets/coffeeGuy.png")} />
-          <Text>Free Coffee</Text>
-          <Pressable
+          <Text style={{fontSize:40,textAlign:"center"}}>Its free coffee time!</Text>
+          <Pressable style={styles.freeCoffeeStamp}
             onPress={() => {
               RedeemCoffee;
             }}
           >
-            <Text>Redeem</Text>
+            <Text style={styles.freeCoffeeText}>Redeem</Text>
           </Pressable>
         </View>
   )
@@ -39,7 +39,7 @@ function CoffeeTicker({ cardDetails }) {
       </View>
       {cardDetails.coffeesEarnt === list.length ? (
         <Redeem/>
-      ) : (
+      ) : (<>
         <View style={styles.stampContainer} onLayout={(event)=>{setStampSize(event.nativeEvent.layout)}}>
           {list.map((i) => {
             return (
@@ -78,10 +78,10 @@ function CoffeeTicker({ cardDetails }) {
           })}
           
         </View>
-      )}
       <View style={styles.freeCoffeeStamp}>
         <Text style={styles.freeCoffeeText}>Free Coffee</Text>
-      </View>
+      </View></>
+      )}
     </View>
   );
 }
@@ -148,7 +148,6 @@ const styles = StyleSheet.create({
     padding:20,
   },
   title:{
-    
     justifyContent:"center",
     alignItems:"center",
     padding:20,
@@ -168,4 +167,10 @@ const styles = StyleSheet.create({
 
 
   },
+  redeemBox:{
+    flexDirection:"column",
+    justifyContent:"space-around",
+    height:"85%",
+    alignItems:"center"
+  }
 });

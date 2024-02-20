@@ -39,7 +39,9 @@
     "react-native-sensitive-info": "^5.5.8",
     "react-native-svg": "13.9.0",
     "react-native-wallet-manager": "^0.0.5",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "react-native-webview": "^13.8.1",
+    "lottie-react-native": "5.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
