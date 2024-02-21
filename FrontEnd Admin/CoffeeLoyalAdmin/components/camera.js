@@ -1,9 +1,17 @@
 import { Camera, CameraType } from "expo-camera";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import IonIcons from "react-native-vector-icons/Ionicons";
-export default function BarcodeCamera(navigation) {
+
+export default function BarcodeCamera({ navigation, store }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
 
   if (!permission) {
@@ -26,9 +34,15 @@ export default function BarcodeCamera(navigation) {
   const handleBarCodeScanned = ({ type, data }) => {
     navigation.navigate("Scanned Popup", { userid: data, store: store });
   };
-
+  console.log(store);
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={{ uri: store.logo }}
+        width={250}
+        height={250}
+      />
       <Camera
         style={styles.camera}
         barCodeScannerSettings={{
@@ -57,6 +71,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cameraicon: {
-    // position: "absolute",
+    zIndex: 2,
+  },
+  logo: {
+    position: "absolute",
+    zIndex: 1,
+    alignSelf: "center",
+    opacity: 0.5,
   },
 });

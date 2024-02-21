@@ -18,63 +18,8 @@ import BarcodeCamera from "../components/camera";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "react-native-vector-icons/Ionicons";
 
-// export const useFocus = () => {
-//   const navigation = useNavigation();
-//   const [isFocused, setIsFocused] = useState(false);
-//   const [focusCount, setFocusCount] = useState(0);
-//   const isFirstTime = focusCount === 1;
-
-//   useEffect(() => {
-//     const unsubscribeFocus = navigation.addListener("focus", () => {
-//       setIsFocused(true);
-//       setFocusCount((prev) => prev + 1);
-//     });
-//     const unsubscribeBlur = navigation.addListener("blur", () => {
-//       setIsFocused(false);
-//     });
-
-//     return () => {
-//       unsubscribeFocus();
-//       unsubscribeBlur();
-//     };
-//   });
-
-//   return { isFocused, isFirstTime, focusCount };
-// };
-
-export function MainScreen({ navigation, route }) {
-  // const store= route.params;
+export function MainScreen({ navigation }) {
   const [store, setStore] = useState();
-  // const [hasPermission, setHasPermission] = useState(null);
-  // const [scanned, setScanned] = useState(false);
-  // const [scannedUser, setScannedUser] = useState(null);
-  const { focusCount, isFocused } = useFocus();
-  // const [temp, setTemp] = useState(false);
-  // const [permission, requestPermission] = Camera.useCameraPermissions();
-
-  // useEffect(() => {
-  //   if (focusCount > 1 && isFocused) {
-  //     // trigger when you navigate back from another screen
-  //     // you can background reload data here ...
-  //     // setScanned(false);
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   const getBarCodeScannerPermissions = async () => {
-  //     const { status } = await Camera.getCameraPermissionsAsync();
-  //     if (status !== "granted") {
-  //       Camera.requestCameraPermissionsAsync();
-  //     }
-  //     setHasPermission(status === "granted");
-  //   };
-  //   getBarCodeScannerPermissions();
-  // }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    // setScanned(true);
-    navigation.navigate("Scanned Popup", { userid: data, store: store });
-  };
 
   useEffect(() => {
     const getDefaultStore = async () => {
@@ -96,38 +41,34 @@ export function MainScreen({ navigation, route }) {
     return <Text>Getting Store</Text>;
   }
 
-  // if (hasPermission === null) {
-  //   return (
-  //     <View>
-  //       <ActivityIndicator />
-  //       <Text>Waiting for Camera Permission</Text>
-  //     </View>
-  //   );
-  // }
-  // if (hasPermission === false) {
-  //   return <Text>No access to camera</Text>;
-  // }
-
   return (
     <View style={styles.maincontainer}>
       <View style={styles.storeinfoContainer}>
         <Text style={styles.storename}>{store.name}</Text>
-        <Image style={styles.logo} source={{ uri: store.logo }} />
+
+        <Text style={{ fontSize: 25 }}>
+          {store.location.split(",")[0]}
+          {"\n"}
+        </Text>
+        <Text
+          style={{
+            fontSize: 34,
+            textTransform: "uppercase",
+            fontWeight: "bold",
+            color: "white",
+          }}
+        >
+          Scan Customers QR
+        </Text>
       </View>
-      <Text style={{ fontSize: 30 }}>{store.location}</Text>
-      <Text style={{ fontSize: 24 }}>Scan Customers QR</Text>
       <View style={styles.cameracontainer}>
         <BarcodeCamera
           navigation={navigation}
-          onBarCodeScanned={handleBarCodeScanned}
+          // onBarCodeScanned={handleBarCodeScanned}
+          store={store}
         />
-        {/* <IonIcons
-          name="scan"
-          size={300}
-          color="white"
-          style={styles.cameraicon}
-        /> */}
-        <Button
+
+        {/* <Button
           title={"temp to move on"}
           onPress={() =>
             navigation.navigate("Scanned Popup", {
@@ -135,31 +76,16 @@ export function MainScreen({ navigation, route }) {
               store: store,
             })
           }
-        />
-        {/* {scanned && (
-          <>
-            <Button
-              title={"Tap to Scan Again"}
-              onPress={() => setScanned(false)}
-            />
-            <ScannedPopUp
-              userid={scannedUser}
-              storeid={store.id}
-              stampsRequired={store.coffee_required}
-              navigation={navigation}
-            />
-          </>
-        )}
-        {temp && (
-          <ScannedPopUp userid={"jsRvlL3bb4hE4HOV7hr1bUpWAY32"} store={store} />
-        )} */}
+        /> */}
       </View>
+      <View style={styles.bottomfill}></View>
     </View>
   );
 }
 
 const defaults = {};
 const styles = StyleSheet.create({
+  bottomfill: { flex: 1 },
   coffeeLoyal: {
     fontSize: 30,
     width: "100%",
@@ -169,12 +95,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   storeinfoContainer: {
-    flex: 1,
+    flex: 2,
     width: "100%",
     alignItems: "center",
     alignContent: "center",
     justifyContent: "space-evenly",
-    flexDirection: "row",
+    padding: 20,
+    paddingBottom: 0,
   },
   maincontainer: {
     flex: 1,
@@ -198,5 +125,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logo: { width: 80, height: 80 },
-  storename: { fontSize: 56, textTransform: "capitalize" },
+  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "bold" },
 });

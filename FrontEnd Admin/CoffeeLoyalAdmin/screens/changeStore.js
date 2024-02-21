@@ -2,6 +2,7 @@ import { getStoreLogo, getStores } from "../firebaseFunctions";
 import { View, Text, Image, Pressable } from "react-native";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { flushSync } from "react-dom";
 
 export function HomeScreen({ navigation, route }) {
   const { userToken } = route.params;
@@ -56,10 +57,20 @@ function StoreSelectionWidget({ store, navigation }) {
     navigation.push("Main Page", store);
   };
   return (
-    <Pressable onPress={() => navigateToStorePage()}>
-      <Image source={{ uri: logo }} width={40} height={40} />
-      <Text>{name}</Text>
-      <Text>{location}</Text>
+    <Pressable
+      onPress={() => navigateToStorePage()}
+      style={{ width: "80%", flexDirection: "row" }}
+    >
+      <Image
+        source={{ uri: logo }}
+        width={40}
+        height={40}
+        style={{ flex: 1 }}
+      />
+      <View style={{ flex: 5 }}>
+        <Text style={{ flex: 1 }}>{name}</Text>
+        <Text style={{ flex: 1 }}>{location}</Text>
+      </View>
     </Pressable>
   );
 }
