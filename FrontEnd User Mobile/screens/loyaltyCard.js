@@ -9,19 +9,43 @@ import {
   ImageBackground,
 } from "react-native";
 import AntIcon from "react-native-vector-icons/AntDesign";
+import LottieView from "lottie-react-native";
+import QRCode from "react-native-qrcode-svg";
 
-function Redeem(){
+function Redeem({cardID}){
+  const [showQR , setShowQR] = useState(false)
+  const RedeemCoffee = () =>{
+    setShowQR(true)
+
+  }
   return(
 <View style={styles.redeemBox}>
-          <Image src={require("../assets/coffeeGuy.png")} />
-          <Text style={{fontSize:40,textAlign:"center"}}>Its free coffee time!</Text>
+{!showQR?(<View style={{flex:1, justifyContent:"space-between"}}>
+
+<LottieView
+      source={require("../assets/cupwalking.json")}
+      autoPlay
+      loop
+    />
+          <Text style={{fontSize:40,textAlign:"center" ,paddingTop:40}}>Its free coffee time!</Text>
+       
           <Pressable style={styles.freeCoffeeStamp}
-            onPress={() => {
-              RedeemCoffee;
-            }}
+            onPress={
+              RedeemCoffee
+            }
           >
             <Text style={styles.freeCoffeeText}>Redeem</Text>
           </Pressable>
+          </View>):
+          <View style={{justifyContent:"center" , borderRadius:20,
+          backgroundColor:"#EADDCA",padding:30}}>
+            <Text style={{textAlign:"center", fontSize:40, fontWeight:"bold"}} numberOfLines={1} adjustsFontSizeToFit={true}>Free Coffee</Text>
+          <QRCode
+            value={`Redeem/${cardID}`}
+            size={Dimensions.get("window").height * 0.25}
+            backgroundColor={"transparent"}
+          />
+         </View>}
         </View>
   )
 }
@@ -35,21 +59,18 @@ function CoffeeTicker({ cardDetails }) {
       
     <View style={styles.card}>
       <View style={styles.title}>
-        <Text adjustsFontSizeToFit={true} style={styles.titleText}>{cardDetails.name}</Text>
+        <Text adjustsFontSizeToFit={true} style={styles.titleText} numberOfLines={1}>{cardDetails.name}</Text>
       </View>
       {cardDetails.coffeesEarnt === list.length ? (
-        <Redeem/>
+        <Redeem cardID={cardDetails.cardId}/>
       ) : (<>
         <View style={styles.stampContainer} onLayout={(event)=>{setStampSize(event.nativeEvent.layout)}}>
           {list.map((i) => {
             return (
               <View
-                style={[styles.stamp, {maxHeight:stampHeight ,width:stampHeight ,maxWidth:"40%"}
-                  // {
-                  // maxHeight:stampHeight-20 ,maxWidth:"30%",aspectRatio:1}
-                ]
-                }
-                key={i}
+              // style={[styles.stamp, {maxHeight:stampHeight ,width:stampHeight ,maxWidth:"40%"}]}
+              style={[styles.stamp, {maxHeight:stampHeight ,width:stampHeight ,maxWidth:"40%"}]}
+              key={i}
               >
                   <Image
                     source={{ uri: cardDetails.logo }}
@@ -109,7 +130,8 @@ const styles = StyleSheet.create({
   },
   titleText:{
     textAlign:"center",
-    fontSize:36
+    fontSize:36,
+    fontWeight:"bold"
   },
 
   freeCoffeeStamp:{
@@ -119,6 +141,8 @@ const styles = StyleSheet.create({
     backgroundColor:"#EADDCA",
   alignSelf:"center",
   marginVertical:10,
+  borderWidth:5,
+  borderColor:"#4B2D0B"
   },
   freeCoffeeText:{
     textAlign:"center",
@@ -151,6 +175,8 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     padding:20,
+    backgroundColor:"#EADDCA",
+    borderRadius:20
    }
     ,
   stampContainer:{
@@ -168,9 +194,11 @@ const styles = StyleSheet.create({
 
   },
   redeemBox:{
-    flexDirection:"column",
     justifyContent:"space-around",
-    height:"85%",
-    alignItems:"center"
+    flex:8,
+    alignItems:"center",
+    alignContent:"center",
+    width:"100%",
+    justifyContent:"center"
   }
 });

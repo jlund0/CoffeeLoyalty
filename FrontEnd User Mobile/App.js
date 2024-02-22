@@ -15,7 +15,7 @@ import LoyaltyCard from "./screens/loyaltyCard";
 import { getUserInfo, getUserCards } from "./firebasefunctions";
 import { MapScreen } from "./screens/maps.js";
 import { EnterName } from "./screens/name.js";
-
+import { useFonts } from "expo-font";
 const Stack = createNativeStackNavigator();
 
 //Workaround
@@ -23,21 +23,12 @@ const Stack = createNativeStackNavigator();
 
 // const auth = getAuth(app);
 
-const TopBanner = {
-  title: "CupCount",
-  headerStyle: { backgroundColor: "#5E3023" },
-  headerTintColor: "#F3E9DC",
-  headerTitleStyle: { fontWeight: "bold", fontSize: 40 },
-  headerTitleAlign: "center",
-  headerBackTitleVisible: false,
-  headerLargeStyle: true,
-  animation: "none"
-};
+
+
 
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Image source={require("./assets/3dCup.png")} width={50} height={50} />
       <Text>Roasting Coffee...</Text>
       <ActivityIndicator size="large" />
     </View>
@@ -49,6 +40,36 @@ export default function App() {
   const [loading, setLoading] = React.useState(true);
   const [hasDisplayName, setHasDisplayName] = React.useState(false);
 
+  const [fontsLoaded, fontError] = useFonts({
+    'Lobster-Regular': require('./assets/fonts/Lobster-Regular.ttf'),
+  });
+
+  const TopBanner = {
+    title: "CupCount",
+    headerStyle: { backgroundColor: "#5E3023" },
+    headerTintColor: "#F3E9DC",
+    headerTitleStyle: { fontWeight: "bold", fontSize: 36 ,fontFamily:"Lobster-Regular"},
+    headerTitleAlign: "center",
+    headerBackTitleVisible: false,
+    headerLargeStyle: true,
+    animation: "none",
+    headerBackVisible:false,
+
+   
+  };
+  const TopBannerLoyaltyCard = {
+    title: "CupCount",
+    headerStyle: { backgroundColor: "#5E3023" },
+    headerTintColor: "#F3E9DC",
+    headerTitleStyle: { fontWeight: "bold", fontSize: 36 ,fontFamily:"Lobster-Regular"},
+    headerTitleAlign: "center",
+    headerBackTitleVisible: false,
+    headerLargeStyle: true,
+    animation: "none",
+   
+  };
+  
+  
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setLoading(false);
@@ -122,7 +143,7 @@ export default function App() {
             <Stack.Screen
               name="loyaltyCard"
               component={LoyaltyCard}
-              options={TopBanner}
+              options={TopBannerLoyaltyCard}
 
             />
             <Stack.Screen

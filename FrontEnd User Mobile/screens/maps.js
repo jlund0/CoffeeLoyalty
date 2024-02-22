@@ -1,5 +1,5 @@
 import { View ,StyleSheet,Text,Pressable ,ScrollView,Image,
-  Animated,
+  Animated,Button,
   Dimensions,
   ActivityIndicator, } from "react-native";
 import NavBar from "../components/NavBar";
@@ -110,10 +110,8 @@ export function MapScreen({ navigation }) {
 
   return (
     <View style={styles.mainContainer}>
-      <Pressable style={styles.currentLocation} onPress={goToCurrentLocation}>
-        <FontAwesomeIcon name="location-arrow" size={40}/>
-      </Pressable>
-        <MapView ref={mapRef} style={styles.map} 
+     <View id="map"style={styles.map}>
+        <MapView ref={mapRef} style={{width:"100%",height:"100%"}} 
         initialRegion={initialRegion} 
         showsUserLocation={true} 
         loadingEnabled = {true}
@@ -124,6 +122,9 @@ export function MapScreen({ navigation }) {
          >
            {markers != null && mapMarkers()}
         </MapView>
+        <Pressable style={styles.currentLocation} onPress={goToCurrentLocation}>
+          <FontAwesomeIcon name="location-arrow" size={40} color="blue"/>
+        </Pressable></View>
       <Animated.ScrollView style={styles.scrollView} horizontal={true}
       scrollEventThrottle={1}
       showsHorizontalScrollIndicator={false}
@@ -149,7 +150,7 @@ export function MapScreen({ navigation }) {
           <Pressable style={styles.card} key={`markercard-${index}`} onPress={()=>{goToStore(marker.coords)}}>
           <Image source={{uri:marker.logo}} style={styles.logo}></Image>
           <View style={styles.textBox}>
-           <Text>{marker.name}</Text> 
+           <Text style={{fontWeight:"bold", fontSize:18}}>{marker.name}</Text> 
           <Text>{marker.location}</Text>
           <Text>{Math.floor(marker.distanceAway)} meters away</Text></View>
         </Pressable>   
@@ -170,6 +171,7 @@ const styles = StyleSheet.create({
   map:{
     flex:3,
     margin:10,
+    marginBottom:0,
     borderRadius:20,
     
   },
@@ -177,12 +179,14 @@ const styles = StyleSheet.create({
   {
     position:"absolute",
     zIndex:1,
-    right:"6%",
-    top:"50%",
+    bottom:0,
+    right:0,
     backgroundColor:"white",
     paddingHorizontal:20,
     paddingVertical:15,
     borderRadius:60,
+    margin:30,
+    alignItems:"center"
   }
   ,  
   scrollView: {

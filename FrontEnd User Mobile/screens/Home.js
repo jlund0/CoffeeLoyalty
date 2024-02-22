@@ -4,13 +4,14 @@ import { useIsFocused } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import { useState, useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
-import { useFonts, TitanOne_400Regular } from "@expo-google-fonts/titan-one";
+// import { useFonts, TitanOne_400Regular } from "@expo-google-fonts/titan-one";
 import { getUserInfo } from "../firebasefunctions.js";
 import { UserButton } from "../components/buttons.js";
 import { CupTop } from "../assets/socialSVG.js";
 import { LoadingScreen } from "./Loading.js";
 import { auth } from "../firebase";
 import { EnterName } from "./name.js";
+import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
   console.log("Home Page");
@@ -23,9 +24,12 @@ export default function Home({ navigation }) {
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
   let [fontsLoaded] = useFonts({
-    TitanOne_400Regular, 
+    'IndieFlower-Regular': require('../assets/fonts/IndieFlower-Regular.ttf'),
+    'Pacifico-Regular':require('../assets/fonts/Pacifico-Regular.ttf'),
+    'TitanOne-Regular':require('../assets/fonts/TitanOne-Regular.ttf')
   });
 
+ 
   // if (!hasDisplayName) {
   //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
   // }
@@ -60,12 +64,12 @@ export default function Home({ navigation }) {
         <Text
           style={{
             fontSize: 36,
-            fontFamily: "TitanOne_400Regular",
+            fontFamily: "TitanOne-Regular",
           }}
         >
           {randomGreeting}
           {"\n"}
-          <Text style={{ fontWeight: "bold", fontSize: 42 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 46 }} numberOfLines={1} adjustsFontSizeToFit={true}>
             {userDetails.name.split(" ")[0]}
           </Text>
         </Text>
@@ -74,7 +78,7 @@ export default function Home({ navigation }) {
       {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
       {/* <CoffeeSaved coffeenumber={userDetails.coffee_earnt} /> */}
       <View style={[styles.qr]}>
-        <Text style={{ fontSize: 40 }}>Scan Here</Text>
+        <Text style={{ fontSize: 50, fontFamily:'Pacifico-Regular' }}>Scan Here</Text>
         <View
           style={{ backgroundColor: "#eaded6", padding: 20, borderRadius: 20 }}
         >
@@ -82,8 +86,8 @@ export default function Home({ navigation }) {
             value={userDetails.userId}
             size={Dimensions.get("window").height * 0.3}
             backgroundColor={"transparent"}
-            // logo={require("../assets/coffeeGuy.png")}
-            // logoSize={Dimensions.get("window").height * 0.15}
+            logo={require("../assets/rect2.png")}
+            logoSize={Dimensions.get("window").height * 0.15}
           />
         </View>
       </View>
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     borderRadius: 20,
-    rowGap: 20,
+    rowGap: 10,
     backgroundColor: colors.widgetbg,
     padding: 20,
   },

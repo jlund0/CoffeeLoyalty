@@ -29,16 +29,12 @@ import { sortListbyDistance } from "../useful-functions";
 import {WebView} from 'react-native-webview'
 import { Bean } from "../assets/socialSVG";
 import LottieView from 'lottie-react-native';
-{
- 
-  /* TODO make filter sort by distance from store 
-    Possibly add ability to add card
-  */
-}
+import { useFonts } from "expo-font";
+
 export default function CardScreen({ navigation }) {
   console.log("Card page");
   const isFocused = useIsFocused();
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState(null);
   const [searchStoreFilter, setSearchFilter] = useState("");
   const [location, setLocation] = useState();
   const [addCardPopupVisaible, setCardPopupVisabile] = useState(false);
@@ -100,6 +96,11 @@ export default function CardScreen({ navigation }) {
     }, 1000);
   }, []);
 
+  const [fontsLoaded, fontError] = useFonts({
+    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf'),
+
+  });
+
   return (
     <View style={styles.maincontainer}>
       <View style={[styles.greetings]}>
@@ -107,8 +108,7 @@ export default function CardScreen({ navigation }) {
           style={{
             fontWeight: "normal",
             fontSize: 30,
-
-            fontFamily: "TitanOne_400Regular",
+            fontFamily: "TitanOne-Regular",
           }}
         >
           Your Cards
@@ -139,18 +139,7 @@ export default function CardScreen({ navigation }) {
         }>
           {cards === null ? (
             <Loading />
-          ) : (
-            filterList(cards).map((card, index) => (
-              <CardWidget
-                card={card}
-                key={index}
-                navigation={navigation}
-                filter={searchStoreFilter}
-                // location={location}
-              />
-            ))
-          )}
-          {cards.length == 0 && (
+          ) : cards.length == 0 ?(
             <View
               style={[
                 {
@@ -166,6 +155,17 @@ export default function CardScreen({ navigation }) {
                 No active cards!{"\n"}Time to get a coffee
               </Text>
             </View>
+          )
+          : (
+            filterList(cards).map((card, index) => (
+              <CardWidget
+                card={card}
+                key={index}
+                navigation={navigation}
+                filter={searchStoreFilter}
+                // location={location}
+              />
+            ))
           )}
         </ScrollView>
       </View>
@@ -180,20 +180,23 @@ function CardWidget({ navigation, card}) {
   const navigateLoyaltyPage = (card) => {
     navigation.push("loyaltyCard", card);
   };
+  const [fontsLoaded, fontError] = useFonts({
+    // 'Fredoka': require('../assets/fonts/Fredoka-SemiBold.ttf'),
+
+  });
     const BeanCounter = () =>{
       let beans = []
       let coffee = card.coffees_required
-      let width = beanBoxsize.width / coffee
-      if(width){for(let i = 0; i < coffee ; i++ ){
+      for(let i = 0; i < coffee ; i++ ){
 
         if( i < card.coffeesEarnt){
           beans.push(
-          <View style={{height:"100%", flex:1 ,padding:2.5}}><Bean height="100%"  fill={`rgb(${(i+coffee)*139/coffee}, ${(i+coffee)*69/coffee}, ${(i+coffee)*19/coffee})`} width="100%"/></View>)
+          <View style={{flex:1 ,paddingHorizontal:2.5}}><Bean height="100%"  fill={`rgb(${(i+coffee)*139/coffee}, ${(i+coffee)*69/coffee}, ${(i+coffee)*19/coffee})`} width="100%"/></View>)
         }else{
-          beans.push(<View style={{height:"100%", flex:1  ,padding:2.5}}><Bean fill={"black"} height="100%" width="100%"/></View>)
+          beans.push(<View style={{flex:1  ,paddingHorizontal:2.5}}><Bean fill={"black"} height="100%" width="100%"/></View>)
         }
         
-      }}
+      }
       return(
         beans
       )
@@ -211,7 +214,7 @@ function CardWidget({ navigation, card}) {
         
         paddingVertical: 10,
         paddingHorizontal: 15,
-        marginVertical: 5,
+        marginBottom: 10,
         columnGap:10,
         maxHeight:200,
         
@@ -227,10 +230,11 @@ function CardWidget({ navigation, card}) {
       <Image
         style={{
           width: "20%",
-          height: 60,          
+          height: "100%",          
           resizeMode: "center",
           resizeMode:"contain",
           flex:1,
+    
         }}
         source={{
           uri: card.logo,
@@ -244,11 +248,14 @@ function CardWidget({ navigation, card}) {
 }}>
         <Text
           style={{
-            fontSize: 18,
+            fontSize: 22,
             fontWeight: "bold",
             textTransform: "uppercase",
-            flex:1
+            flex:1,
+            fontFamily:"Fredoka"
           }}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
         >
           {card.name}
         </Text>
@@ -267,7 +274,7 @@ function CardWidget({ navigation, card}) {
           {card.location}{" "}
         </Text>
         
-        <View style={{flex:2 , flexDirection:"row"}} onLayout={(event)=>{setBeanboxSize(event.nativeEvent.layout)}}>          
+        <View style={{flex:1, flexDirection:"row"}} onLayout={(event)=>{setBeanboxSize(event.nativeEvent.layout)}}>          
           <BeanCounter/>
         </View></View>
         {/* {card.coffeesEarnt ==card.coffees_required&&
