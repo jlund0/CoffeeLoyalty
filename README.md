@@ -1,20 +1,20 @@
 # CoffeeLoyalty
 
-A React native app that allows users to have all their coffee loyalty cards in one place
-backend is done with Firebase
+An app that allows users to have all their coffee loyalty cards in one place
+
 
 The project is split into three folders.
 
 1. FrontEnd_Uesr
    for the app the users use to track their loyalty cards
-   ![image](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/5b649866-86c6-46e0-812a-a12c433a089b)
+   https://github.com/jlund0/CoffeeLoyalty/assets/72682409/734ba224-f549-4fed-a984-6641b82705b9
 
 2. FrontEnd_Admin
-   the app shops will be used to add cards and coffees to users' apps
+   The app for the store owner to manage their loyalty cards
+   
 
-3. Webstite
-   intro page with store sign-ups
-   A front-end-facing website allows store owners to access the console to manage their stores.
+4. Website
+   A front-end-facing website that includes admin console access
    
 
 ## Getting Started
