@@ -1,0 +1,90 @@
+nav {
+  border-bottom: 4px solid black;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: white;
+}
+
+.lobster-regular {
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  padding: 24px 32px;
+}
+
+nav a:hover {
+  background: black;
+  color: white;
+}
+.nav-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.nav-left {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+section {
+  height:100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#heroContianer {
+  display:flex;
+}
+
+#heroText{
+  width:50vw;
+  margin: auto;
+
+}
+#heroImage{
+  width:50vw;
+  height:30vh;
+}
+
+h2 {
+
+}
+
+h3{
+
+}
+
+#download-wrap{
+  display:flex;
+  justify-items: center;
+
+}
+
+#hero-title{
+  font-size: x-large;
+}
+#hero-slogan{
+  padding-right: 40px;
+}

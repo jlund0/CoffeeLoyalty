@@ -25,7 +25,7 @@ export function ScannedPopUp({ route, navigation }) {
   const [user, setUser] = useState(null);
   const [cardsCompleted, setCardsCompleted] = useState(0);
   const [stampCardCount, setStampCardCount] = useState(0);
-
+  const [stampSize, setStampSize] = useState({ height: 10 });
   useEffect(() => {
     async function fetchdata() {
       const card = await getUserCard(userid, store.id);
@@ -69,40 +69,61 @@ export function ScannedPopUp({ route, navigation }) {
       cardid: userCard.cardID,
     };
     AddStamps(id, addCoffees, coffeesEarnt, stampsRequired);
-    navigation.navigate("Success");
+    const name = user.name;
+    navigation.navigate("Success", { name, addCoffees });
   };
+
+  const stampDimensions = stampSize.height / (store.coffees_required / 2);
   return (
     <View style={styles.mainContainer}>
       {/* <Text style={styles.text}> Stamp Card</Text> */}
       <Pressable style={styles.card} onPress={handleAdd}>
         <View style={styles.namebox}>
-          <Text style={[styles.text]}>
+          <Text style={[styles.text]} numberOfLines={1}>
             NAME: <Text style={[styles.name]}>{user.name}</Text>
           </Text>
         </View>
         <Image source={{ uri: store.logo }} style={styles.storelogo} />
-        <View style={styles.stampBox}>
+        <View
+          style={styles.stampBox}
+          onLayout={(event) => {
+            setStampSize(event.nativeEvent.layout);
+          }}
+        >
           {stamplist.map((i) => {
             return (
-              <View style={styles.stamps} key={i}>
-                {/* {i < userCard.coffeesEarnt + addCoffees ? ( */}
-
-                {i < stampCardCount ? (
-                  <FontAwesomeIcon name="coffee" size={75} color="#6F4E37" />
-                ) : (
-                  <View stlye={styles.stamp}></View>
-                )}
+              <View
+                style={[
+                  styles.stamps,
+                  {
+                    width: stampDimensions,
+                    maxHeight: stampDimensions,
+                    maxWidth: "35%",
+                  },
+                ]}
+                key={i}
+              >
+                {
+                  i < stampCardCount && (
+                    <Image
+                      source={require("../assets/bean_stamp.png")}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                      }}
+                    />
+                  )
+                  // ) : (
+                  //   <View stlye={styles.stamp}></View>
+                  // )
+                }
               </View>
             );
           })}
         </View>
-
-        {/* <View style={{borderWidth:6,alignItems:'center',width:80,height:80}}>
-        <Text style={{textAlign:"center",fontStyle:"bold"}}>Free</Text><Text style={{textAlign:"center",fontStyle:"bold"}}>Coffee</Text></View>  */}
       </Pressable>
 
-      {/* <Text style={styles.text}>Stamps: {addCoffees}</Text> */}
-      {/* {cardsCompleted > 0 && <Text style={styles.text}>Cards completed: {cardsCompleted}</Text>} */}
       <View style={{ rowGap: 10 }}>
         <View style={{ flexDirection: "row", maxWidth: "100%", columnGap: 10 }}>
           <Confirm
@@ -110,14 +131,7 @@ export function ScannedPopUp({ route, navigation }) {
             name={user.name}
             confirmComplete={confirmComplete}
           />
-          {/* <ConfirmCoffee
-          user={user}
-          card={userCard}
-          store={store}
-          stampsToAdd={addCoffees}
-          cardsCompleted={cardsCompleted}
-          navigation={navigation}
-        /> */}
+
           {changed && (
             <Pressable
               onPress={() => onUndoPress()}
@@ -200,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: "#F3E9DC",
     flex: 1,
-
+    paddingHorizontal: 20,
     borderRadius: 20,
     width: "auto",
     justifyContent: "center",
@@ -208,24 +222,42 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   stamps: {
-    width: 100,
-    height: 100,
-    backgroundColor: "#F3E9DC",
-    borderRadius: 20,
-    padding: 10,
+    // flex: 1,
+    // backgroundColor: "#F3E9DC",
+    // borderRadius: 20,
+    // padding: 10,
+    // justifyContent: "center",
+    // aspectRatio: 1,
+    maxWidth: "50%",
     justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    backgroundColor: "#EADDCA",
+    padding: 10,
+    aspectRatio: "1/1",
+    alignSelf: "center",
   },
   stampBox: {
+    // width: "100%",
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+    // justifyContent: "space-evenly",
+    // alignItems: "stretch",
+    // // alignContent: "space-around",
+    // // gap: 50,
+    // paddingHorizontal: 40,
+    // paddingVertical: 20,
+    // flex: 6,
+
+    alignContent: "stretch",
     width: "100%",
-    flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-evenly",
-    alignItems: "stretch",
-    alignContent: "space-around",
-    gap: 50,
-    paddingHorizontal: 40,
-    paddingVertical: 20,
+    flexDirection: "row",
     flex: 6,
+    padding: "auto",
+    // r1wGap:20,
+    gap: 5,
   },
   text: {
     fontSize: 35,
