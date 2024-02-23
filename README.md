@@ -5,7 +5,7 @@ An app that allows users to have all their coffee loyalty cards in one place
 
 The project is split into three folders.
 
-1. FrontEnd_Uesr
+1. FrontEnd_User
    for the app the users use to track their loyalty cards
    https://github.com/jlund0/CoffeeLoyalty/assets/72682409/734ba224-f549-4fed-a984-6641b82705b9
 
@@ -33,7 +33,7 @@ install node.js
 
 ### For Admin Interface
 
-`cd ./FrontEnd_Admin`
+`cd ./FrontEnd_Admin/CoffeeLoyalAdmin`
 
 `npm install`
 
