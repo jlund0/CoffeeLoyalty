@@ -14,7 +14,7 @@ The project is split into three folders.
    
 
 4. Website
-   A front-end-facing website that includes admin console access
+   includes admin console access
    
 
 ## Getting Started
