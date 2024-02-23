@@ -41,4 +41,5 @@ install node.js
 
 ### For Website
 
-
+`cd cupcountwebsite`
+`npm start`
