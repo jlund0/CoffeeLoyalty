@@ -1,4 +1,25 @@
+import { useState } from "react";
 const ConsolePage = () => {
-  return <h1>ConsolePage</h1>;
+  //get stores
+  const [stores, setStores] = useState([]);
+  return (
+    <>
+      <header>
+        <h2>CupCount</h2>
+        <button></button>
+      </header>
+      <nav id="storenav">
+        {stores.map((store) => (
+          <button>{store.name}</button>
+        ))}
+        <button>+</button>
+      </nav>
+      <Dashboard />
+    </>
+  );
 };
 export default ConsolePage;
+
+const Dashboard = (store) => {
+  return <></>;
+};

@@ -3,10 +3,10 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   getDocs,
   where,
   query,
-  getDoc,
   updateDoc,
   setDoc,
   increment,
@@ -114,4 +114,13 @@ export async function getUserCard(userid, storeid) {
     console.error("Error getting card:", error);
     throw error;
   }
+}
+
+export async function getStore(storeid) {
+  console.log(storeid);
+  const docSnap = await getDoc(doc(db, "stores", storeid));
+  const storeData = docSnap.data();
+  storeData["userID"] = docSnap.id;
+  console.log(docSnap.data());
+  return storeData;
 }

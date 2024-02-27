@@ -17,8 +17,6 @@ import { useFonts } from "expo-font";
 const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
-
-
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -32,19 +30,23 @@ export default function App() {
   const [userToken, setUserToken] = React.useState();
   const [loading, setLoading] = React.useState(true);
   const [fontsLoaded, fontError] = useFonts({
-    'Lobster-Regular': require('./assets/fonts/Lobster-Regular.ttf'),
+    "Lobster-Regular": require("./assets/fonts/Lobster-Regular.ttf"),
   });
 
   const TopBanner = {
     title: "CupCount",
     headerStyle: { backgroundColor: "#5E3023" },
     headerTintColor: "#F3E9DC",
-    headerTitleStyle: { fontWeight: "bold", fontSize: 40, fontFamily:"Lobster-Regular" },
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 40,
+      fontFamily: "Lobster-Regular",
+    },
     headerTitleAlign: "center",
     headerBackTitleVisible: false,
     headerLargeStyle: true,
     animation: "none",
-    headerBackVisible:false,
+    headerBackVisible: false,
   };
 
   onAuthStateChanged(auth, (user) => {

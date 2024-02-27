@@ -32,7 +32,9 @@ export default function BarcodeCamera({ navigation, store }) {
   }
 
   const handleBarCodeScanned = ({ type, data }) => {
-    navigation.navigate("Scanned Popup", { userid: data, store: store });
+    if (data.split("/")[0] == "cupcount") {
+      navigation.navigate("Scanned Popup", { userid: data, store: store });
+    }
   };
   console.log(store);
   return (
@@ -79,6 +81,5 @@ const styles = StyleSheet.create({
     zIndex: 1,
     alignSelf: "center",
     opacity: 0.5,
-
   },
 });

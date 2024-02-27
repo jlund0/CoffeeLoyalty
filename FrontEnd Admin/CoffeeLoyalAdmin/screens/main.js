@@ -17,17 +17,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import BarcodeCamera from "../components/camera";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "react-native-vector-icons/Ionicons";
-
+import { getStore } from "../firebaseFunctions";
 export function MainScreen({ navigation }) {
+  const [defaultstore, setdefaultStore] = useState();
   const [store, setStore] = useState();
-
   useEffect(() => {
     const getDefaultStore = async () => {
       console.log("checking Default store");
       try {
         const jsonValue = await AsyncStorage.getItem("default-store");
         jsonValue != null
-          ? setStore(JSON.parse(jsonValue))
+          ? setdefaultStore(JSON.parse(jsonValue))
           : navigation.navigate("Change Store");
       } catch (e) {
         // error reading value
@@ -35,6 +35,15 @@ export function MainScreen({ navigation }) {
       }
     };
     getDefaultStore();
+  }, []);
+  console.log(defaultstore);
+  useEffect(() => {
+    const fetchStore = async () => {
+      const storedata = await getStore(defaultstore.id);
+      setStore(storedata);
+    };
+
+    defaultstore != null && fetchStore();
   }, []);
 
   if (store == null) {
@@ -44,9 +53,15 @@ export function MainScreen({ navigation }) {
   return (
     <View style={styles.maincontainer}>
       <View style={styles.storeinfoContainer}>
-        <Text style={styles.storename} numberOfLines={1} adjustsFontSizeToFit={true}>{store.name}</Text>
+        <Text
+          style={styles.storename}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
+        >
+          {store.name}
+        </Text>
 
-        <Text style={{ fontSize: 25,  }}>
+        <Text style={{ fontSize: 25 }}>
           {store.location.split(",")[0]}
           {"\n"}
         </Text>
@@ -57,7 +72,8 @@ export function MainScreen({ navigation }) {
             fontWeight: "bold",
             color: "white",
           }}
-          numberOfLines={1} adjustsFontSizeToFit={true}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
         >
           Scan Customers QR
         </Text>
@@ -126,5 +142,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logo: { width: 80, height: 80 },
-  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "900" ,},
+  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "900" },
 });
