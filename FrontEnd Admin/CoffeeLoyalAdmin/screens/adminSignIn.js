@@ -23,8 +23,8 @@ export function AdminSignInScreen({ navigation }) {
   };
 
   return (
-    <View style={{ justifyContent: "center", flex: 1 }}>
-      <Text>Store Login</Text>
+    <View style={{ justifyContent: "center", flex: 1, padding:40 }}>
+      <Text style={{fontSize:30, paddingVertical:20}}>Store Login</Text>
       <View
         style={{
           flexDirection: "row",

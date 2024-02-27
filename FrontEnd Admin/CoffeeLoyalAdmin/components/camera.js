@@ -42,6 +42,7 @@ export default function BarcodeCamera({ navigation, store }) {
         source={{ uri: store.logo }}
         width={250}
         height={250}
+        resizeMode="center"
       />
       <Camera
         style={styles.camera}
@@ -78,5 +79,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     alignSelf: "center",
     opacity: 0.5,
+
   },
 });

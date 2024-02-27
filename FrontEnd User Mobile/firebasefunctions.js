@@ -70,7 +70,7 @@ export async function getUserCards() {
   const user = auth.currentUser;
   const completeCards = [];
   // const user = auth.currentUser;
-  console.log(`fetching ${user.uid} cards`); 
+  // console.log(`fetching ${user.uid} cards`); 
   const querySnapshot = await getDocs(query(collection(db, "cards"), where("userId" , "==", user.uid)))
   querySnapshot.forEach((doc) => {
     const data = doc.data();
@@ -122,7 +122,7 @@ export async function getStoreLogo(storeid) {
   let imageurl = await getDownloadURL(
     ref(storage, `STORES/Logos/${storeid}.jpg`)
   );
-  console.log("logo url: " + imageurl);
+  // console.log("logo url: " + imageurl);
   return imageurl;
 }
 

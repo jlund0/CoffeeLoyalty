@@ -44,9 +44,9 @@ export function MainScreen({ navigation }) {
   return (
     <View style={styles.maincontainer}>
       <View style={styles.storeinfoContainer}>
-        <Text style={styles.storename}>{store.name}</Text>
+        <Text style={styles.storename} numberOfLines={1} adjustsFontSizeToFit={true}>{store.name}</Text>
 
-        <Text style={{ fontSize: 25 }}>
+        <Text style={{ fontSize: 25,  }}>
           {store.location.split(",")[0]}
           {"\n"}
         </Text>
@@ -57,6 +57,7 @@ export function MainScreen({ navigation }) {
             fontWeight: "bold",
             color: "white",
           }}
+          numberOfLines={1} adjustsFontSizeToFit={true}
         >
           Scan Customers QR
         </Text>
@@ -125,5 +126,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logo: { width: 80, height: 80 },
-  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "bold" },
+  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "900" ,},
 });

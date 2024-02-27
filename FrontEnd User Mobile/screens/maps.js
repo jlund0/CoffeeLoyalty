@@ -39,10 +39,12 @@ export function MapScreen({ navigation }) {
  
 
   const mapMarkers=()=>{
+   
     return markers.map((marker, index) => {
       return(
       <Marker coordinate={{latitude: marker.coords.latitude, longitude: marker.coords.longitude}} title={marker.name} key={index} image={require('../assets/coffeemarker.png')}
       onPress={(e) => scrollRef.current.scrollTo({x: (index*CARD_WIDTH), animated: true})}
+      
       ></Marker>)})
   }
 

@@ -12,19 +12,12 @@ import { app } from "./firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScannedPopUp } from "./components/scannedPopup";
 import { SuccessScreen } from "./screens/success";
+import { useFonts } from "expo-font";
+
 const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
-const TopBanner = {
-  title: "CupCount",
-  headerStyle: { backgroundColor: "#5E3023" },
-  headerTintColor: "#F3E9DC",
-  headerTitleStyle: { fontWeight: "bold", fontSize: 40 },
-  headerTitleAlign: "center",
-  headerBackTitleVisible: false,
-  headerLargeStyle: true,
-  animation: "none",
-};
+
 
 function SplashScreen() {
   return (
@@ -38,6 +31,21 @@ function SplashScreen() {
 export default function App() {
   const [userToken, setUserToken] = React.useState();
   const [loading, setLoading] = React.useState(true);
+  const [fontsLoaded, fontError] = useFonts({
+    'Lobster-Regular': require('./assets/fonts/Lobster-Regular.ttf'),
+  });
+
+  const TopBanner = {
+    title: "CupCount",
+    headerStyle: { backgroundColor: "#5E3023" },
+    headerTintColor: "#F3E9DC",
+    headerTitleStyle: { fontWeight: "bold", fontSize: 40, fontFamily:"Lobster-Regular" },
+    headerTitleAlign: "center",
+    headerBackTitleVisible: false,
+    headerLargeStyle: true,
+    animation: "none",
+    headerBackVisible:false,
+  };
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -68,7 +76,7 @@ export default function App() {
             name="Change Store"
             component={HomeScreen}
             initialParams={{ userToken }}
-            options={[TopBanner, { headerBackVisible: false }]}
+            options={TopBanner}
           />
           <Stack.Screen
             name="Scanned Popup"
@@ -78,7 +86,7 @@ export default function App() {
           <Stack.Screen
             name="Success"
             component={SuccessScreen}
-            options={[TopBanner, { headerBackVisible: false }]}
+            options={TopBanner}
           />
           {/* <Stack.Screen name="Settings" component={Settings} /> */}
         </Stack.Navigator>
