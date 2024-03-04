@@ -10,11 +10,11 @@ import {
 } from "../assets/socialSVG.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-export default function NavBar({ navigation, isFocused }) {
+export default function NavBar({ navigation, isFocused ,cards}) {
   return (
     <View style={[styles.navbar]}>
       <Pressable
-        onPress={isFocused == "card" ? null : () => navigation.navigate("card")}
+        onPress={isFocused == "card" ? null : () => navigation.navigate("card",{cards})}
         style={[styles.navIconContainer, isFocused == "card" && styles.active]}
       >
         <MaterialCommunityIcons

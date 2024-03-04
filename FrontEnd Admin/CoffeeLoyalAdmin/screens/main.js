@@ -21,13 +21,19 @@ import { getStore } from "../firebaseFunctions";
 export function MainScreen({ navigation }) {
   const [defaultstore, setdefaultStore] = useState();
   const [store, setStore] = useState();
+  
+  const fetchstoreupdates = async (id)=>{
+    const storedata = await getStore(id);
+    setStore(storedata);
+  }
+  
   useEffect(() => {
     const getDefaultStore = async () => {
       console.log("checking Default store");
       try {
         const jsonValue = await AsyncStorage.getItem("default-store");
         jsonValue != null
-          ? setdefaultStore(JSON.parse(jsonValue))
+          ? fetchstoreupdates(JSON.parse(jsonValue).id)
           : navigation.navigate("Change Store");
       } catch (e) {
         // error reading value
@@ -36,16 +42,9 @@ export function MainScreen({ navigation }) {
     };
     getDefaultStore();
   }, []);
+
   console.log(defaultstore);
-  useEffect(() => {
-    const fetchStore = async () => {
-      const storedata = await getStore(defaultstore.id);
-      setStore(storedata);
-    };
-
-    defaultstore != null && fetchStore();
-  }, []);
-
+  
   if (store == null) {
     return <Text>Getting Store</Text>;
   }

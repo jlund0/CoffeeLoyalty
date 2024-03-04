@@ -32,7 +32,7 @@ const HomePage = () => {
               </div>
             </h2>
             <h3 id="hero-slogan">
-              Simplify Your Coffee Rewards with CupCount! Have all your cafe
+              Simplify your coffee rewards with CupCount! Have all your cafe
               loyalty cards in one place. Ensuring every sip counts towards
               something great!
             </h3>
@@ -42,7 +42,7 @@ const HomePage = () => {
               <img
                 src="google-play-badge.png"
                 alt="download on google play"
-                height={100}
+                height={70}
               />
             </div>
           </div>
@@ -57,13 +57,13 @@ const HomePage = () => {
               id="heroimage"
               src="homescreen.png"
               alt="heroImg"
-              height={600}
+              height={800}
             ></img>
           </div>
         </div>
       </section>
-      <section id="howitworksbox">
-        <div id="about-box">
+      <section id="howitworksbox" className="background-image">
+        <div id="about-box" className="bluebg">
           <div id="screenWrapper">
             <img
               src={`${screens[screenShow]}.png`}
@@ -71,7 +71,7 @@ const HomePage = () => {
               height={600}
             ></img>
           </div>
-          <div id="about">
+          <div id="about" >
             <h2>How it works</h2>
             <div id="tabbox">
               <div class="howitworkstab" onClick={() => setScreen(0)}>
@@ -93,6 +93,12 @@ const HomePage = () => {
                 <p>
                   See a map overview of all the cafes close to you to get your
                   next coffee
+                </p>
+              </div>
+              <div class="howitworkstab" onClick={() => setScreen(2)}>
+                <h3>Claim your Free coffee</h3>
+                <p>
+                  Redeem and enjoy your free coffee 
                 </p>
               </div>
             </div>

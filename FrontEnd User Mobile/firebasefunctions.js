@@ -32,6 +32,7 @@ export async function AddUser(user, name) {
       coffee_earnt: 0,
       created_at: serverTimestamp(),
       role: "customer",
+      cards: []
     };
     try {
       setDoc(doc(db, "users", uid), userData);
@@ -55,13 +56,31 @@ export async function getUserInfo() {
   if (docSnap.exists()) {
     let data = docSnap.data();
     data.userId = docSnap.id;
+    let cards = await getCards(data.cards)
+    console.log("card here ****")
+    console.log(cards)
     console.log("Users data:", data);
-    return data;
+
+    return {data,cards};
   } else {
     console.log("No such document!");
     const data = await AddUser(user);
-    return data;
+    let cards = []
+    return {data,cards};
   }
+}
+
+async function getCards(cardRefs){
+  
+  let cards = []
+  await Promise.all(cardRefs.map(async cardRef => {
+    const cardDoc = await getDoc(cardRef);
+    if (cardDoc.exists) {
+        cards.push({ cardId: cardDoc.id, ...cardDoc.data() });
+    }
+}))
+  
+  return cards
 }
 
 export async function getUserCards() {

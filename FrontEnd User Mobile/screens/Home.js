@@ -15,6 +15,7 @@ import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
   console.log("Home Page");
+  
   const [userDetails, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   // const [hasDisplayName, setHasDisplayName] = useState(
@@ -29,6 +30,7 @@ export default function Home({ navigation }) {
     'TitanOne-Regular':require('../assets/fonts/TitanOne-Regular.ttf')
   });
 
+  let cards = []
  
   // if (!hasDisplayName) {
   //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
@@ -38,8 +40,9 @@ export default function Home({ navigation }) {
     async function fetchFirebaseInfo() {
       if (userDetails === null) {
         console.log("getting user info");
-        const userInfo = await getUserInfo();
-        setUserInfo(userInfo);
+        const {data ,cards} = await getUserInfo();
+        cards = cards
+        setUserInfo(data);
         setLoading(false);
       }
     }
@@ -51,7 +54,7 @@ export default function Home({ navigation }) {
   }
 
   if (loading) {
-    return <LoadingScreen />;
+    return <LoadingScreen />
   }
   return (
     <View style={styles.maincontainer}>
@@ -91,7 +94,7 @@ export default function Home({ navigation }) {
           />
         </View>
       </View>
-      <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} />
+      <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} cards={cards}/>
       {/* </ImageBackground> */}
     </View>
   );

@@ -11,7 +11,7 @@ const NavBar = () => {
           <Link to="/pricing">Store Owners</Link>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/contact">Support</Link>
         </li>
       </ul>
       <div className="nav-item nav-right">

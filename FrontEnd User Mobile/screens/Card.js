@@ -31,8 +31,11 @@ import { Bean } from "../assets/socialSVG";
 import LottieView from 'lottie-react-native';
 import { useFonts } from "expo-font";
 
-export default function CardScreen({ navigation }) {
+export default function CardScreen({ route, navigation }) {
   console.log("Card page");
+  const cardslist = route.params.cards
+  console.log("cardslist*(*$%%((#$(#")
+  console.log(cardslist)
   const isFocused = useIsFocused();
   const [cards, setCards] = useState(null);
   const [searchStoreFilter, setSearchFilter] = useState("");
