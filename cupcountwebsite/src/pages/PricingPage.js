@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import BottomNav from "../bottomNav";
 const PricingPage = () => {
   const [screenShow, setScreen] = useState(0);
 
@@ -114,6 +114,7 @@ const PricingPage = () => {
           </div>
         </div>
       </section>
+      <BottomNav/>
     </>
   );
 };

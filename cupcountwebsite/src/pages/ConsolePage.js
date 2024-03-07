@@ -4,18 +4,14 @@ const ConsolePage = () => {
   const [stores, setStores] = useState([]);
   return (
     <>
-      <header>
-        <h2>CupCount</h2>
-        <button></button>
-      </header>
-      <nav id="storenav">
-        {stores.map((store) => (
-          <button>{store.name}</button>
-        ))}
-        <button>+</button>
-      </nav>
-      <Dashboard />
-    </>
+    <section>
+    <div>
+      <button>Manage stores</button>
+      <button>Billing</button>
+      <button>Your details</button>
+      <button>Need help?</button>
+      <button>Log out</button></div></section>
+      </>
   );
 };
 export default ConsolePage;
