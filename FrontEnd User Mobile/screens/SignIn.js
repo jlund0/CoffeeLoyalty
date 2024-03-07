@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  Image,Keyboard,TouchableWithoutFeedback, Pressable 
+  Image,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -30,87 +33,105 @@ const handleEmailandPasswordLogin = (email, password) => {
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isFocused,setIsFocused]= React.useState(false)
- 
+  const [isFocused, setIsFocused] = React.useState(false);
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}> 
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", backgroundColor: "#FAF0E6" }}
-    >
-      <View style={{ padding: 25 }}>
-        <View style={[{ alignItems: "center", },]}>
-          {/*Animated card login image*/}
-          <Image
-            source={require("../assets/coffeelogin.png")}
-            style={[{ height: 300, width: 300 ,marginBottom: 30 },isFocused&&{position:"absolute",bottom:"10%", marginBottom:0}]}
-            resizeMode="contain"
-          ></Image>
-        </View>
-        <Text
-          style={{
-            fontSize: 28,
-            fontWeight: "500",
-            color: "#333",
-            marginBottom: 30,
-          }}
-        >
-          Login
-        </Text>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          backgroundColor: "#FAF0E6",
+        }}
+      >
+        <View style={{ padding: 25 }}>
+          <View style={[{ alignItems: "center" }]}>
+            {/*Animated card login image*/}
+            <Image
+              source={require("../assets/coffeelogin.png")}
+              style={[
+                { height: 300, width: 300, marginBottom: 30 },
+                // isFocused && {
+                //   position: "absolute",
+                //   bottom: "10%",
+                //   marginBottom: 0,
+                // },
+              ]}
+              resizeMode="contain"
+            ></Image>
+          </View>
+          <Text
+            style={{
+              fontSize: 28,
+              fontWeight: "500",
+              color: "#333",
+              marginBottom: 30,
+            }}
+          >
+            Login
+          </Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            borderBottomColor: "#ccc",
-            borderBottomWidth: 1,
-            paddingBottom: 8,
-            marginBottom: 25,
-          }}
-        >
-          <FontAwesome name="at" size={20} />
-          <TextInput
-            placeholder={" Email"}
-            value={email}
-            onChangeText={setEmail}
-            inputMode="email"
-            style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-            onFocus={()=>setIsFocused(true)}
-            onBlur={()=>setIsFocused(false)}
-           
-            
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            borderBottomColor: "#ccc",
-            borderBottomWidth: 1,
-            paddingBottom: 8,
-            marginBottom: 25,
-          }}
-        >
-          <FontAwesome name="lock" size={20} />
-          <TextInput
-            placeholder={" Password"}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-            onFocus={()=>setIsFocused(true)}
-            onBlur={()=>setIsFocused(false)}
-            
-          />
-          <TouchableOpacity>
-            <Text>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
-        <Pressable
-          title="Login"
-          onPress={() => handleEmailandPasswordLogin(email, password)}
-          style={styles.button}
-        ><Text style={{textAlign:"center", color: "white",fontSize:28,fontWeight:"bold"}} >LOGIN</Text></Pressable>
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomColor: "#ccc",
+              borderBottomWidth: 1,
+              paddingBottom: 8,
+              marginBottom: 25,
+            }}
+          >
+            <FontAwesome name="at" size={20} />
+            <TextInput
+              placeholder={" Email"}
+              value={email}
+              onChangeText={setEmail}
+              inputMode="email"
+              style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+              // onFocus={()=>setIsFocused(true)}
+              // onBlur={()=>setIsFocused(false)}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomColor: "#ccc",
+              borderBottomWidth: 1,
+              paddingBottom: 8,
+              marginBottom: 25,
+            }}
+          >
+            <FontAwesome name="lock" size={20} />
+            <TextInput
+              placeholder={" Password"}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+              // onFocus={() => setIsFocused(true)}
+              // onBlur={() => setIsFocused(false)}
+            />
+            <TouchableOpacity>
+              <Text>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
+          <Pressable
+            title="Login"
+            onPress={() => handleEmailandPasswordLogin(email, password)}
+            style={styles.button}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: "white",
+                fontSize: 28,
+                fontWeight: "bold",
+              }}
+            >
+              LOGIN
+            </Text>
+          </Pressable>
 
-        {/* <Text
+          {/* <Text
           style={{
             textAlign: "center",
             color: "#666",
@@ -131,25 +152,25 @@ export default function SignInScreen({ navigation }) {
           <SocialButtons />
         </View> */}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginBottom: 30,
-            padding:20
-          }}
-        >
-          <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
-              {" "}
-              Register
-            </Text>
-          </TouchableOpacity>
-      </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginBottom: 30,
+              padding: 20,
+            }}
+          >
+            <Text>New to the app?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
+                {" "}
+                Register
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        
-    </SafeAreaView></TouchableWithoutFeedback>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
@@ -160,10 +181,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
   },
-  button:{
-    backgroundColor:"#ADD8E6",
-    padding:10,
-    borderRadius:20,
-
-  }
+  button: {
+    backgroundColor: "#ADD8E6",
+    padding: 10,
+    borderRadius: 20,
+  },
 });

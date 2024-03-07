@@ -11,12 +11,11 @@ import {
   Linking,
   ImageBackground,
   RefreshControl,
-
 } from "react-native";
 import NavBar from "../components/NavBar";
 import { useIsFocused } from "@react-navigation/native";
 import * as Location from "expo-location";
-import { useState, useCallback,useRef} from "react";
+import { useState, useCallback, useRef } from "react";
 import { UserButton } from "../components/buttons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getUserCards, getStoreInfo, getStoreLogo } from "../firebasefunctions";
@@ -26,23 +25,22 @@ import { getDistanceFromLatLonInKm, geocode } from "../components/location";
 import { LinearGradient } from "expo-linear-gradient";
 import * as geofire from "geofire-common";
 import { sortListbyDistance } from "../useful-functions";
-import {WebView} from 'react-native-webview'
+import { WebView } from "react-native-webview";
 import { Bean } from "../assets/socialSVG";
-import LottieView from 'lottie-react-native';
+import LottieView from "lottie-react-native";
 import { useFonts } from "expo-font";
 
 export default function CardScreen({ route, navigation }) {
   console.log("Card page");
-  const cardslist = route.params.cards
-  console.log("cardslist*(*$%%((#$(#")
-  console.log(cardslist)
+  const cardslist = route.params.cards;
+  console.log("cardslist*(*$%%((#$(#");
+  console.log(cardslist);
   const isFocused = useIsFocused();
-  const [cards, setCards] = useState(null);
+  const [cards, setCards] = useState(route.params.cards);
   const [searchStoreFilter, setSearchFilter] = useState("");
   const [location, setLocation] = useState();
   const [addCardPopupVisaible, setCardPopupVisabile] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-
 
   useEffect(() => {
     const getLocation = async () => {
@@ -60,19 +58,15 @@ export default function CardScreen({ route, navigation }) {
     getLocation();
   }, []);
 
-  useEffect(() => {
-    async function fetchCards() {
-      try {
-        const data = await getUserCards();
-        setCards(data);
-      } catch (error) {
-        // add error handling here
-        console.log(error);
-      }
+  async function fetchCards() {
+    try {
+      const data = await getUserCards();
+      setCards(data);
+    } catch (error) {
+      // add error handling here
+      console.log(error);
     }
-
-    fetchCards();
-  }, [refreshing]);
+  }
 
   const Loading = () => {
     return (
@@ -94,14 +88,14 @@ export default function CardScreen({ route, navigation }) {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
+    fetchCards();
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, []);
 
   const [fontsLoaded, fontError] = useFonts({
-    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf'),
-
+    "TitanOne-Regular": require("../assets/fonts/TitanOne-Regular.ttf"),
   });
 
   return (
@@ -118,31 +112,51 @@ export default function CardScreen({ route, navigation }) {
         </Text>
         <UserButton />
       </View>
-        <View style={{ flex: 0.5, padding: 10 , flexDirection:"row" ,width: "95%",alignSelf:"center",columnGap:10}}>
-          <TextInput
-            style={{
-              borderRadius: 20,
-              width: "auto",
-              backgroundColor: themes.widgetbg,
-              // marginHorizontal: 20,
-              padding: 10,
-              paddingHorizontal: 20,
-              flex: 1,
-            }}
-            placeholder="Find Store"
-            onChangeText={(newVal) => setSearchFilter(newVal)}
-          />
-          <Pressable style={{backgroundColor: themes.widgetbg,borderRadius: 25,padding:5,justifyContent:"center",alignItems:"center"}}>
-            <MaterialCommunityIcons name="filter-variant" size={30} styles={{}}/>
-            </Pressable>
-        </View>
-        <View style={styles.scrollWrapper}>
-        <ScrollView style={styles.cardsContainer} refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
+      <View
+        style={{
+          flex: 0.5,
+          padding: 10,
+          flexDirection: "row",
+          width: "95%",
+          alignSelf: "center",
+          columnGap: 10,
+        }}
+      >
+        <TextInput
+          style={{
+            borderRadius: 20,
+            width: "auto",
+            backgroundColor: themes.widgetbg,
+            // marginHorizontal: 20,
+            padding: 10,
+            paddingHorizontal: 20,
+            flex: 1,
+          }}
+          placeholder="Find Store"
+          onChangeText={(newVal) => setSearchFilter(newVal)}
+        />
+        {/* <Pressable
+          style={{
+            backgroundColor: themes.widgetbg,
+            borderRadius: 25,
+            padding: 5,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MaterialCommunityIcons name="filter-variant" size={30} styles={{}} />
+        </Pressable> */}
+      </View>
+      <View style={styles.scrollWrapper}>
+        <ScrollView
+          style={styles.cardsContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {cards === null ? (
             <Loading />
-          ) : cards.length == 0 ?(
+          ) : cards.length == 0 ? (
             <View
               style={[
                 {
@@ -152,14 +166,14 @@ export default function CardScreen({ route, navigation }) {
                   height: "100%",
                   padding: 20,
                 },
+                styles.shadowProp,
               ]}
             >
               <Text style={styles.noCardText}>
                 No active cards!{"\n"}Time to get a coffee
               </Text>
             </View>
-          )
-          : (
+          ) : (
             filterList(cards).map((card, index) => (
               <CardWidget
                 card={card}
@@ -177,34 +191,41 @@ export default function CardScreen({ route, navigation }) {
   );
 }
 
-function CardWidget({ navigation, card}) {
-  const [beanBoxsize, setBeanboxSize] = useState(1)
+function CardWidget({ navigation, card }) {
+  const [beanBoxsize, setBeanboxSize] = useState(1);
   const animation = useRef(null);
   const navigateLoyaltyPage = (card) => {
     navigation.push("loyaltyCard", card);
   };
   const [fontsLoaded, fontError] = useFonts({
     // 'Fredoka': require('../assets/fonts/Fredoka-SemiBold.ttf'),
-
   });
-    const BeanCounter = () =>{
-      let beans = []
-      let coffee = card.coffees_required
-      for(let i = 0; i < coffee ; i++ ){
-
-        if( i < card.coffeesEarnt){
-          beans.push(
-          <View style={{flex:1 ,paddingHorizontal:2.5}}><Bean height="100%"  fill={`rgb(${(i+coffee)*139/coffee}, ${(i+coffee)*69/coffee}, ${(i+coffee)*19/coffee})`} width="100%"/></View>)
-        }else{
-          beans.push(<View style={{flex:1  ,paddingHorizontal:2.5}}><Bean fill={"black"} height="100%" width="100%"/></View>)
-        }
-        
+  const BeanCounter = () => {
+    let beans = [];
+    let coffee = card.coffees_required;
+    for (let i = 0; i < coffee; i++) {
+      if (i < card.coffeesEarnt) {
+        beans.push(
+          <View style={{ flex: 1, paddingHorizontal: 2.5 }}>
+            <Bean
+              height="100%"
+              fill={`rgb(${((i + coffee) * 139) / coffee}, ${
+                ((i + coffee) * 69) / coffee
+              }, ${((i + coffee) * 19) / coffee})`}
+              width="100%"
+            />
+          </View>
+        );
+      } else {
+        beans.push(
+          <View style={{ flex: 1, paddingHorizontal: 2.5 }}>
+            <Bean height="100%" width="100%" />
+          </View>
+        );
       }
-      return(
-        beans
-      )
     }
-
+    return beans;
+  };
 
   return (
     <Pressable
@@ -214,13 +235,12 @@ function CardWidget({ navigation, card}) {
         width: "100%",
         backgroundColor: themes.widgetbg,
         alignItems: "center",
-        
+
         paddingVertical: 10,
         paddingHorizontal: 15,
         marginBottom: 10,
-        columnGap:10,
-        maxHeight:200,
-        
+        columnGap: 10,
+        maxHeight: 200,
       }}
       onPress={() => {
         navigateLoyaltyPage(card);
@@ -233,11 +253,10 @@ function CardWidget({ navigation, card}) {
       <Image
         style={{
           width: "20%",
-          height: "100%",          
+          height: "100%",
           resizeMode: "center",
-          resizeMode:"contain",
-          flex:1,
-    
+          resizeMode: "contain",
+          flex: 1,
         }}
         source={{
           uri: card.logo,
@@ -246,16 +265,17 @@ function CardWidget({ navigation, card}) {
       <View
         style={{
           justifyContent: "center",
-          flex:4,
-          height:"100%",
-}}>
+          flex: 4,
+          height: "100%",
+        }}
+      >
         <Text
           style={{
             fontSize: 22,
             fontWeight: "bold",
             textTransform: "uppercase",
-            flex:1,
-            fontFamily:"Fredoka"
+            flex: 1,
+            fontFamily: "Fredoka",
           }}
           numberOfLines={1}
           adjustsFontSizeToFit={true}
@@ -264,7 +284,7 @@ function CardWidget({ navigation, card}) {
         </Text>
         <Text
           numberOfLines={1}
-          style={{ fontSize: 15, textDecorationLine: "underline" ,  flex:1}}
+          style={{ fontSize: 15, textDecorationLine: "underline", flex: 1 }}
           onPress={() => {
             Linking.openURL(
               `https://www.google.com/maps/place/${card.location.replace(
@@ -276,11 +296,17 @@ function CardWidget({ navigation, card}) {
         >
           {card.location}{" "}
         </Text>
-        
-        <View style={{flex:1, flexDirection:"row"}} onLayout={(event)=>{setBeanboxSize(event.nativeEvent.layout)}}>          
-          <BeanCounter/>
-        </View></View>
-        {/* {card.coffeesEarnt ==card.coffees_required&&
+
+        <View
+          style={{ flex: 1, flexDirection: "row" }}
+          onLayout={(event) => {
+            setBeanboxSize(event.nativeEvent.layout);
+          }}
+        >
+          <BeanCounter />
+        </View>
+      </View>
+      {/* {card.coffeesEarnt ==card.coffees_required&&
         <LottieView
         autoPlay
         ref={animation}
@@ -292,15 +318,13 @@ function CardWidget({ navigation, card}) {
         // Find more Lottie files at https://lottiefiles.com/featured
         source={require('../assets/cupanimation.json')}
       />} */}
-      
-     
     </Pressable>
   );
 }
 
 const themes = {
   bg: "#fff8e7",
-  widgetbg: "#cdb891",
+  widgetbg: "#cdb891CC",
 };
 
 const styles = StyleSheet.create({
@@ -311,6 +335,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height,
     width: "100%",
     overflow: "hidden",
+    borderRadius: 40,
   },
   scrollWrapper: { flex: 6 },
   maincontainer: {
@@ -368,5 +393,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 40,
     textAlign: "center",
+  },
+  glass: {
+    boxShadow: " 0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(6.5px)",
   },
 });

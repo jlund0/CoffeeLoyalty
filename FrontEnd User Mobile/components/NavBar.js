@@ -10,17 +10,21 @@ import {
 } from "../assets/socialSVG.js";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-export default function NavBar({ navigation, isFocused ,cards}) {
+export default function NavBar({ navigation, isFocused, cards }) {
   return (
     <View style={[styles.navbar]}>
       <Pressable
-        onPress={isFocused == "card" ? null : () => navigation.navigate("card",{cards})}
+        onPress={
+          isFocused == "card"
+            ? null
+            : () => navigation.navigate("card", { cards })
+        }
         style={[styles.navIconContainer, isFocused == "card" && styles.active]}
       >
         <MaterialCommunityIcons
-          name="card-multiple"
+          name="wallet"
           size={60}
-          style={[styles.navIcon, { transform: "scaleY(-1)" }]}
+          style={[styles.navIcon]}
         />
       </Pressable>
       <Pressable
@@ -65,9 +69,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     margin: 10,
- 
+
     color: "#2b1e15",
-    fontSize: 50,
+    fontSize: 55,
     flex: 1,
   },
   navIconContainer: {

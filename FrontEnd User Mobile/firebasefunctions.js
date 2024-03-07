@@ -6,11 +6,18 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  serverTimestamp,query, orderBy, startAt, endAt,where
+  serverTimestamp,
+  query,
+  orderBy,
+  startAt,
+  endAt,
+  where,
+  onSnapshot,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
-import * as geofire from "geofire-common"
+import * as geofire from "geofire-common";
+
 const db = getFirestore(app);
 const storage = getStorage(app);
 
@@ -32,7 +39,7 @@ export async function AddUser(user, name) {
       coffee_earnt: 0,
       created_at: serverTimestamp(),
       role: "customer",
-      cards: []
+      cards: [],
     };
     try {
       setDoc(doc(db, "users", uid), userData);
@@ -56,31 +63,35 @@ export async function getUserInfo() {
   if (docSnap.exists()) {
     let data = docSnap.data();
     data.userId = docSnap.id;
-    let cards = await getCards(data.cards)
-    console.log("card here ****")
-    console.log(cards)
+    let cards = await getCards(data.cards);
+    console.log("card here ****");
+    console.log(cards);
     console.log("Users data:", data);
 
-    return {data,cards};
+    return { data, cards };
   } else {
     console.log("No such document!");
     const data = await AddUser(user);
-    let cards = []
-    return {data,cards};
+    let cards = [];
+    return { data, cards };
   }
 }
 
-async function getCards(cardRefs){
-  
-  let cards = []
-  await Promise.all(cardRefs.map(async cardRef => {
-    const cardDoc = await getDoc(cardRef);
-    if (cardDoc.exists) {
+async function getCards(cardRefs) {
+  let cards = [];
+  await Promise.all(
+    cardRefs.map(async (cardRef) => {
+      const cardDoc = await getDoc(cardRef, where("active", "==", true));
+      if (cardDoc.exists) {
         cards.push({ cardId: cardDoc.id, ...cardDoc.data() });
-    }
-}))
-  
-  return cards
+      }
+    })
+  );
+  for (card in cards) {
+    let storedata = await getStoreInfo(cards[card].storeId);
+    cards[card] = Object.assign({}, storedata, cards[card]);
+  }
+  return cards;
 }
 
 export async function getUserCards() {
@@ -89,14 +100,17 @@ export async function getUserCards() {
   const user = auth.currentUser;
   const completeCards = [];
   // const user = auth.currentUser;
-  // console.log(`fetching ${user.uid} cards`); 
-  const querySnapshot = await getDocs(query(collection(db, "cards"), where("userId" , "==", user.uid)))
+  // console.log(`fetching ${user.uid} cards`);
+  const querySnapshot = await getDocs(
+    query(collection(db, "cards"), where("userId", "==", user.uid))
+  );
+
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     data.cardId = doc.id;
     cards.push(data);
   });
-  console.log(cards)
+  console.log(cards);
   for (let card of cards) {
     let storedata = await getStoreInfo(card.storeId);
     completeCards.push(Object.assign({}, storedata, card));
@@ -107,15 +121,13 @@ export async function getUserCards() {
 }
 
 export async function getStoreInfo(storeId) {
-  let docSnap = await getDoc(doc(db,"stores",storeId));
+  let docSnap = await getDoc(doc(db, "stores", storeId));
   console.log("store ref: ");
   console.log(docSnap.id);
 
   console.log("fetching store info");
   if (docSnap.exists()) {
-    let logo = await getDownloadURL(
-      ref(storage, docSnap.data().logo)
-    );
+    let logo = await getDownloadURL(ref(storage, docSnap.data().logo));
     console.log("Store data:", docSnap.data());
     let data = docSnap.data();
     data.coffeeId = docSnap.id;
@@ -145,48 +157,65 @@ export async function getStoreLogo(storeid) {
   return imageurl;
 }
 
-
-
-export async function getStores(lat,lng,distance=1){
-  const center = [lat,lng]
-  const bounds = geofire.geohashQueryBounds(center,2000);
+export async function getStores(lat, lng, distance = 1) {
+  const center = [lat, lng];
+  const bounds = geofire.geohashQueryBounds(center, 2000);
   const radiusInM = distance * 1000;
 
-const promises = [];
-for (const b of bounds) {
-  const q = query(
-    collection(db, 'stores'), 
-    orderBy('geohash'), 
-    startAt(b[0]), 
-    endAt(b[1]));
-
-  promises.push(getDocs(q));
-}
-// Collect all the query results together into a single list
-const snapshots = await Promise.all(promises);
-const matchingDocs = [];
-
-for (const snap of snapshots) {
-  for (const doc of snap.docs) {
-    const coords = doc.get('coords');
-    // We have to filter out a few false positives due to GeoHash
-    // accuracy, but most will match
-    const distanceInKm = geofire.distanceBetween([coords.latitude, coords.longitude], center);
-    
-    const distanceInM = distanceInKm * 1000;
-    if (distanceInM <= radiusInM) {
-     const data=doc.data()
-     data["distanceAway"] = distanceInM
-     data["id"]= doc.id
-     data["logo"] = await getDownloadURL(
-      ref(storage, data.logo)
+  const promises = [];
+  for (const b of bounds) {
+    const q = query(
+      collection(db, "stores"),
+      orderBy("geohash"),
+      startAt(b[0]),
+      endAt(b[1])
     );
-      matchingDocs.push(data);
-      
-    }
-  }
-  console.log(matchingDocs)
-  
-  return(matchingDocs.sort((p1,p2)=>{(p1.distanceAway > p2.distanceAway) ? 1 : (p1.distanceAway < p2.distanceAway) ? -1 : 0}))
 
-}}
+    promises.push(getDocs(q));
+  }
+  // Collect all the query results together into a single list
+  const snapshots = await Promise.all(promises);
+  const matchingDocs = [];
+
+  for (const snap of snapshots) {
+    for (const doc of snap.docs) {
+      const coords = doc.get("coords");
+      // We have to filter out a few false positives due to GeoHash
+      // accuracy, but most will match
+      const distanceInKm = geofire.distanceBetween(
+        [coords.latitude, coords.longitude],
+        center
+      );
+
+      const distanceInM = distanceInKm * 1000;
+      if (distanceInM <= radiusInM) {
+        const data = doc.data();
+        data["distanceAway"] = distanceInM;
+        data["id"] = doc.id;
+        data["logo"] = await getDownloadURL(ref(storage, data.logo));
+        matchingDocs.push(data);
+      }
+    }
+    console.log(matchingDocs);
+
+    return matchingDocs.sort((p1, p2) => {
+      p1.distanceAway > p2.distanceAway
+        ? 1
+        : p1.distanceAway < p2.distanceAway
+        ? -1
+        : 0;
+    });
+  }
+}
+
+//CardUpdate Listener
+export function cardUpdateListener(cardRefs) {
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "modified") {
+        console.log("card changes");
+        console.log(change.doc.data());
+      }
+    });
+  });
+}

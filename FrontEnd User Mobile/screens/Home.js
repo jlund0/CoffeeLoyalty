@@ -15,9 +15,10 @@ import { useFonts } from "expo-font";
 
 export default function Home({ navigation }) {
   console.log("Home Page");
-  
+
   const [userDetails, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userCards, setUserCards] = useState([]);
   // const [hasDisplayName, setHasDisplayName] = useState(
   //   auth.currentUser.displayName == null ? false : true
   // );
@@ -25,13 +26,11 @@ export default function Home({ navigation }) {
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
   let [fontsLoaded] = useFonts({
-    'IndieFlower-Regular': require('../assets/fonts/IndieFlower-Regular.ttf'),
-    'Pacifico-Regular':require('../assets/fonts/Pacifico-Regular.ttf'),
-    'TitanOne-Regular':require('../assets/fonts/TitanOne-Regular.ttf')
+    "IndieFlower-Regular": require("../assets/fonts/IndieFlower-Regular.ttf"),
+    "Pacifico-Regular": require("../assets/fonts/Pacifico-Regular.ttf"),
+    "TitanOne-Regular": require("../assets/fonts/TitanOne-Regular.ttf"),
   });
 
-  let cards = []
- 
   // if (!hasDisplayName) {
   //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
   // }
@@ -40,8 +39,8 @@ export default function Home({ navigation }) {
     async function fetchFirebaseInfo() {
       if (userDetails === null) {
         console.log("getting user info");
-        const {data ,cards} = await getUserInfo();
-        cards = cards
+        const { data, cards } = await getUserInfo();
+        setUserCards(cards);
         setUserInfo(data);
         setLoading(false);
       }
@@ -54,7 +53,7 @@ export default function Home({ navigation }) {
   }
 
   if (loading) {
-    return <LoadingScreen />
+    return <LoadingScreen />;
   }
   return (
     <View style={styles.maincontainer}>
@@ -72,7 +71,11 @@ export default function Home({ navigation }) {
         >
           {randomGreeting}
           {"\n"}
-          <Text style={{ fontWeight: "bold", fontSize: 46 }} numberOfLines={1} adjustsFontSizeToFit={true}>
+          <Text
+            style={{ fontWeight: "bold", fontSize: 46 }}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+          >
             {userDetails.name.split(" ")[0]}
           </Text>
         </Text>
@@ -81,7 +84,9 @@ export default function Home({ navigation }) {
       {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
       {/* <CoffeeSaved coffeenumber={userDetails.coffee_earnt} /> */}
       <View style={[styles.qr]}>
-        <Text style={{ fontSize: 50, fontFamily:'Pacifico-Regular' }}>Scan Here</Text>
+        <Text style={{ fontSize: 50, fontFamily: "Pacifico-Regular" }}>
+          Scan Here
+        </Text>
         <View
           style={{ backgroundColor: "#eaded6", padding: 20, borderRadius: 20 }}
         >
@@ -94,7 +99,11 @@ export default function Home({ navigation }) {
           />
         </View>
       </View>
-      <NavBar navigation={navigation} isFocused={isFocused ? "main" : null} cards={cards}/>
+      <NavBar
+        navigation={navigation}
+        isFocused={isFocused ? "main" : null}
+        cards={userCards}
+      />
       {/* </ImageBackground> */}
     </View>
   );
@@ -161,8 +170,8 @@ const styles = StyleSheet.create({
   },
   greetings: {
     flex: 1.5,
-    paddingHorizontal:30,
-    paddingBottom:20,
+    paddingHorizontal: 30,
+    paddingBottom: 20,
     backgroundColor: colors.widgetbg,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -170,7 +179,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     alignItems: "flex-end",
-   
   },
   coffeesaved: {
     flex: 1,

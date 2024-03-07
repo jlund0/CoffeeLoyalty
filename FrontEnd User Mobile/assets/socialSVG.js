@@ -7,6 +7,7 @@ import Svg, {
   Stop,
   G,
   Circle,
+  Ellipse,
 } from "react-native-svg";
 
 export function FacebookSVG(props) {
@@ -353,19 +354,44 @@ export const CupTop = (props) => (
   </svg>
 );
 
-
 export function Bean(props) {
   return (
     <Svg
-      fill="#89541b"
+      width={48}
+      height={48}
+      viewBox="0 0 12.7 12.7"
       xmlns="http://www.w3.org/2000/svg"
-      width="134px"
-      height="134px"
-      viewBox="0 0 326.05 326.05"
-      xmlSpace="preserve"
       {...props}
+      fill="none"
     >
-      <Path d="M14.257 275.602C-17.052 220.391 4.253 133.798 69.023 69.01c73.553-73.543 175.256-91.076 227.182-39.16.061.068.112.145.195.214-10.392 30.235-43.486 94.567-142.686 129.348-90.872 31.878-125.926 82.56-139.457 116.19zM310.81 48.75c-7.871 18.361-21.57 42.356-45.173 65.957-23.725 23.735-57.445 47.046-105.208 63.8C63.49 212.5 36.405 268.149 28.848 295.116c.357.36.664.733 1.011 1.083 51.921 51.918 153.628 34.386 227.176-39.169 65.444-65.445 86.491-153.161 53.775-208.28z" />
+      <Ellipse
+        cx={-1.0828692}
+        cy={8.977788}
+        rx={6.7433648}
+        ry={4.6524749}
+        transform="matrix(.66213 -.7494 .78709 .61684 0 0)"
+        fill={props.fill}
+        fillOpacity={1}
+        stroke="#000"
+        strokeWidth={1.11564}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="none"
+        strokeOpacity={1}
+        paintOrder="stroke fill markers"
+      />
+      <Path
+        d="M9.62 3.037c-1.606.58-2.922 1.453-3.27 3.303C6 8.19 3.09 9.643 3.09 9.643"
+        fill="none"
+        fillOpacity={1}
+        stroke="#000"
+        strokeWidth={0.891539}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray="none"
+        strokeOpacity={1}
+        paintOrder="stroke fill markers"
+      />
     </Svg>
-  )
+  );
 }
