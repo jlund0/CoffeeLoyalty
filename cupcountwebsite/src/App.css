@@ -69,7 +69,7 @@ section {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom; 
-  padding:10%;
+  
 }
 
 
@@ -140,7 +140,7 @@ h3{
 .roller {
   display: flex;
   overflow: hidden;
-  height: 75px;
+  height: 70px;
   position: relative;
 }
 .roller #rolltext{
@@ -154,10 +154,10 @@ h3{
     top:0
   }
   33%{
-    top:-70px
+    top:-80px
   }
   66%{
-    top:-140px
+    top:-155px
   }
 }
 

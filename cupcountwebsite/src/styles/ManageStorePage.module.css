@@ -1,0 +1,41 @@
+.dashboard-grid{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas: 
+    "store-list store-list"
+    "dashboard current-card";
+}
+
+.dashboard{
+    grid-area: dashboard;
+
+}
+
+.current-card{
+    grid-area: current-card;
+}
+
+.store-list{
+    grid-area: store-list;
+}
+
+.store-button{
+
+}
+
+.stores-container{
+    display:flex;
+    flex-direction: row;
+}
+
+.stats-box{}
+
+.title{}
+
+.red-zone{
+
+}
+.close-button{
+    
+}

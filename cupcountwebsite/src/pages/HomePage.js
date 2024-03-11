@@ -1,6 +1,7 @@
 import "../App.css";
 import { useState } from "react";
 import BottomNav from "../bottomNav";
+import NavBar from "../NavBar";
 const HomePage = () => {
   let rollerText = [
     "carrying loyalty cards",
@@ -13,6 +14,7 @@ const HomePage = () => {
 
   return (
     <>
+      <NavBar />
       <section id="landing">
         {/* <h1 class="lobster-regular"></h1> */}
         <div id="heroContianer">
@@ -71,7 +73,7 @@ const HomePage = () => {
               height={600}
             ></img>
           </div>
-          <div id="about" >
+          <div id="about">
             <h2>How it works</h2>
             <div id="tabbox">
               <div class="howitworkstab" onClick={() => setScreen(0)}>
@@ -97,9 +99,7 @@ const HomePage = () => {
               </div>
               <div class="howitworkstab" onClick={() => setScreen(2)}>
                 <h3>Claim your Free coffee</h3>
-                <p>
-                  Redeem and enjoy your free coffee 
-                </p>
+                <p>Redeem and enjoy your free coffee</p>
               </div>
             </div>
           </div>

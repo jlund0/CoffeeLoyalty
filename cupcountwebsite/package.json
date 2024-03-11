@@ -9,6 +9,8 @@
     "firebase": "^10.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons-kit": "^2.0.0",
+    "react-password-strength-bar": "^0.4.1",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"

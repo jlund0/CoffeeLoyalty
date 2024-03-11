@@ -15,7 +15,7 @@ const NavBar = () => {
         </li>
       </ul>
       <div className="nav-item nav-right">
-        <Link to="/console">To Admin Console</Link>
+        <Link to="/signin">To Admin Console</Link>
       </div>
     </nav>
   );

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import BottomNav from "../bottomNav";
+import NavBar from "../NavBar";
 const PricingPage = () => {
   const [screenShow, setScreen] = useState(0);
 
   let screens = ["homescreen", "rewardscreen", "mapscreen"];
   return (
     <>
+      <NavBar />
       <section>
         <div id="store-owner">
           <h1>
@@ -20,6 +22,9 @@ const PricingPage = () => {
           </button>
         </div>
       </section>
+      <div id="hero-perks">
+        <h3>Sustainable ~ Easy to use ~ Trackable store stats</h3>
+      </div>
       <section id="howitworksbox">
         <div id="about-box">
           <div id="screenWrapper">
@@ -114,7 +119,7 @@ const PricingPage = () => {
           </div>
         </div>
       </section>
-      <BottomNav/>
+      <BottomNav />
     </>
   );
 };

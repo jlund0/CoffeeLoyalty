@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+
 const ConsolePage = () => {
-  //get stores
-  const [stores, setStores] = useState([]);
+  let { id } = useParams();
   return (
     <>
-    <section>
-    <div>
-      <button>Manage stores</button>
-      <button>Billing</button>
-      <button>Your details</button>
-      <button>Need help?</button>
-      <button>Log out</button></div></section>
-      </>
+      <section>
+        <h1>Welcome {}</h1>
+        <div>
+          <Link to={`/console/${id}/stores`}>Manage stores</Link>
+          <Link to={`/console/${id}/billing`}>Billing</Link>
+          <Link to={`/console/${id}/details`}>Your details</Link>
+          <Link to={`/console/${id}/help`}>Need help?</Link>
+          <button>Log out</button>
+        </div>
+      </section>
+    </>
   );
 };
 export default ConsolePage;
-
-const Dashboard = (store) => {
-  return <></>;
-};
