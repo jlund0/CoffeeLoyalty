@@ -8,7 +8,9 @@ async function getStores(storeRefs) {
   await Promise.all(
     storeRefs.map(async (storeRef) => {
       const store = await getDoc(storeRef);
-      stores.push(store.data());
+      let data = store.data();
+      data.id = store.id;
+      stores.push(data);
     })
   );
   console.log(stores);

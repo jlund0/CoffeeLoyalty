@@ -90,9 +90,9 @@ function App() {
               path="/console/:id/stores"
               element={
                 <RequireAuth>
-                  <ConsoleLayout>
+                  <ConsolesPagesLayout userId>
                     <ManageStorePage />
-                  </ConsoleLayout>
+                  </ConsolesPagesLayout>
                 </RequireAuth>
               }
             />
@@ -100,9 +100,9 @@ function App() {
               path="/console/:id/billing"
               element={
                 <RequireAuth>
-                  <ConsoleLayout>
+                  <ConsolesPagesLayout userId>
                     <BillingPage />
-                  </ConsoleLayout>
+                  </ConsolesPagesLayout>
                 </RequireAuth>
               }
             />
@@ -110,9 +110,9 @@ function App() {
               path="/console/:id/details"
               element={
                 <RequireAuth>
-                  <ConsoleLayout>
+                  <ConsolesPagesLayout userIdt>
                     <DetailsPage />
-                  </ConsoleLayout>
+                  </ConsolesPagesLayout>
                 </RequireAuth>
               }
             />
@@ -137,16 +137,50 @@ function ConsoleLayout({ children }) {
       });
   };
   return (
-    <div>
-      <header>
-        <Link to="/" className="lobster-regular">
-          CupCount
+    <>
+      <nav>
+        <Link to="/">
+          <h1 className="logo lobster-regular">CupCount</h1>
         </Link>
-        <button onClick={logout}>Logout</button>
-      </header>
+        <button className="LogoutButton" onClick={logout}>
+          Logout
+        </button>
+      </nav>
       {children}
       <BottomNav />
-    </div>
+    </>
+  );
+}
+
+function ConsolesPagesLayout({ children, userId }) {
+  let logout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+  return (
+    <>
+      <nav>
+        <Link to="/">
+          <h1 className="logo lobster-regular">CupCount</h1>
+        </Link>
+        <div className="">
+          <Link to={`/console/${userId}/stores`}>Manage stores</Link>
+          <Link to={`/console/${userId}/billing`}>Billing</Link>
+          <Link to={`/console/${userId}/details`}>Your details</Link>
+          <Link to={`/console/${userId}/help`}>Need help?</Link>
+        </div>
+        <button className="LogoutButton" onClick={logout}>
+          Logout
+        </button>
+      </nav>
+      {children}
+      <BottomNav />
+    </>
   );
 }
 

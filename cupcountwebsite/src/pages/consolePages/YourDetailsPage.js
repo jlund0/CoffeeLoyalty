@@ -6,7 +6,23 @@ function DetailsPage() {
       <Link to=".." relative="path">
         {"<"}
       </Link>
-      <h1>Details</h1>
+      <div>
+        <h1>Your Details</h1>
+        <h1>
+          Name<span></span>
+        </h1>
+        <h1>
+          Email<span></span>
+        </h1>
+        <h1>
+          Number<span></span>
+        </h1>
+      </div>
+      <div>
+        <h1>
+          Card<span></span>
+        </h1>
+      </div>
     </div>
   );
 }
