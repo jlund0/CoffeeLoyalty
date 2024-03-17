@@ -1,0 +1,28 @@
+.linkbox{
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    gap:1rem;
+    justify-content: space-between;
+
+}
+
+.linkboxwrapper{
+    border:5px solid black;
+    padding:5rem;
+    border-radius: 1rem;
+}
+
+.link{
+    font-size:2rem;
+    text-decoration: none;
+
+}
+
+
+.linkboxwrapper h1{
+    font-size: 2.5rem;
+    margin:0;
+    padding-bottom: 2rem;
+    
+}

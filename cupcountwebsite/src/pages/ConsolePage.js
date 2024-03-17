@@ -1,20 +1,28 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
+import styles from "./../styles/ConsolePage.module.css";
 const ConsolePage = () => {
   let { id } = useParams();
 
   return (
     <>
       <section>
-        <div>
+        <div className={styles.linkboxwrapper}>
           <h1>Welcome {}</h1>
-          <div className="">
-            <Link to={`/console/${id}/stores`}>Manage stores</Link>
-            <Link to={`/console/${id}/billing`}>Billing</Link>
-            <Link to={`/console/${id}/details`}>Your details</Link>
-            <Link to={`/console/${id}/help`}>Need help?</Link>
-            <button>Log out</button>
+
+          <div className={styles.linkbox}>
+            <Link to={`/console/${id}/stores`} className={styles.link}>
+              Manage stores
+            </Link>
+            <Link to={`/console/${id}/billing`} className={styles.link}>
+              Billing
+            </Link>
+            <Link to={`/console/${id}/details`} className={styles.link}>
+              Your details
+            </Link>
+            <Link to={`/console/${id}/help`} className={styles.link}>
+              Need help?
+            </Link>
           </div>
         </div>
       </section>

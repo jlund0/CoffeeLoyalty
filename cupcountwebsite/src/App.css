@@ -62,7 +62,7 @@ nav a:hover {
 }
 section {
   margin:0;
-  height:100vh;
+  /* height:100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,14 +89,19 @@ section {
   height:30vh;
   
 }
+h1{
+  font-size:3rem;
+}
 
 h2 {
-  font-size: 52px;
+  font-size: 2rem;
 }
 
 h3{
-  font-size: 26px;
+  font-size: 1rem;
 }
+
+
 
 #download-wrap{
   display:flex;
@@ -131,11 +136,7 @@ h3{
   align-content: center;
 
 }
-.howitworkstab{
-  cursor: pointer;
 
-  /* padding: 0 2rem 0 2rem */
-}
 
 .roller {
   display: flex;
@@ -147,17 +148,17 @@ h3{
   position:absolute;
   top: 0;
   animation: slide 5s infinite;
-  line-height: 1.4;
+
 }
 @keyframes slide {
   0%{
     top:0
   }
   33%{
-    top:-80px
+    top:-100%
   }
   66%{
-    top:-155px
+    top:-200%
   }
 }
 

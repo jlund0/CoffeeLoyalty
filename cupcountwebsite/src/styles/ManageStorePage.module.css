@@ -1,51 +1,180 @@
-.dashboard-grid{
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: 1fr 5fr;
-    grid-template-areas: 
-    "store-list store-list"
-    "dashboard current-card";
+.dashboardGrid{
+    display: flex;
+    gap:1rem;
 }
 
 .dashboard{
     grid-area: dashboard;
-
+    padding:1rem;
+    display: flex;
+    flex-direction: column;
+    gap:2em;
+    width:100%;
+}
+.storeinfobox h4 {
+    border-bottom:1px solid black;
+    padding-bottom:1em;
 }
 
-.current-card{
-    grid-area: current-card;
+.dashboard span{
+    float:right
 }
 
-.store-list{
+
+.storeList{
     grid-area: store-list;
 }
 
-.store-button{
+.storeButton{
 
 }
 
 .storeSelection{
     display:flex;
     flex-direction: row;
+    grid-area: store-list;
+    gap:1rem;
+}
+.storeSelection h3{
+    font-size: 1rem;
+}
+.storeSelection button{
+    padding:0 2em
+
 }
 
-.stats-box{}
+
+.statsBox{
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: space-evenly;
+    border:grey 3px solid;
+    border-radius: 1rem;
+    padding:3rem 0;
+    height:10vh
+}
+
+.boxBasics{}
+
+.stats {
+    border:2px solid black;
+    padding:1em;
+    aspect-ratio: 1/1;
+    border-radius: 2rem;
+    text-align: center;
+    margin: 0;
+    height:auto;
+
+    
+}
+
+.stats h3{
+    text-align: center;
+    text-decoration: underline;
+    margin:0;
+}
+.stats h4{
+    text-align: center;
+    margin:0;
+}
+.storeinfobox{
+    border:grey 3px solid;
+    border-radius: 1rem;
+    padding:3rem;
+    
+}
+
 
 .title{}
 
-.red-zone{
-
+.redZone{
+    grid-area:red-zone;
+    background-color: rgba(255, 0, 0, 0.308);
+    padding:2rem;
 }
 .close-button{
     
 }
 .titleBox{
-    width:100vw;
+    width:100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 .logo{
+
+
+}
+.infoBox{
+    border:1px solid black;
+    width:80%;
+    padding:5rem
+
+}
+
+
+.card {
+    grid-area: current-card;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    border-width: 10;
+    border-radius: 10;
+    border-color: #4B2D0B;
+    background-color: #cdb891;   
+    flex:1;
+}
+
+.cardHeader{
+    display:flex;
+    justify-content:"center";
+    align-items:"center";
+    padding:20;
+    background-color:"#EADDCA";
+    border-radius:20;
+    text-align:"center";
+    font-weight:"bold"
+}
+
+.stampContainer{
+    display: flex;
+    align-content:"stretch";
+    width:"100%";
+    flex-wrap:"wrap";
+    justify-content:"space-evenly";
+    flex-direction:"row";
+    flex:1;
+    padding:"auto";
+    gap:5
+
+
+}
+
+.stampBox{
+    display:flex;
+    max-width:"50%";
+    justify-content:"center";
+    align-items:"center";
+    border-radius:20;
+    background-color:"#EADDCA";
+    padding:10;
+    aspect-ratio:"1/1";
+    align-self:"center"
+}
+
+.stampBoxLogo{
+    width:"100%";
+    height: "100%";
+    opacity: 0.4;
+    aspectRatio:1;
+}
+
+.stamp{
+    position: absolute;
+    width: "100%";
+    height: "100%";
 
 
 }

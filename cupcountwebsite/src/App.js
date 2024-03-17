@@ -152,7 +152,8 @@ function ConsoleLayout({ children }) {
   );
 }
 
-function ConsolesPagesLayout({ children, userId }) {
+function ConsolesPagesLayout({ children }) {
+  const user = auth.currentUser;
   let logout = () => {
     signOut(auth)
       .then(() => {
@@ -164,15 +165,15 @@ function ConsolesPagesLayout({ children, userId }) {
   };
   return (
     <>
-      <nav>
+      <nav className="static">
         <Link to="/">
           <h1 className="logo lobster-regular">CupCount</h1>
         </Link>
         <div className="">
-          <Link to={`/console/${userId}/stores`}>Manage stores</Link>
-          <Link to={`/console/${userId}/billing`}>Billing</Link>
-          <Link to={`/console/${userId}/details`}>Your details</Link>
-          <Link to={`/console/${userId}/help`}>Need help?</Link>
+          <Link to={`/console/${user.uid}/stores`}>Manage stores</Link>
+          <Link to={`/console/${user.uid}/billing`}>Billing</Link>
+          <Link to={`/console/${user.uid}/details`}>Your details</Link>
+          <Link to={`/console/${user.uid}/help`}>Need help?</Link>
         </div>
         <button className="LogoutButton" onClick={logout}>
           Logout

@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
   // if (!hasDisplayName) {
   //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
   // }
-  window.navigator.userAgent = "ReactNative";
+  // window.navigator.userAgent = "ReactNative";
   useEffect(() => {
     async function fetchFirebaseInfo() {
       if (userDetails === null) {

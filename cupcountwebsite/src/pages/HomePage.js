@@ -17,10 +17,10 @@ const HomePage = () => {
       <NavBar />
       <section id="landing">
         {/* <h1 class="lobster-regular"></h1> */}
-        <div id="heroContianer">
-          <div id="heroText">
-            <h2 id="hero-title">
-              Tired of{" "}
+        <div id="heroContianer" className="flex justify-center content-center ">
+          <div id="heroText" className="flex-col  self-center">
+            <h1 id="hero-title" className="py-5">
+              Tired of
               <div class="roller">
                 <span id="rolltext">
                   {rollerText[0]}
@@ -32,19 +32,25 @@ const HomePage = () => {
                 </span>
                 <br />
               </div>
-            </h2>
-            <h3 id="hero-slogan">
+            </h1>
+            <h2 id="hero-slogan" className="py-10">
               Simplify your coffee rewards with CupCount! Have all your cafe
               loyalty cards in one place. Ensuring every sip counts towards
               something great!
-            </h3>
-            <h2>Download for free</h2>
-            <div id="download-wrap">
-              <img src="applestore.svg" alt="download on ios" height={70} />
+            </h2>
+            <h1>Download for free</h1>
+            <div id="download-wrap" className="py-10 gap-10">
+              <img
+                src="applestore.svg"
+                alt="download on ios"
+                height={70}
+                className="h-20"
+              />
               <img
                 src="google-play-badge.png"
                 alt="download on google play"
                 height={70}
+                className="h-20"
               />
             </div>
           </div>
@@ -65,41 +71,60 @@ const HomePage = () => {
         </div>
       </section>
       <section id="howitworksbox" className="background-image">
-        <div id="about-box" className="bluebg">
-          <div id="screenWrapper">
+        <div id="about-box" className="bluebg backdrop-blur-md flex-col">
+          <h1>How it works</h1>
+          <div id="screenWrapper" className="flex p-10">
             <img
               src={`${screens[screenShow]}.png`}
               alt="heroImg"
-              height={600}
+              height={10}
+              className=""
             ></img>
-          </div>
-          <div id="about">
-            <h2>How it works</h2>
-            <div id="tabbox">
-              <div class="howitworkstab" onClick={() => setScreen(0)}>
-                <h3>Your unqiue card</h3>
-                <p>
-                  All you need to do is get you QR code scanned after purchasing
-                  a coffee at participating stores and watch the rewards come in
-                </p>
-              </div>
-              <div class="howitworkstab" onClick={() => setScreen(1)}>
-                <h3>See your currrent rewards</h3>
-                <p>
-                  View all your current loyalty cards in progress and redeem
-                  your free coffees
-                </p>
-              </div>
-              <div class="howitworkstab" onClick={() => setScreen(2)}>
-                <h3>Find your closest cafe</h3>
-                <p>
-                  See a map overview of all the cafes close to you to get your
-                  next coffee
-                </p>
-              </div>
-              <div class="howitworkstab" onClick={() => setScreen(2)}>
-                <h3>Claim your Free coffee</h3>
-                <p>Redeem and enjoy your free coffee</p>
+
+            <div id="about" className="">
+              <div
+                id="tabbox"
+                className="grid grid-flow-row h-full  justify-stretch gap-5"
+              >
+                <div
+                  className="border-2 rounded-3xl px-10 flex-col justify-center  bg-slate-200"
+                  onClick={() => setScreen(0)}
+                >
+                  <h2 className="">Your unqiue card</h2>
+
+                  <p className="">
+                    All you need to do is get you QR code scanned after
+                    purchasing a coffee at participating stores and watch the
+                    rewards come in
+                  </p>
+                </div>
+                <div
+                  className="border-2 rounded-3xl px-10 w-full bg-slate-200"
+                  onClick={() => setScreen(1)}
+                >
+                  <h2>See your currrent rewards</h2>
+                  <p>
+                    View all your current loyalty cards in progress and redeem
+                    your free coffees
+                  </p>
+                </div>
+                <div
+                  className="border-2 rounded-3xl px-10 w-full bg-slate-200"
+                  onClick={() => setScreen(2)}
+                >
+                  <h2>Find your closest cafe</h2>
+                  <p>
+                    See a map overview of all the cafes close to you to get your
+                    next coffee
+                  </p>
+                </div>
+                <div
+                  className="border-2 rounded-3xl px-10 w-full bg-slate-200"
+                  onClick={() => setScreen(2)}
+                >
+                  <h2>Claim your Free coffee</h2>
+                  <p>Redeem and enjoy your free coffee</p>
+                </div>
               </div>
             </div>
           </div>

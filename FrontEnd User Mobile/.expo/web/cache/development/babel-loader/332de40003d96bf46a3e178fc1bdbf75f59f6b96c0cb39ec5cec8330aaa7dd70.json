@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from \"./src/index.js\";","map":{"version":3,"names":["default"],"sources":["D:/Users/julian/GIT/CoffeeLoyalty/FrontEnd User Mobile/node_modules/react-native-qrcode-svg/index.js"],"sourcesContent":["export { default } from './src/index.js'\r\n"],"mappings":"AAAA,SAASA,OAAO"},"metadata":{},"sourceType":"module","externalDependencies":[]}
