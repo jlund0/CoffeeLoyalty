@@ -6,7 +6,7 @@ const ConsolePage = () => {
 
   return (
     <>
-      <section>
+      <section className="h-screen">
         <div className={styles.linkboxwrapper}>
           <h1>Welcome {}</h1>
 

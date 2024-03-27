@@ -12,21 +12,23 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import AddUserToFirestore from "../firebase/createUser";
 import { Navigate } from "react-router-dom";
+import Logo from "../components/logo";
 const auth = getAuth(app);
 
 function SignInPage(type = "login") {
   const [screenType, setType] = useState(type);
   return (
-    <section>
+    <section className="w-screen h-screen flex-col">
+      <header className=" flex w-screen justify-between h-20 absolute top-0">
+        <Logo />
+        <h1 className="">Store Owner Sign In</h1>
+        <button>
+          <Link to="/">Back to site</Link>
+        </button>
+      </header>
       <div>
-        <header>
-          <Link to="/">
-            <h1>CupCount</h1>
-          </Link>
-          <h1>Store Sign In</h1>
-          <button onClick={() => setType("login")}>Login</button>
-          <button onClick={() => setType("register")}>SignUp</button>
-        </header>
+        <button onClick={() => setType("login")}>Login</button>
+        <button onClick={() => setType("register")}>SignUp</button>
         {screenType === "login" ? (
           <SignIn onClick={() => setType("register")} />
         ) : (
@@ -78,7 +80,7 @@ function SignUp({ onClick }) {
   };
   return (
     <div>
-      <div>
+      <div className="flex-col">
         <label>Name</label>
         <input type="text" onChange={(e) => setName(e.target.value)} />
         <label>Phone</label>

@@ -1,13 +1,15 @@
 nav {
-  /* border-bottom: 4px solid black; */
-  text-align: center;
+
+  /* text-align: center;
   position: fixed;
   top: 0;
   width: 100%;
-  /* background: white; */
+
   display:flex;
   justify-content: space-between;
   align-items: center;
+  font-size:1.5rem;
+  z-index: 1; */
 }
 
 .lobster-regular {
@@ -17,15 +19,15 @@ nav {
 }
 
 nav ul {
-  list-style-type: none;
+  /* list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0; */
 }
 
 nav li {
-  display: inline-block;
+  /* display: inline-block;
   padding-top: 24px;
-  padding-bottom: 24px;
+  padding-bottom: 24px; */
 }
 .nav-item {
   display: inline-block;
@@ -34,7 +36,6 @@ nav li {
 }
 nav a {
   text-decoration: none;
-  color: black;
   font-weight: bold;
   padding: 24px 32px;
 }
@@ -47,14 +48,32 @@ nav a:hover {
 #landing{
   padding-top:2.5em;
   background-image: url("../public/background.svg");
-
+  background-color: white;
  
 }
+#logo{
+  border-radius: 50% 50%
+}
+
 
 #howitworksbox{
   background-image: url("../public/background2.svg");
+  
 }
 
+.backgroundImage1 {
+  background-image: url("../public/background.svg");
+}
+.backgroundImage2 {
+  background-image: url("../public/background2.svg");
+}
+.backgroundImage3{
+  background-image: url("../public/background3.svg");
+}
+/* #bottomNav{
+  background-image: url("../public/bottomNav.svg");
+  
+} */
 .logo{
   font-size: 2em;
   padding: 0 1em;
@@ -77,6 +96,9 @@ section {
   display:flex;
   align-content: center;
   
+}
+#hero-title{
+  font-size: 2em;  
 }
 
 #heroText{
@@ -106,10 +128,6 @@ h3{
 #download-wrap{
   display:flex;
   align-items: center;
-
-
-  
-
 }
 #about {
   display:flex;
@@ -167,7 +185,7 @@ h3{
   column-gap: 50px;
   width:60vw;
   padding:2rem;
-  border-radius:40px
+  border-radius: 23% 77% 19% 81% / 70% 33% 67% 30%;
 }
 
 #beansvg{
@@ -178,64 +196,13 @@ h3{
   width:600px
 }
 
-#pricebox{
-  display: flex;
-  justify-content: center;
-  gap:3rem;
-
-
-}
-
-
-
-.card{
-  border:1px solid red;
-  padding:2rem 3rem ;
-  display:flex;
-  row-gap: 0.5rem;
-  flex-direction: column;
-  width:18vw;
-  align-items: center;
-  border-radius: 30px;
-
-}
 .header h2 {
   margin: 0.5rem 0 ;
   font-size: 40px;
 }
 
-.price {
-
-}
-.price span{
-  font-size: 1rem;
-  font-weight: 400;
-  color:gray
-
-}
-.featureList {
-  --color: #000;
-  --icon: var(--redTick);
-  --height: 0.875rem;
-
-  margin: 0 0 2.0rem;
-  padding: 0;
-  font-weight: 500;
-
-  li {
-    color: var(--color);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;}
-  }
 #bottom-nav{
-  background-color: #3e230f;
   color:white;
-  display:flex;
-  align-items: flex-end;
-  width: 100vw;
-  
 }
 #bottom-nav ul {
   list-style-type: none;
@@ -249,10 +216,7 @@ h3{
   padding-bottom: 24px;}
 
 .button {
-  --bgColor: lightblue;
-  --shadowColor: rgb(234 76 137 / 30%);
   --outline: var(--pink);
-
   border-radius: 0.5rem;
   display: block;
   width: 100%;
@@ -262,14 +226,13 @@ h3{
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
-  background-color: var(--bgColor);
   color: var(--color);
   cursor: pointer;
   transition: all 0.1s ease-in-out;
   user-select: none;
   
   &--white {
-    --bgColor: #fff;
+
     --shadowColor: rgb(255 255 255 / 30%);
     --outline: #fff;
   }
@@ -286,13 +249,81 @@ h3{
 }
 
 
-#bottom-nav{
-  /* width: 100vw; */
-  display:flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
+
 .bluebg{
-background-color: #ADD8E680;
+background-color: #89cff0;
 
 }
+
+#hero-perks{
+  overflow: hidden;
+  position: relative;
+  height: 100px;
+  width: 100%;
+  /* Full width of its parent */
+  white-space: nowrap;
+}
+
+#hero-perks h1:nth-child(1){
+  position:absolute;
+  width:auto;
+  height:100%;
+  text-align: center;
+  transform:translateX(100%);
+  animation:scroll-right 30s linear infinite
+}
+#hero-perks h1:nth-child(2){
+  position:absolute;
+  width:auto;
+  height:100%;
+  text-align: center;
+  animation:scroll-right2 30s linear infinite
+  
+}
+#hero-perks h1:nth-child(3){
+  position:absolute;
+  width:auto;
+  height:100%;
+  text-align: center;
+  animation:scroll-right3 30s linear infinite
+  
+}
+#marque-text{
+  transform: translateX(-100%);
+}
+@keyframes scroll-right{
+  0%{
+    transform: translateX(100%);
+  }
+  100%{
+    transform: translate(-100%);
+  }
+}
+
+
+@keyframes scroll-right2{
+    0%{
+      transform: translateX(0);
+    }
+    100%{
+      transform: translate(-200%);
+    }
+  }
+
+  @keyframes scroll-right3{
+    0%{
+      transform: translateX(200%);
+    }
+    100%{
+      transform: translate(0%);
+    }
+  }
+
+  #adminPage #bottomNav{
+    background-color: #23170D;
+  }
+
+  #homePage #bottomNav{
+    background-color:"#3E230F";
+  }
+

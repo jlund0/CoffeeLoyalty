@@ -162,7 +162,7 @@ function StoreInfo({ storeInfo, logo, edit }) {
         <div className="bg-white flex justify-between border-dashed border-b-2 my-2 ">
           <div>Logo</div>
           <div className="h-32">
-            <img id="logo" alt="logo" src={logo} className="h-full" />
+            <img alt="logo" src={logo} className="h-full" />
           </div>
         </div>
       </div>

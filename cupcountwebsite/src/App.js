@@ -10,7 +10,7 @@ import {
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import PricingPage from "./pages/PricingPage";
+import PricingPage from "./pages/AdminLandingPage";
 import ConsolePage from "./pages/ConsolePage";
 import ContactPage from "./pages/ContactPage";
 import SignInPage from "./pages/SignInPage";
@@ -66,7 +66,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/store-owner" element={<PricingPage />} />
             <Route
               path="/signin"
               element={
@@ -147,7 +147,7 @@ function ConsoleLayout({ children }) {
         </button>
       </nav>
       {children}
-      <BottomNav />
+      {/* <BottomNav /> */}
     </>
   );
 }
