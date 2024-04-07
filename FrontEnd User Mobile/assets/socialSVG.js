@@ -2,12 +2,15 @@ import * as React from "react";
 import Svg, {
   Path,
   Rect,
-  Defs,
   LinearGradient,
   Stop,
   G,
   Circle,
   Ellipse,
+  Defs,
+  RadialGradient,
+  Text,
+  TSpan,
 } from "react-native-svg";
 
 export function FacebookSVG(props) {
@@ -395,3 +398,182 @@ export function Bean(props) {
     </Svg>
   );
 }
+
+// export function FrontLogo(props) {
+//   return (
+//     <Svg
+//       width="135mm"
+//       height="134mm"
+//       viewBox="0 0 135 134"
+//       xmlnsXlink="http://www.w3.org/1999/xlink"
+//       xmlns="http://www.w3.org/2000/svg"
+//       {...props}
+//     >
+//       <Defs>
+//         <LinearGradient id="b">
+//           <Stop offset={0.78438032} stopColor="#784421" stopOpacity={1} />
+//           <Stop offset={1} stopColor="#784421" stopOpacity={0} />
+//         </LinearGradient>
+//         <LinearGradient id="a">
+//           <Stop offset={0} stopColor="#fafafa" stopOpacity={1} />
+//           <Stop offset={1} stopColor="#fafafa" stopOpacity={0} />
+//         </LinearGradient>
+//         <Path
+//           id="d"
+//           d="M146.01881 408.07047H710.5379800000001V850.03815H146.01881z"
+//         />
+//         <RadialGradient
+//           xlinkHref="#a"
+//           cx={69.508705}
+//           cy={51.468655}
+//           fx={69.508705}
+//           fy={51.468655}
+//           r={37.040024}
+//           gradientUnits="userSpaceOnUse"
+//           gradientTransform="translate(-1.907 14.598)"
+//         />
+//         <RadialGradient
+//           xlinkHref="#b"
+//           id="c"
+//           cx={69.508705}
+//           cy={51.468655}
+//           fx={69.508705}
+//           fy={51.468655}
+//           r={37.459053}
+//           gradientUnits="userSpaceOnUse"
+//           gradientTransform="translate(-1.907 14.598)"
+//         />
+//       </Defs>
+//       <Path
+//         d="M40.88 143.843h12.618v18.848H40.88a9.834 9.834 45 01-9.834-9.834 9.433 9.433 137.493 019.834-9.014z"
+//         transform="matrix(.79662 .59144 -.59144 .79662 75.483 -114.295)"
+//         display="inline"
+//         fill="#f9f9f9"
+//         strokeWidth={1.159}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         paintOrder="stroke fill markers"
+//       />
+//       <Circle
+//         cx={67.602097}
+//         cy={66.067101}
+//         r={51.224739}
+//         display="inline"
+//         fill="#f9f9f9"
+//         strokeWidth={1.159}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         paintOrder="stroke fill markers"
+//       />
+//       <Circle
+//         cx={67.602097}
+//         cy={66.067101}
+//         r={42.952999}
+//         display="inline"
+//         fill="#502d16"
+//         strokeWidth={0.971845}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         paintOrder="stroke fill markers"
+//       />
+//       <Circle
+//         cx={67.602097}
+//         cy={66.067101}
+//         r={37.040024}
+//         display="inline"
+//         fill="url(#c)"
+//         stroke="url(#radialGradient4)"
+//         strokeWidth={0.838059}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         paintOrder="stroke fill markers"
+//       />
+//       <Text
+//         xmlSpace="preserve"
+//         transform="matrix(.5391 0 0 .52775 -164.71 -184.248)"
+//         style={{
+//           lineHeight: 1,
+//           InkscapeFontSpecification: "'Inter Heavy'",
+//           textAlign: "center",
+//           whiteSpace: "pre",
+//           shapeInside: "url(#d)",
+//         }}
+//         fontWeight={900}
+//         fontSize="133.333px"
+//         fontFamily="Inter"
+//         letterSpacing={0}
+//         wordSpacing={0}
+//         display="inline"
+//         fill="#e9c6af"
+//         stroke="none"
+//         strokeWidth={4.38047}
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//         strokeOpacity={1}
+//         paintOrder="stroke fill markers"
+//       >
+//         <TSpan x={360.27846} y={514.7993}>
+//           <TSpan
+//             style={{
+//               InkscapeFontSpecification: "Lobster",
+//             }}
+//             fontWeight={400}
+//             fontFamily="Lobster"
+//           >
+//             {"LB"}
+//           </TSpan>
+//         </TSpan>
+//       </Text>
+//     </Svg>
+//   );
+// }
+
+// export function BackLogo(props) {
+//   return (
+//     <Svg
+//       width="135mm"
+//       height="134mm"
+//       viewBox="0 0 135 134"
+//       id="svg1"
+//       inkscape:export-filename="frontlogo.svg"
+//       inkscape:export-xdpi={96}
+//       inkscape:export-ydpi={96}
+//       inkscape:version="1.3.1 (91b66b0783, 2023-11-16)"
+//       sodipodi:docname="frontlogo.svg"
+//       xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+//       xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+//       xmlns="http://www.w3.org/2000/svg"
+//       xmlns:svg="http://www.w3.org/2000/svg"
+//       {...props}
+//     >
+//       <Defs id="defs1" />
+//       <G inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1">
+//         <Path
+//           sodipodi:type="star"
+//           id="path6"
+//           inkscape:flatsided="false"
+//           sodipodi:sides={22}
+//           sodipodi:cx={-46.831657}
+//           sodipodi:cy={-48.295147}
+//           sodipodi:r1={77.713036}
+//           sodipodi:r2={65.278954}
+//           sodipodi:arg1={0.87961724}
+//           sodipodi:arg2={1.0224169}
+//           inkscape:rounded={0.09}
+//           inkscape:randomized={0}
+//           transform="matrix(0.85562766,-0.01359348,0.01346922,0.86352072,108.22096,108.06725)"
+//           display="inline"
+//           fill="#89cff0"
+//           fillOpacity={1}
+//           stroke="none"
+//           strokeWidth={6.51499}
+//           strokeLinecap="round"
+//           strokeLinejoin="round"
+//           strokeDasharray="none"
+//           strokeOpacity={1}
+//           paintOrder="stroke fill markers"
+//         />
+//       </G>
+//     </Svg>
+//   );
+// }

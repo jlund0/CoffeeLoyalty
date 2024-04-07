@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   View,
   TextInput,
@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   Pressable,
 } from "react-native";
+import { resetPassword } from "../firebasefunctions";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";
@@ -31,9 +32,14 @@ const handleEmailandPasswordLogin = (email, password) => {
 };
 
 export default function SignInScreen({ navigation }) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [isFocused, setIsFocused] = React.useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
+
+  const ResetPassword = () => {
+    setResetPassword(true);
+  };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -70,7 +76,6 @@ export default function SignInScreen({ navigation }) {
           >
             Login
           </Text>
-
           <View
             style={{
               flexDirection: "row",
@@ -110,10 +115,11 @@ export default function SignInScreen({ navigation }) {
               // onFocus={() => setIsFocused(true)}
               // onBlur={() => setIsFocused(false)}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setResetPassword(true)}>
               <Text>Forgot your password?</Text>
             </TouchableOpacity>
           </View>
+
           <Pressable
             title="Login"
             onPress={() => handleEmailandPasswordLogin(email, password)}
@@ -130,7 +136,6 @@ export default function SignInScreen({ navigation }) {
               LOGIN
             </Text>
           </Pressable>
-
           {/* <Text
           style={{
             textAlign: "center",
@@ -151,7 +156,6 @@ export default function SignInScreen({ navigation }) {
         >
           <SocialButtons />
         </View> */}
-
           <View
             style={{
               flexDirection: "row",
@@ -171,6 +175,60 @@ export default function SignInScreen({ navigation }) {
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
+  );
+}
+
+function ResetPassword() {
+  const [email, setEmail] = useState("");
+  const sendsReset = () => {
+    resetPassword(email);
+  };
+  return (
+    <>
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "500",
+          color: "#333",
+          marginBottom: 30,
+        }}
+      >
+        Forgot Password?
+      </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          borderBottomColor: "#ccc",
+          borderBottomWidth: 1,
+          paddingBottom: 8,
+          marginBottom: 25,
+        }}
+      >
+        <FontAwesome name="at" size={20} />
+        <TextInput
+          placeholder={" Your account email"}
+          value={email}
+          onChangeText={setEmail}
+          inputMode="email"
+          style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+          // onFocus={()=>setIsFocused(true)}
+          // onBlur={()=>setIsFocused(false)}
+        />
+      </View>
+
+      <Pressable onPress={() => sendsReset} style={styles.button}>
+        <Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontSize: 28,
+            fontWeight: "bold",
+          }}
+        >
+          Send Email Reset
+        </Text>
+      </Pressable>
+    </>
   );
 }
 const styles = StyleSheet.create({

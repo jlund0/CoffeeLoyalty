@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Pressable,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {
@@ -135,12 +136,27 @@ export default function SignUpScreen({ navigation }) {
             style={{ flex: 1, paddingVertical: 0 }}
           /> */}
         </View>
-        <Button
-          title="Create Account"
+        <Pressable
+          style={{
+            backgroundColor: "#ADD8E6",
+            padding: 10,
+            borderRadius: 20,
+          }}
           onPress={() => handleEmailSignUp(email, password)}
-        />
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontSize: 28,
+              fontWeight: "bold",
+            }}
+          >
+            Create Account
+          </Text>
+        </Pressable>
 
-        <Text
+        {/* <Text
           style={{
             textAlign: "center",
             color: "#666",
@@ -159,7 +175,7 @@ export default function SignUpScreen({ navigation }) {
           }}
         >
           <SocialButtons />
-        </View>
+        </View> */}
 
         <View
           style={{

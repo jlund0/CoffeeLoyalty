@@ -14,7 +14,7 @@ import {
   where,
   onSnapshot,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import * as geofire from "geofire-common";
 
@@ -218,4 +218,18 @@ export function cardUpdateListener(cardRefs) {
       }
     });
   });
+}
+
+export function resetPassword(email) {
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      // Password reset email sent!
+      // ..
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
 }
