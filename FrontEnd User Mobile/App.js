@@ -1,5 +1,4 @@
 import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
-
 import * as React from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -12,19 +11,16 @@ import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import LoyaltyCard from "./screens/loyaltyCard";
-import { getUserInfo, getUserCards } from "./firebasefunctions";
 import { MapScreen } from "./screens/maps.js";
 import { EnterName } from "./screens/name.js";
 import { useFonts } from "expo-font";
+import NotificationPage from "./notifications.js";
 const Stack = createNativeStackNavigator();
 
 //Workaround
 // window.navigator.userAgent = "ReactNative";
 
 // const auth = getAuth(app);
-
-
-
 
 function SplashScreen() {
   return (
@@ -40,36 +36,37 @@ export default function App() {
   const [loading, setLoading] = React.useState(true);
   const [hasDisplayName, setHasDisplayName] = React.useState(false);
 
-  const [fontsLoaded, fontError] = useFonts({
-    'Lobster-Regular': require('./assets/fonts/Lobster-Regular.ttf'),
-  });
-
   const TopBanner = {
     title: "CupCount",
     headerStyle: { backgroundColor: "#5E3023" },
     headerTintColor: "#F3E9DC",
-    headerTitleStyle: { fontWeight: "bold", fontSize: 36 ,fontFamily:"Lobster-Regular"},
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 36,
+      fontFamily: "Lobster-Regular",
+    },
     headerTitleAlign: "center",
     headerBackTitleVisible: false,
     headerLargeStyle: true,
     animation: "none",
-    headerBackVisible:false,
-
-   
+    headerBackVisible: false,
   };
+
   const TopBannerLoyaltyCard = {
     title: "CupCount",
     headerStyle: { backgroundColor: "#5E3023" },
     headerTintColor: "#F3E9DC",
-    headerTitleStyle: { fontWeight: "bold", fontSize: 36 ,fontFamily:"Lobster-Regular"},
+    headerTitleStyle: {
+      fontWeight: "bold",
+      fontSize: 36,
+      fontFamily: "Lobster-Regular",
+    },
     headerTitleAlign: "center",
     headerBackTitleVisible: false,
     headerLargeStyle: true,
     animation: "none",
-   
   };
-  
-  
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       setLoading(false);
@@ -92,7 +89,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      {/* <Stack.Navigator initialRouteName="Login"> */}
+      <Stack.Navigator initialRouteName="notifcation">
         {userToken == null ? (
           <>
             <Stack.Screen
@@ -105,6 +103,7 @@ export default function App() {
               component={SignUpScreen}
               options={TopBanner}
             />
+            <Stack.Screen name="notifcation" component={NotificationPage} />
           </>
         ) : (
           <>
@@ -120,7 +119,6 @@ export default function App() {
               component={Home}
               options={TopBanner}
               initialParams={{ userid: userToken }}
-              
             />
             <Stack.Screen
               name="card"
@@ -144,13 +142,11 @@ export default function App() {
               name="loyaltyCard"
               component={LoyaltyCard}
               options={TopBannerLoyaltyCard}
-
             />
             <Stack.Screen
               name="map"
               component={MapScreen}
-              options={TopBanner}
-
+              options={TopBannerLoyaltyCard}
             />
           </>
         )}

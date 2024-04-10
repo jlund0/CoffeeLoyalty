@@ -41,7 +41,10 @@
     "react-native-wallet-manager": "^0.0.5",
     "react-native-web": "~0.19.6",
     "react-native-webview": "^13.8.1",
-    "lottie-react-native": "5.1.6"
+    "lottie-react-native": "5.1.6",
+    "expo-notifications": "~0.20.1",
+    "expo-device": "~5.4.0",
+    "expo-constants": "~14.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

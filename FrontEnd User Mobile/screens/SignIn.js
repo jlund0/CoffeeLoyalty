@@ -37,10 +37,6 @@ export default function SignInScreen({ navigation }) {
   const [isFocused, setIsFocused] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
 
-  const ResetPassword = () => {
-    setResetPassword(true);
-  };
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView
@@ -51,137 +47,124 @@ export default function SignInScreen({ navigation }) {
         }}
       >
         <View style={{ padding: 25 }}>
-          <View style={[{ alignItems: "center" }]}>
+          <View style={{ alignItems: "center" }}>
             {/*Animated card login image*/}
             <Image
               source={require("../assets/coffeelogin.png")}
-              style={[
-                { height: 300, width: 300, marginBottom: 30 },
-                // isFocused && {
-                //   position: "absolute",
-                //   bottom: "10%",
-                //   marginBottom: 0,
-                // },
-              ]}
+              style={[{ height: 300, width: 300, marginBottom: 30 }]}
               resizeMode="contain"
             ></Image>
           </View>
-          <Text
-            style={{
-              fontSize: 28,
-              fontWeight: "500",
-              color: "#333",
-              marginBottom: 30,
-            }}
-          >
-            Login
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              borderBottomColor: "#ccc",
-              borderBottomWidth: 1,
-              paddingBottom: 8,
-              marginBottom: 25,
-            }}
-          >
-            <FontAwesome name="at" size={20} />
-            <TextInput
-              placeholder={" Email"}
-              value={email}
-              onChangeText={setEmail}
-              inputMode="email"
-              style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-              // onFocus={()=>setIsFocused(true)}
-              // onBlur={()=>setIsFocused(false)}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              borderBottomColor: "#ccc",
-              borderBottomWidth: 1,
-              paddingBottom: 8,
-              marginBottom: 25,
-            }}
-          >
-            <FontAwesome name="lock" size={20} />
-            <TextInput
-              placeholder={" Password"}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-              // onFocus={() => setIsFocused(true)}
-              // onBlur={() => setIsFocused(false)}
-            />
-            <TouchableOpacity onPress={() => setResetPassword(true)}>
-              <Text>Forgot your password?</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Pressable
-            title="Login"
-            onPress={() => handleEmailandPasswordLogin(email, password)}
-            style={styles.button}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                color: "white",
-                fontSize: 28,
-                fontWeight: "bold",
-              }}
-            >
-              LOGIN
-            </Text>
-          </Pressable>
-          {/* <Text
-          style={{
-            textAlign: "center",
-            color: "#666",
-            marginBottom: 30,
-            marginTop: 30,
-          }}
-        >
-          Or, login with ...
-        </Text>
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            marginBottom: 30,
-          }}
-        >
-          <SocialButtons />
-        </View> */}
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginBottom: 30,
-              padding: 20,
-            }}
-          >
-            <Text>New to the app?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
-                {" "}
-                Register
+          {resetPassword ? (
+            <ResetPassword onClick={() => setResetPassword(false)} />
+          ) : (
+            <>
+              <Text
+                style={{
+                  fontSize: 28,
+                  fontWeight: "500",
+                  color: "#333",
+                  marginBottom: 30,
+                }}
+              >
+                Login
               </Text>
-            </TouchableOpacity>
-          </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderBottomColor: "#ccc",
+                  borderBottomWidth: 1,
+                  paddingBottom: 8,
+                  marginBottom: 25,
+                }}
+              >
+                <FontAwesome name="at" size={20} />
+                <TextInput
+                  placeholder={" Email"}
+                  value={email}
+                  onChangeText={setEmail}
+                  inputMode="email"
+                  style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+                  // onFocus={()=>setIsFocused(true)}
+                  // onBlur={()=>setIsFocused(false)}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  borderBottomColor: "#ccc",
+                  borderBottomWidth: 1,
+                  paddingBottom: 8,
+                  marginBottom: 25,
+                }}
+              >
+                <FontAwesome name="lock" size={20} />
+                <TextInput
+                  placeholder={" Password"}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+                  // onFocus={() => setIsFocused(true)}
+                  // onBlur={() => setIsFocused(false)}
+                />
+                <TouchableOpacity onPress={() => setResetPassword(true)}>
+                  <Text>Forgot your password?</Text>
+                </TouchableOpacity>
+              </View>
+
+              <Pressable
+                title="Login"
+                onPress={() => handleEmailandPasswordLogin(email, password)}
+                style={styles.button}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    fontSize: 28,
+                    fontWeight: "bold",
+                  }}
+                >
+                  LOGIN
+                </Text>
+              </Pressable>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  marginBottom: 30,
+                  padding: 20,
+                }}
+              >
+                <Text>New to the app?</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Register")}
+                >
+                  <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
+                    {" "}
+                    Register
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 }
 
-function ResetPassword() {
+function ResetPassword({ onClick }) {
   const [email, setEmail] = useState("");
-  const sendsReset = () => {
+  const [emailsent, setemailsent] = useState(false);
+  const sendReset = () => {
     resetPassword(email);
+    setemailsent(true);
+    // setTimeout(() => {
+    //   onClick();
+    // }, 2000);
   };
   return (
     <>
@@ -195,28 +178,41 @@ function ResetPassword() {
       >
         Forgot Password?
       </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          borderBottomColor: "#ccc",
-          borderBottomWidth: 1,
-          paddingBottom: 8,
-          marginBottom: 25,
-        }}
-      >
-        <FontAwesome name="at" size={20} />
-        <TextInput
-          placeholder={" Your account email"}
-          value={email}
-          onChangeText={setEmail}
-          inputMode="email"
-          style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-          // onFocus={()=>setIsFocused(true)}
-          // onBlur={()=>setIsFocused(false)}
-        />
-      </View>
-
-      <Pressable onPress={() => sendsReset} style={styles.button}>
+      {emailsent ? (
+        <View style={{ paddingBottom: 30 }}>
+          <Text style={{ textAlign: "center", fontSize: 24 }}>
+            An email has been sent to
+          </Text>
+          <Text style={{ textAlign: "center", fontSize: 26 }}>{email}</Text>
+          <Text style={{ textAlign: "center", fontSize: 18 }}>
+            check your junk folder
+          </Text>
+        </View>
+      ) : (
+        <>
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomColor: "#ccc",
+              borderBottomWidth: 1,
+              paddingBottom: 8,
+              marginBottom: 25,
+            }}
+          >
+            <FontAwesome name="at" size={20} />
+            <TextInput
+              placeholder={"Email"}
+              value={email}
+              onChangeText={setEmail}
+              inputMode="email"
+              style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
+              // onFocus={()=>setIsFocused(true)}
+              // onBlur={()=>setIsFocused(false)}
+            />
+          </View>
+        </>
+      )}
+      <Pressable onPress={!emailsent ? sendReset : null} style={styles.button}>
         <Text
           style={{
             textAlign: "center",
@@ -225,9 +221,17 @@ function ResetPassword() {
             fontWeight: "bold",
           }}
         >
-          Send Email Reset
+          {emailsent ? `Email sent` : `Reset`}
         </Text>
       </Pressable>
+
+      <TouchableOpacity onPress={onClick}>
+        <Text
+          style={{ color: "#AD40AF", fontWeight: "700", textAlign: "center" }}
+        >
+          back
+        </Text>
+      </TouchableOpacity>
     </>
   );
 }

@@ -103,9 +103,10 @@ export default function CardScreen({ route, navigation }) {
       <View style={[styles.greetings]}>
         <Text
           style={{
-            fontWeight: "normal",
+            fontWeight: "bold",
             fontSize: 30,
-            fontFamily: "TitanOne-Regular",
+            textAlign: "center",
+            // fontFamily: "TitanOne-Regular",
           }}
         >
           Your Cards
@@ -275,7 +276,7 @@ function CardWidget({ navigation, card }) {
             fontWeight: "bold",
             textTransform: "uppercase",
             flex: 1,
-            fontFamily: "Fredoka",
+            // fontFamily: "Fredoka",
           }}
           numberOfLines={1}
           adjustsFontSizeToFit={true}

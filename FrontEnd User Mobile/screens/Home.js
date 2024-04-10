@@ -66,13 +66,14 @@ export default function Home({ navigation }) {
         <Text
           style={{
             fontSize: 36,
-            fontFamily: "TitanOne-Regular",
+            // fontFamily: "TitanOne-Regular",
+            fontWeight: "bold",
           }}
         >
           {randomGreeting}
           {"\n"}
           <Text
-            style={{ fontWeight: "bold", fontSize: 46 }}
+            style={{ fontWeight: "800", fontSize: 46 }}
             numberOfLines={1}
             adjustsFontSizeToFit={true}
           >
@@ -84,7 +85,13 @@ export default function Home({ navigation }) {
       {/* <CoffeeSaved coffeenumber={userDetails.freeCoffees} /> */}
       {/* <CoffeeSaved coffeenumber={userDetails.coffee_earnt} /> */}
       <View style={[styles.qr]}>
-        <Text style={{ fontSize: 50, fontFamily: "Pacifico-Regular" }}>
+        <Text
+          style={{
+            fontSize: 50,
+            fontWeight: "bold",
+            // fontFamily: "Pacifico-Regular"
+          }}
+        >
           Scan Here
         </Text>
         <View
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
     width: "100%",
     // backgroundColor: "#fff",
     flexDirection: "column",
-    rowGap: 30,
+    rowGap: 60,
     justifyContent: "space-between",
     overflow: "hidden",
     backgroundColor: "#936748",
@@ -191,7 +198,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   qr: {
-    flex: 5,
+    // flex: 5,
     width: "auto",
     justifyContent: "center",
     alignItems: "center",

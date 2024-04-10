@@ -17,6 +17,7 @@ import {
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import * as geofire from "geofire-common";
+import * as Notifications from "expo-notifications";
 
 const db = getFirestore(app);
 const storage = getStorage(app);
@@ -217,6 +218,27 @@ export function cardUpdateListener(cardRefs) {
         console.log(change.doc.data());
       }
     });
+  });
+}
+
+async function schedulePushNotification(data) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You just earnt a free coffee",
+      body: `redeem your free cofee from ${data.store}`,
+      data: { data: "goes here" },
+    },
+    trigger: { seconds: 2 },
+  });
+}
+async function PushNotificationStamps(data) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "One step closer to that free coffee",
+      body: `${data.stampsAdded} to your ${data.store}cards`,
+      data: { data: "goes here" },
+    },
+    trigger: { seconds: 2 },
   });
 }
 

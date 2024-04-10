@@ -23,7 +23,7 @@ export default function NavBar({ navigation, isFocused, cards }) {
       >
         <MaterialCommunityIcons
           name="wallet"
-          size={60}
+          size={55}
           style={[styles.navIcon]}
         />
       </Pressable>
@@ -33,7 +33,7 @@ export default function NavBar({ navigation, isFocused, cards }) {
       >
         <FontAwesome5
           name="home"
-          size={60}
+          size={50}
           style={styles.navIcon}
         ></FontAwesome5>
       </Pressable>
@@ -41,7 +41,7 @@ export default function NavBar({ navigation, isFocused, cards }) {
         onPress={isFocused == "map" ? null : () => navigation.navigate("map")}
         style={[styles.navIconContainer, isFocused == "map" && styles.active]}
       >
-        <FontAwesome5 name="map-marked-alt" size={60} style={styles.navIcon} />
+        <FontAwesome5 name="map-marked-alt" size={45} style={styles.navIcon} />
       </Pressable>
     </View>
   );
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(205, 184, 145))",
     height: 75,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     width: "85%",
     borderRadius: 20,
@@ -69,10 +69,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     textAlign: "center",
     margin: 10,
-
     color: "#2b1e15",
-    fontSize: 55,
     flex: 1,
+    paddingHorizontal: 20,
   },
   navIconContainer: {
     display: "flex",
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 20,
     height: "100%",
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
   shadowProp: {
     shadowColor: "#171717",
