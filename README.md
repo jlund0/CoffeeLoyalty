@@ -9,7 +9,11 @@ The project is split into three folders.
    for the app the users use to track their loyalty cards
    https://github.com/jlund0/CoffeeLoyalty/assets/72682409/734ba224-f549-4fed-a984-6641b82705b9
 
-2. FrontEnd_Admin
+   test credentials:
+   test@test.com
+   password
+
+3. FrontEnd_Admin
    The app for the store owner to manage their loyalty cards
    
 
