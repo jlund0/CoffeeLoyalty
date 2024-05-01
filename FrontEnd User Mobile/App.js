@@ -1,5 +1,5 @@
 import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
-import * as React from "react";
+import { useEffect, useState, useRef } from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { app, signOut, auth } from "./firebase.js";
@@ -10,11 +10,14 @@ import CardScreen from "./screens/Card";
 import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
-import LoyaltyCard from "./screens/loyaltyCard";
-import { MapScreen } from "./screens/maps.js";
-import { EnterName } from "./screens/name.js";
+import Main from "./screens/Main.js";
 import { useFonts } from "expo-font";
-import NotificationPage from "./notifications.js";
+import { registerForPushNotificationsAsync } from "./notifications.js";
+import * as Notifications from "expo-notifications";
+import Auth from "./auth.js";
+import { UserButton } from "./components/buttons.js";
+// import SplashPage from "./AuthScreen/SplashPage.js";
+
 const Stack = createNativeStackNavigator();
 
 //Workaround
@@ -22,19 +25,65 @@ const Stack = createNativeStackNavigator();
 
 // const auth = getAuth(app);
 
-function SplashScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Roasting Coffee...</Text>
-      <ActivityIndicator size="large" />
-    </View>
-  );
-}
-
 export default function App() {
-  const [userToken, setUserToken] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [hasDisplayName, setHasDisplayName] = React.useState(false);
+  const [userToken, setUserToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [hasDisplayName, setHasDisplayName] = useState(false);
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) =>
+      setExpoPushToken(token)
+    );
+
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotification(notification);
+      });
+
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  function CustomHeader() {
+    return (
+      <View
+        style={{
+          justifyContent: "space-between",
+          width: "100%",
+          height: 100,
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          paddingRight: 30,
+        }}
+      >
+        <Image
+          source={require("./assets/logo.png")}
+          style={{
+            height: 80,
+            width: 80,
+            // aspectRatio: 1,
+            resizeMode: "center",
+            borderWidth: 3,
+          }}
+        />
+        <UserButton />
+      </View>
+    );
+  }
 
   const TopBanner = {
     title: "CupCount",
@@ -43,7 +92,6 @@ export default function App() {
     headerTitleStyle: {
       fontWeight: "bold",
       fontSize: 36,
-      fontFamily: "Lobster-Regular",
     },
     headerTitleAlign: "center",
     headerBackTitleVisible: false,
@@ -84,13 +132,13 @@ export default function App() {
   if (loading) {
     // We haven't finished checking for the token yet
     console.log("loading");
-    return <SplashScreen />;
+    // return <SplashPage />;
   }
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator initialRouteName="Login"> */}
-      <Stack.Navigator initialRouteName="notifcation">
+      <Stack.Navigator initialRouteName="Login">
+        {/* <Stack.Navigator initialRouteName="notifcation"> */}
         {userToken == null ? (
           <>
             <Stack.Screen
@@ -103,52 +151,14 @@ export default function App() {
               component={SignUpScreen}
               options={TopBanner}
             />
-            <Stack.Screen name="notifcation" component={NotificationPage} />
+            {/* <Stack.Screen name="notifcation" component={NotificationPage} /> */}
           </>
         ) : (
-          <>
-            {!hasDisplayName && (
-              <Stack.Screen
-                name="EnterName"
-                component={EnterName}
-                options={TopBanner}
-              />
-            )}
-            <Stack.Screen
-              name="Home"
-              component={Home}
-              options={TopBanner}
-              initialParams={{ userid: userToken }}
-            />
-            <Stack.Screen
-              name="card"
-              component={CardScreen}
-              options={TopBanner}
-              // initialParams={userCards}
-            />
-            {/* <Stack.Screen
-              name="stores"
-              component={StoresScreen}
-              options={{
-            TopBanner,                animation: "slide_from_left",
-              }}
-            /> */}
-            <Stack.Screen
-              name="settings"
-              component={SettingsScreen}
-              options={TopBanner}
-            />
-            <Stack.Screen
-              name="loyaltyCard"
-              component={LoyaltyCard}
-              options={TopBannerLoyaltyCard}
-            />
-            <Stack.Screen
-              name="map"
-              component={MapScreen}
-              options={TopBannerLoyaltyCard}
-            />
-          </>
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={{ headerTitle: (props) => <CustomHeader {...props} /> }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>

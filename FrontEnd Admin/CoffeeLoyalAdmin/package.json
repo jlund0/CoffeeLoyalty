@@ -21,7 +21,7 @@
     "firebase": "^10.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.6",
+    "react-native": "0.72.10",
     "react-native-vector-icons": "^10.0.2",
     "react-native-web": "~0.19.6",
     "expo-font": "~11.4.0"

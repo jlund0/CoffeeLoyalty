@@ -21,6 +21,7 @@ const user = auth.currentUser;
 const storage = getStorage();
 
 export async function getStores(userid) {
+  console.log("getStores function");
   let stores = [];
   const q = query(collection(db, "stores"), where("owner", "==", userid));
   const querySnapshot = await getDocs(q);
@@ -28,7 +29,7 @@ export async function getStores(userid) {
     // doc.data() is never undefined for query doc snapshots
     console.log(doc.id, " => ", doc.data());
     let data = doc.data();
-    data.id = doc.id;
+    data.storeId = doc.id;
     stores.push(data);
   });
   console.log(stores);
@@ -44,6 +45,7 @@ export async function getStoreLogoUrl(url) {
 }
 
 export async function getUser(userid) {
+  console.log("getUser function");
   const docSnap = await getDoc(doc(db, "users", userid));
   const userData = docSnap.data();
 
@@ -52,11 +54,11 @@ export async function getUser(userid) {
   return userData;
 }
 
-export async function createNewCard(userid, storeid, addStamps = 0) {
+export async function createNewCard(userid, storeID, addStamps = 0) {
   let data = {
     coffeesEarnt: addStamps,
     completed: false,
-    storeId: storeid,
+    storeId: storeID,
     userId: userid,
     redeemed: false,
   };
@@ -88,14 +90,15 @@ export async function AddCompleteCards(userid, storeid, stampsrequired) {
   const cardRef = doc(db, "cards", cardId);
   await updateDoc(cardRef, { completed: true });
 }
-export async function getUserCard(userid, storeid) {
-  console.log("userid: " + userid + "  storeid: " + storeid);
+export async function getUserCard(userid, storeID) {
+  console.log("userid: " + userid + "  storeid: " + storeID);
+
   try {
     const cardRef = collection(db, "cards");
     const q = query(
       cardRef,
       where("userId", "==", userid),
-      where("storeId", "==", storeid),
+      where("storeId", "==", storeID),
       where("completed", "==", false)
     );
     const docSnap = await getDocs(q);
@@ -104,11 +107,12 @@ export async function getUserCard(userid, storeid) {
         "No matching card found for the user in the specified store."
       );
 
-      return await createNewCard(userid, storeid);
+      return await createNewCard(userid, storeID);
     }
     const card = docSnap.docs[0].data();
     card["cardID"] = docSnap.docs[0].id;
     console.log(card.cardID);
+    console.log(card);
     return card;
   } catch (error) {
     console.error("Error getting card:", error);
@@ -117,10 +121,11 @@ export async function getUserCard(userid, storeid) {
 }
 
 export async function getStore(storeid) {
+  console.log("getStore function");
   console.log(storeid);
   const docSnap = await getDoc(doc(db, "stores", storeid));
   const storeData = docSnap.data();
-  storeData["userID"] = docSnap.id;
+  storeData["storeID"] = docSnap.id;
   console.log(docSnap.data());
   return storeData;
 }

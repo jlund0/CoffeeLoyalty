@@ -13,7 +13,7 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 
 export default function BarcodeCamera({ navigation, store }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
-
+  const [scanned, setScanned] = useState(false);
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -32,9 +32,21 @@ export default function BarcodeCamera({ navigation, store }) {
   }
 
   const handleBarCodeScanned = ({ type, data }) => {
-    if (data.split("/")[0] == "cupcount") {
-      navigation.navigate("Scanned Popup", { userid: data, store: store });
+    setScanned(true);
+    console.log("qr Scanned");
+    console.log(data.split("/")[0]);
+    if (data.split("/")[1] == "scan") {
+      console.log("users popup");
+      navigation.navigate("Scanned Popup", {
+        userid: data.split("/")[0],
+        store: store,
+      });
     }
+    if (data.split("/")[1] == "redeem") {
+      console.log("redeem popup");
+      navigation.navigate("Redeem Popup", { cardid: data.split("/")[0] });
+    }
+    setScanned(false);
   };
   console.log(store);
   return (
@@ -51,7 +63,7 @@ export default function BarcodeCamera({ navigation, store }) {
         barCodeScannerSettings={{
           barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
         }}
-        onBarCodeScanned={handleBarCodeScanned}
+        onBarCodeScanned={!scanned ? handleBarCodeScanned : null}
       >
         <IonIcons
           name="scan"

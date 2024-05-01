@@ -17,7 +17,9 @@ import {
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import * as geofire from "geofire-common";
-import * as Notifications from "expo-notifications";
+
+import { stampPushNotification, cardPushNotifcation } from "./notifications";
+import auth from "./firebase";
 
 const db = getFirestore(app);
 const storage = getStorage(app);
@@ -53,32 +55,28 @@ export async function AddUser(user, name) {
 }
 
 export async function getUserInfo() {
-  const auth = getAuth();
+  let auth = getAuth();
   const user = auth.currentUser;
-  console.log("getting user info");
-  console.log(user);
   console.log(`fetching ${user.uid} details`);
   const docRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(docRef);
-
+  cardListener(docSnap);
   if (docSnap.exists()) {
     let data = docSnap.data();
     data.userId = docSnap.id;
     let cards = await getCards(data.cards);
-    console.log("card here ****");
-    console.log(cards);
-    console.log("Users data:", data);
-
-    return { data, cards };
+    cardUpdateListener(data.cards);
+    return { userdata: data, cardsdata: cards };
   } else {
-    console.log("No such document!");
+    console.log("No user found adding user");
     const data = await AddUser(user);
     let cards = [];
-    return { data, cards };
+
+    return { userdata: data, cardsdata: cards };
   }
 }
 
-async function getCards(cardRefs) {
+export async function getCards(cardRefs) {
   let cards = [];
   await Promise.all(
     cardRefs.map(async (cardRef) => {
@@ -88,50 +86,52 @@ async function getCards(cardRefs) {
       }
     })
   );
-  for (card in cards) {
-    let storedata = await getStoreInfo(cards[card].storeId);
-    cards[card] = Object.assign({}, storedata, cards[card]);
+  for (index in cards) {
+    let storedata = await getStoreInfo(cards[index].storeId);
+    cards[index] = Object.assign({}, storedata, cards[index]);
   }
+  console.log(cards);
   return cards;
 }
 
-export async function getUserCards() {
-  const cards = [];
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const completeCards = [];
-  // const user = auth.currentUser;
-  // console.log(`fetching ${user.uid} cards`);
-  const querySnapshot = await getDocs(
-    query(collection(db, "cards"), where("userId", "==", user.uid))
-  );
+//no longer in use remove
+// export async function getUserCards() {
+//   const cards = [];
+//   const auth = getAuth();
+//   const user = auth.currentUser;
+//   const completeCards = [];
+//   // const user = auth.currentUser;
+//   // console.log(`fetching ${user.uid} cards`);
+//   const querySnapshot = await getDocs(
+//     query(collection(db, "cards"), where("userId", "==", user.uid))
+//   );
 
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    data.cardId = doc.id;
-    cards.push(data);
-  });
-  console.log(cards);
-  for (let card of cards) {
-    let storedata = await getStoreInfo(card.storeId);
-    completeCards.push(Object.assign({}, storedata, card));
-  }
-  console.log("users cards:");
-  console.log(completeCards);
-  return completeCards;
+//   querySnapshot.forEach((doc) => {
+//     const data = doc.data();
+//     data.cardId = doc.id;
+//     cards.push(data);
+//   });
+//   console.log(cards);
+//   for (let card of cards) {
+//     let storedata = await getStoreInfo(card.storeId);
+//     completeCards.push(Object.assign({}, storedata, card));
+//   }
+//   console.log("users cards:");
+//   console.log(completeCards);
+//   cardUpdateListener(cardRefs);
+//   return completeCards;
+// }
+
+export async function getCardLogo(logo) {
+  return await getDownloadURL(ref(storage, logo));
 }
 
 export async function getStoreInfo(storeId) {
   let docSnap = await getDoc(doc(db, "stores", storeId));
-  console.log("store ref: ");
-  console.log(docSnap.id);
-
-  console.log("fetching store info");
   if (docSnap.exists()) {
     let logo = await getDownloadURL(ref(storage, docSnap.data().logo));
-    console.log("Store data:", docSnap.data());
     let data = docSnap.data();
-    data.coffeeId = docSnap.id;
+    data.storeId = docSnap.id;
     data.logo = logo;
     return data;
   } else {
@@ -140,28 +140,19 @@ export async function getStoreInfo(storeId) {
   }
 }
 
-// export function getStores(filter) {
-//   console.log(`fetching stores in filter ${filter}`);
-// }
-
-// export function addCard(cardid, userid) {
-//   console.log("adding card with" + cardid + "to" + userid);
-// }
-
 export async function getStoreLogo(storeid) {
   console.log("getting store logo: " + storeid);
 
   let imageurl = await getDownloadURL(
     ref(storage, `STORES/Logos/${storeid}.jpg`)
   );
-  // console.log("logo url: " + imageurl);
   return imageurl;
 }
 
-export async function getStores(lat, lng, distance = 1) {
+export async function getStores(lat, lng) {
   const center = [lat, lng];
   const bounds = geofire.geohashQueryBounds(center, 2000);
-  const radiusInM = distance * 1000;
+  const radiusInM = 5000;
 
   const promises = [];
   for (const b of bounds) {
@@ -174,71 +165,56 @@ export async function getStores(lat, lng, distance = 1) {
 
     promises.push(getDocs(q));
   }
+
   // Collect all the query results together into a single list
   const snapshots = await Promise.all(promises);
-  const matchingDocs = [];
 
+  const matchingDocs = [];
   for (const snap of snapshots) {
     for (const doc of snap.docs) {
-      const coords = doc.get("coords");
+      const coords = await doc.get("coords");
+      const lat = coords.latitude;
+      const lng = coords.longitude;
+      console.log(lat, lng);
       // We have to filter out a few false positives due to GeoHash
       // accuracy, but most will match
-      const distanceInKm = geofire.distanceBetween(
-        [coords.latitude, coords.longitude],
-        center
-      );
-
+      const distanceInKm = geofire.distanceBetween([lat, lng], center);
       const distanceInM = distanceInKm * 1000;
       if (distanceInM <= radiusInM) {
-        const data = doc.data();
-        data["distanceAway"] = distanceInM;
-        data["id"] = doc.id;
-        data["logo"] = await getDownloadURL(ref(storage, data.logo));
-        matchingDocs.push(data);
+        matchingDocs.push(doc.data());
       }
     }
-    console.log(matchingDocs);
-
-    return matchingDocs.sort((p1, p2) => {
-      p1.distanceAway > p2.distanceAway
-        ? 1
-        : p1.distanceAway < p2.distanceAway
-        ? -1
-        : 0;
-    });
   }
+  return matchingDocs;
+}
+
+function cardListener(docSnap) {
+  const unsubscribe = onSnapshot(docSnap, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      console.log(change.doc.data());
+      if (change.type === "added") {
+        console.log("New city: ", change.doc.data());
+      }
+      if (change.type === "modified") {
+        console.log("Modified city: ", change.doc.data());
+      }
+      if (change.type === "removed") {
+        console.log("Removed city: ", change.doc.data());
+      }
+    });
+  });
 }
 
 //CardUpdate Listener
 export function cardUpdateListener(cardRefs) {
-  const unsubscribe = onSnapshot(q, (snapshot) => {
+  const unsubscribe = onSnapshot(cardRefs, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === "modified") {
         console.log("card changes");
         console.log(change.doc.data());
+        stampPushNotification(8, "Store");
       }
     });
-  });
-}
-
-async function schedulePushNotification(data) {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "You just earnt a free coffee",
-      body: `redeem your free cofee from ${data.store}`,
-      data: { data: "goes here" },
-    },
-    trigger: { seconds: 2 },
-  });
-}
-async function PushNotificationStamps(data) {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "One step closer to that free coffee",
-      body: `${data.stampsAdded} to your ${data.store}cards`,
-      data: { data: "goes here" },
-    },
-    trigger: { seconds: 2 },
   });
 }
 

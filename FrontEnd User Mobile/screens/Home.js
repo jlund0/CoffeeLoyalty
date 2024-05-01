@@ -25,11 +25,11 @@ export default function Home({ navigation }) {
   const isFocused = useIsFocused();
   let greetings = ["Hello", "Welcome back", "Hey 👋", "Good Morning"];
   let randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-  let [fontsLoaded] = useFonts({
-    "IndieFlower-Regular": require("../assets/fonts/IndieFlower-Regular.ttf"),
-    "Pacifico-Regular": require("../assets/fonts/Pacifico-Regular.ttf"),
-    "TitanOne-Regular": require("../assets/fonts/TitanOne-Regular.ttf"),
-  });
+  // let [fontsLoaded] = useFonts({
+  //   "IndieFlower-Regular": require("../assets/fonts/IndieFlower-Regular.ttf"),
+  //   "Pacifico-Regular": require("../assets/fonts/Pacifico-Regular.ttf"),
+  //   "TitanOne-Regular": require("../assets/fonts/TitanOne-Regular.ttf"),
+  // });
 
   // if (!hasDisplayName) {
   //   return <EnterName setHasDisplayName={() => setHasDisplayName(true)} />;
@@ -98,10 +98,10 @@ export default function Home({ navigation }) {
           style={{ backgroundColor: "#eaded6", padding: 20, borderRadius: 20 }}
         >
           <QRCode
-            value={userDetails.userId}
+            value={`${userDetails.userId}/scan`}
             size={Dimensions.get("window").height * 0.3}
             backgroundColor={"transparent"}
-            logo={require("../assets/rect2.png")}
+            // logo={require("../assets/rect2.png")}
             logoSize={Dimensions.get("window").height * 0.15}
           />
         </View>

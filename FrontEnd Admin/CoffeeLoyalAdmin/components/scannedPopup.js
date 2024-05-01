@@ -26,17 +26,22 @@ export function ScannedPopUp({ route, navigation }) {
   const [cardsCompleted, setCardsCompleted] = useState(0);
   const [stampCardCount, setStampCardCount] = useState(0);
   const [stampSize, setStampSize] = useState({ height: 10 });
+  console.log("card POpup");
+
   useEffect(() => {
     async function fetchdata() {
-      const card = await getUserCard(userid, store.id);
+      const card = await getUserCard(userid, store.storeID);
       const userdata = await getUser(userid);
       setUserCard(card);
       setUser(userdata);
       setStampCardCount(card.coffeesEarnt);
     }
+    console.log(userid, store);
     fetchdata();
   }, []);
+
   const stamplist = [...Array(store.coffees_required).keys()];
+
   const handleAdd = () => {
     setAddCoffees((prev) => prev + 1);
     setStampCardCount(stampCardCount + 1);
