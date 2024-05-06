@@ -37,8 +37,10 @@
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow CupCount to use your location."
-        }
+        } 
+     
       ]
+
     ]
   }
 }

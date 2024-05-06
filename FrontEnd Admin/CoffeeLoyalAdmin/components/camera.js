@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import IonIcons from "react-native-vector-icons/Ionicons";
-
+import { getStoreLogoUrl } from "../firebaseFunctions";
 export default function BarcodeCamera({ navigation, store }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [scanned, setScanned] = useState(false);

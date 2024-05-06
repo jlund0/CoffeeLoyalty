@@ -7,12 +7,12 @@ import { Button, Divider } from "@rneui/base";
 import { Card, ButtomSheet, Image } from "@rneui/themed";
 import { sortListbyDistance } from "../useful-functions";
 export default function MapPage({ location }) {
-  let initialRegion = {
+  const [initialRegion, setInitialRegion] = useState({
     latitude: location.latitude,
     longitude: location.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
+  });
   const mapRef = useRef(null);
   // const [currentLocation, setCurrentLocation] = useState(location);
   // const [initialRegion, setInitialRegion] = useState({
@@ -22,7 +22,7 @@ export default function MapPage({ location }) {
   //   longitudeDelta: 0.01,
   // });
   const [markers, setMarkers] = useState([]);
-  const [coordsStore, setcoordsStores] = useState();
+  const [coordsStore, setcoordsStores] = useState(initialRegion);
   const [scrolled, setScrolled] = useState(false);
   const [activeMarker, setActiveMarker] = useState(null);
   const [scanNewArea, setScanNewArea] = useState(false);
@@ -52,9 +52,9 @@ export default function MapPage({ location }) {
   //   getLocation();
   // }, []);
 
-  useEffect(() => {
-    setcoordsStores(initialRegion);
-  }, []);
+  // useEffect(() => {
+  //   setcoordsStores(initialRegion);
+  // }, []);
 
   useEffect(() => {
     const fetchMarkers = async () => {
@@ -62,16 +62,15 @@ export default function MapPage({ location }) {
         coordsStore.latitude,
         coordsStore.longitude
       );
-      setMarkers(sortListbyDistance(storefetch, location));
-      setScanNewArea(false);
+      setMarkers(storefetch);
     };
+    fetchMarkers();
 
-    coordsStore && fetchMarkers();
     console.log(markers);
   }, [scanNewArea]);
 
   const scanHerePress = () => {
-    setScanNewArea(true);
+    setScanNewArea(!true);
     setScrolled(false);
   };
 
@@ -87,17 +86,17 @@ export default function MapPage({ location }) {
       <MapView
         ref={mapRef}
         style={{ width: "100%", height: "100%" }}
-        initialRegion={initialRegion}
+        region={initialRegion}
         showsUserLocation={true}
         loadingEnabled={true}
-        // loadingIndicatorColor="#666666"
-        // loadingBackgroundColor="#eeeeee"
         followsUserLocation={true}
         showsMyLocationButton={true}
         onRegionChangeComplete={(region) => {
           setcoordsStores(region);
           setScrolled(true);
         }}
+        // mapType="mutedStandard"
+        provider={PROVIDER_GOOGLE}
       >
         {markers != null && mapMarkers(markers, () => setActiveMarker)}
       </MapView>
@@ -114,7 +113,7 @@ export default function MapPage({ location }) {
             marginHorizontal: 50,
             marginVertical: 10,
             position: "absolute",
-            top: 0,
+            top: 50,
             alignSelf: "center",
           }}
           onPress={scanHerePress}
@@ -161,9 +160,15 @@ const mapMarkers = (markers, setActiveMarker) => {
           }}
           title={marker.name}
           key={marker.storeId + index}
-          image={require("../assets/coffeemarker.png")}
+          image={require("../assets/marker.png")}
+          width={12}
+          height={12}
           onClick={setActiveMarker(marker)}
           onDeselect={setActiveMarker(null)}
+          description={`${marker.location.substr(
+            0,
+            marker.location.lastIndexOf(",")
+          )}`}
         ></Marker>
       </>
     );

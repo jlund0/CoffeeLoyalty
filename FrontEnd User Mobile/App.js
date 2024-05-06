@@ -17,7 +17,8 @@ import * as Notifications from "expo-notifications";
 import Auth from "./auth.js";
 import { UserButton } from "./components/buttons.js";
 // import SplashPage from "./AuthScreen/SplashPage.js";
-
+import { SplashPage } from "./AuthScreen/SplashPage.js";
+import { UserDetailsPage } from "./components/userDetails.js";
 const Stack = createNativeStackNavigator();
 
 //Workaround
@@ -57,13 +58,13 @@ export default function App() {
     };
   }, []);
 
-  function CustomHeader() {
+  function CustomHeader({ navigation }) {
     return (
       <View
         style={{
           justifyContent: "space-between",
           width: "100%",
-          height: 100,
+          // height: 100,
           flexDirection: "row",
           alignContent: "center",
           alignItems: "center",
@@ -80,7 +81,7 @@ export default function App() {
             borderWidth: 3,
           }}
         />
-        <UserButton />
+        <UserButton navigation={navigation} />
       </View>
     );
   }
@@ -132,7 +133,7 @@ export default function App() {
   if (loading) {
     // We haven't finished checking for the token yet
     console.log("loading");
-    // return <SplashPage />;
+    return <SplashPage message={"Logging you in"} />;
   }
 
   return (
@@ -154,11 +155,19 @@ export default function App() {
             {/* <Stack.Screen name="notifcation" component={NotificationPage} /> */}
           </>
         ) : (
-          <Stack.Screen
-            name="Main"
-            component={Main}
-            options={{ headerTitle: (props) => <CustomHeader {...props} /> }}
-          />
+          <>
+            <Stack.Screen
+              name="Main"
+              component={Main}
+              // options={({ navigation }) => ({
+              //   headerTitle: (props) => (
+              //     <CustomHeader {...props} navigation={navigation} />
+              //   ),
+              // })}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="userDetails" component={UserDetailsPage} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

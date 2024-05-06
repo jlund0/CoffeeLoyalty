@@ -26,7 +26,7 @@ export function ScannedPopUp({ route, navigation }) {
   const [cardsCompleted, setCardsCompleted] = useState(0);
   const [stampCardCount, setStampCardCount] = useState(0);
   const [stampSize, setStampSize] = useState({ height: 10 });
-  console.log("card POpup");
+  console.log("card Popup");
 
   useEffect(() => {
     async function fetchdata() {
@@ -108,6 +108,11 @@ export function ScannedPopUp({ route, navigation }) {
                 ]}
                 key={i}
               >
+                <Text
+                  style={{ color: "white", fontSize: 60, fontWeight: "bold" }}
+                >
+                  {i + 1}
+                </Text>
                 {
                   i < stampCardCount && (
                     <Image

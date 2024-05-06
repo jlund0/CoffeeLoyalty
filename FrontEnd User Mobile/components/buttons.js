@@ -16,10 +16,12 @@ import {
   Pressable,
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import { UserDetailsPage } from "./userDetails";
 
-export function UserButton() {
+export function UserButton({ navigation }) {
   const [showMenu, setShowMenu] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   const auth = getAuth(app);
   const handleLogout = () => {
     console.log("clicked");
@@ -39,87 +41,135 @@ export function UserButton() {
     console.log("add card");
   };
   return (
-    <>
-      <Icon
-        name="settings"
-        type="feather"
-        size={30}
-        raised
-        onPress={() => setIsVisible(true)}
-      />
-      {/* <View style={{ position: "absolute", zIndex: 3 }}>
-        <FAB icon={{ name: "add", color: "white" }} />
-        <ListItem>
-          <FAB icon={{ name: "user" }} />
-        </ListItem>
-        <ListItem>
-          <FAB icon={{ name: "wallet" }} />
-        </ListItem>
-        <ListItem>
-          <FAB icon={{ name: "logout" }} />
-        </ListItem>
-      </View> */}
-      {/* <SpeedDial
-        isOpen={showMenu}
-        icon={{ name: "settings", color: "#fff" }}
-        openIcon={{ name: "close", color: "#fff" }}
-        onOpen={() => setShowMenu(!showMenu)}
-        onClose={() => setShowMenu(!showMenu)}
-        placement="right"
-        style={{}}
-      >
-        <SpeedDial.Action placement="bottom" />
-      </SpeedDial> */}
-      <BottomSheet
-        isVisible={isVisible}
-        onBackdropPress={() => setIsVisible(false)}
-        backdropStyle={{
-          opacity: 0,
+    // <>
+    //   <Icon
+    //     name="settings"
+    //     type="feather"
+    //     size={30}
+    //     raised
+    //     onPress={() => setIsVisible(true)}
+    //   />
+    //   <BottomSheet
+    //     isVisible={isVisible}
+    //     onBackdropPress={() => setIsVisible(false)}
+    //     backdropStyle={{
+    //       opacity: 0,
+    //     }}
+    //   >
+    //     <ListItem
+    //       containerStyle={{
+    //         margin: 10,
+    //         borderRadius: 10,
+    //       }}
+    //     >
+    //       <ListItem.Content
+    //         style={{
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           alignContent: "center",
+    //         }}
+    //       >
+    //         <Pressable
+    //           onPress={() => {
+    //             navigation.navigate("userDetails");
+    //             setIsVisible(false);
+    //           }}
+    //           style={{ flexDirection: "row", gap: 10 }}
+    //         >
+    //           <Icon type="font-awesome" name="user" />
+    //           <ListItem.Title style={{ alignSelf: "center" }}>
+    //             User details
+    //           </ListItem.Title>
+    //         </Pressable>
+    //       </ListItem.Content>
+    //     </ListItem>
+    //     <ListItem
+    //       containerStyle={{
+    //         margin: 10,
+    //         borderRadius: 10,
+    //       }}
+    //     >
+    //       <ListItem.Content
+    //         style={{
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           alignContent: "center",
+    //           flexDirection: "row",
+    //           gap: 10,
+    //         }}
+    //       >
+    //         <Icon type="material-community" name="wallet-plus-outline" />
+    //         <ListItem.Title style={{ alignSelf: "center" }}>
+    //           Add to wallet
+    //         </ListItem.Title>
+    //       </ListItem.Content>
+    //     </ListItem>
+    //     <ListItem
+    //       onPress={() => handleLogout}
+    //       containerStyle={{
+    //         backgroundColor: "red",
+    //         margin: 10,
+    //         borderRadius: 10,
+    //         marginBottom: 50,
+    //       }}
+    //     >
+    //       <ListItem.Content
+    //         style={{
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           alignContent: "center",
+    //         }}
+    //       >
+    //         <Pressable
+    //           style={{ flexDirection: "row", gap: 10 }}
+    //           onPress={handleLogout}
+    //         >
+    //           <Icon type="material-community" name="logout" />
+    //           <ListItem.Title style={{ color: "white", alignSelf: "center" }}>
+    //             Log out
+    //           </ListItem.Title>
+    //         </Pressable>
+    //       </ListItem.Content>
+    //     </ListItem>
+    //   </BottomSheet>
+    // </>
+    <SpeedDial
+      isOpen={open}
+      icon={{ name: "settings", color: "black" }}
+      openIcon={{ name: "close" }}
+      onOpen={() => setOpen(!open)}
+      onClose={() => setOpen(!open)}
+      buttonStyle={{
+        backgroundColor: "white",
+        width: 75,
+        height: 75,
+        // borderRadius: 50,
+        borderWidth: 5,
+        borderColor: "black",
+        borderRadius: 50,
+      }}
+    >
+      <SpeedDial.Action
+        icon={{ name: "account-circle", type: "material-community" }}
+        title="User details"
+        onPress={() => {
+          navigation.navigate("userDetails");
         }}
-      >
-        <ListItem
-          containerStyle={{
-            margin: 10,
-            borderRadius: 10,
-          }}
-        >
-          <ListItem.Content>
-            <ListItem.Title style={{ alignSelf: "center" }}>
-              <Icon type="font-awesome" name="user" />
-              User details
-            </ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem
-          containerStyle={{
-            margin: 10,
-            borderRadius: 10,
-          }}
-        >
-          <ListItem.Content>
-            <ListItem.Title style={{ alignSelf: "center" }}>
-              <Icon type="material-community" name="wallet-plus-outline" />
-              Add to wallet
-            </ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-        <ListItem
-          onPress={() => handleLogout}
-          containerStyle={{
-            backgroundColor: "red",
-            margin: 10,
-            borderRadius: 10,
-          }}
-        >
-          <ListItem.Content>
-            <ListItem.Title style={{ color: "white", alignSelf: "center" }}>
-              <Icon type="material-community" name="logout" />
-              Log out
-            </ListItem.Title>
-          </ListItem.Content>
-        </ListItem>
-      </BottomSheet>
-    </>
+        color="white"
+      />
+      <SpeedDial.Action
+        icon={{ name: "wallet-plus-outline", type: "material-community" }}
+        title="Add to wallet"
+        onPress={addCardtoWallet}
+        color="white"
+      />
+      <SpeedDial.Action
+        icon={{ name: "logout" }}
+        title="Log out"
+        onPress={handleLogout}
+        color="red"
+      />
+    </SpeedDial>
   );
 }
 
@@ -144,11 +194,7 @@ export const RedeemButton = ({ disabled = false, card }) => {
 
   const interpolateColor = animation.interpolate({
     inputRange: [0, 1, 2],
-    outputRange: [
-      "rgba(255, 0, 0, 0.5)",
-      "rgba(0, 0, 255, 0.5)",
-      "rgba(255, 0, 0, 0.5)",
-    ], // Change color from red to blue
+    outputRange: ["#89cff0ff", "rgba(0, 0, 255, 0.5)", "#89cff0ff"], // Change color from red to blue
   });
 
   const animatedStyle = {

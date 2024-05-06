@@ -23,17 +23,16 @@ function latlngconverter(latlng) {
 
 export const sortListbyDistance = (cardlist, currentlocation) => {
   console.log("useful function");
-  console.log(currentlocation);
   let center = [currentlocation.latitude, currentlocation.longitude];
 
   let sortedlist = [];
   cardlist.forEach((card) => {
-    console.log(card);
-    let coords = latlngconverter(card.coords);
-
+    // let coords = latlngconverter(card.coords);
+    let coords = [card.coords.latitude, card.coords.longitude];
     card.distanceAway = geofire.distanceBetween(coords, center);
     sortedlist.push(card);
   });
+
   return sortedlist.sort((p1, p2) => {
     p1.distanceAway > p2.distanceAway
       ? 1

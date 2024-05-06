@@ -21,12 +21,12 @@ import { getStore } from "../firebaseFunctions";
 export function MainScreen({ navigation }) {
   const [defaultstore, setdefaultStore] = useState();
   const [store, setStore] = useState();
-  
-  const fetchstoreupdates = async (id)=>{
+
+  const fetchstoreupdates = async (id) => {
     const storedata = await getStore(id);
     setStore(storedata);
-  }
-  
+  };
+
   useEffect(() => {
     const getDefaultStore = async () => {
       console.log("checking Default store");
@@ -42,9 +42,9 @@ export function MainScreen({ navigation }) {
     };
     getDefaultStore();
   }, []);
+  console.log("store info");
+  console.log(store);
 
-  console.log(defaultstore);
-  
   if (store == null) {
     return <Text>Getting Store</Text>;
   }

@@ -11,6 +11,7 @@ import {
   setDoc,
   increment,
   addDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
@@ -21,21 +22,20 @@ const user = auth.currentUser;
 const storage = getStorage();
 
 export async function getStores(userid) {
-  console.log("getStores function");
   let stores = [];
   const q = query(collection(db, "stores"), where("owner", "==", userid));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
     let data = doc.data();
     data.storeId = doc.id;
+    data.logo = getStoreLogoUrl(doc.data().logo);
     stores.push(data);
   });
+  // for (let store in stores) {
+  //   stores[store].logo = await getStoreLogoUrl(stores[store].logo);
+  // }
   console.log(stores);
-  for (let store in stores) {
-    stores[store].logo = await getStoreLogoUrl(stores[store].logo);
-  }
   return stores;
 }
 
@@ -61,9 +61,13 @@ export async function createNewCard(userid, storeID, addStamps = 0) {
     storeId: storeID,
     userId: userid,
     redeemed: false,
+    active: true,
   };
   const cardRef = collection(db, "cards");
   const docRef = await addDoc(cardRef, data);
+  const docSnap = await updateDoc(doc(db, "users", userid), {
+    cards: arrayUnion(docRef.id),
+  });
   data["cardID"] = docRef.id;
   console.log(`added card with ${data} to user: ${userid}`);
   return data;
@@ -126,6 +130,7 @@ export async function getStore(storeid) {
   const docSnap = await getDoc(doc(db, "stores", storeid));
   const storeData = docSnap.data();
   storeData["storeID"] = docSnap.id;
+  storeData["logo"] = await getStoreLogoUrl(storeData.logo);
   console.log(docSnap.data());
   return storeData;
 }

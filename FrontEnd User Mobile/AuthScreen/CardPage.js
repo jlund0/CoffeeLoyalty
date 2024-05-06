@@ -12,6 +12,7 @@ import { ListItem, Icon, SearchBar, Image, Button } from "@rneui/themed";
 import { RedeemButton } from "../components/buttons";
 import { getCards } from "../firebasefunctions";
 import { LinearGradient } from "expo-linear-gradient";
+import { BackgroundImage } from "@rneui/base";
 
 export default function CardScreen({ cards, location, user }) {
   const [search, setSearch] = useState("");
@@ -44,7 +45,14 @@ export default function CardScreen({ cards, location, user }) {
   }
 
   return (
-    <>
+    <BackgroundImage
+      source={require("../assets/background-blob.png")}
+      resizeMode="cover"
+      style={{
+        flex: 1,
+        paddingTop: 50,
+      }}
+    >
       <View style={{}}>
         <SearchBar
           onChangeText={updateSearch}
@@ -55,13 +63,21 @@ export default function CardScreen({ cards, location, user }) {
             paddingHorizontal: 15,
             paddingTop: 20,
             borderRadius: 2,
-            backgroundColor: "#eae4dd",
+            backgroundColor: "transparent",
             borderBottomLeftRadius: 5,
             borderBottomRightRadius: 5,
 
             borderWidth: 0,
           }}
-          inputContainerStyle={{ backgroundColor: "white", borderRadius: 5 }}
+          inputContainerStyle={{
+            backgroundColor: "white",
+            borderRadius: 5,
+            borderTopWidth: 2,
+            borderLeftWidth: 2,
+            borderBottomWidth: 8,
+            borderRightWidth: 8,
+            borderColor: "black",
+          }}
           round={true}
           platform="android"
         />
@@ -73,6 +89,11 @@ export default function CardScreen({ cards, location, user }) {
           backgroundColor: "white",
           margin: 15,
           borderRadius: 5,
+          borderTopWidth: 2,
+          borderLeftWidth: 2,
+          borderBottomWidth: 8,
+          borderRightWidth: 8,
+          borderColor: "black",
         }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
@@ -82,7 +103,7 @@ export default function CardScreen({ cards, location, user }) {
           <CardWidget card={card} key={index} />
         ))}
       </ScrollView>
-    </>
+    </BackgroundImage>
   );
 }
 
@@ -138,6 +159,8 @@ function CardWidget({ card }) {
           backgroundColor: "#C4A484",
           marginBottom: 10,
           zIndex: 1,
+          borderWidth: 3,
+          borderColor: "black",
         },
         expanded && {
           marginBottom: 0,
@@ -164,6 +187,9 @@ function CardWidget({ card }) {
                 alignItems: "center",
                 justifyContent: "center",
                 alignContent: "center",
+                borderWidth: 3,
+                borderColor: "black",
+                borderRadius: 10,
               }}
             >
               <LinearGradient
@@ -174,7 +200,7 @@ function CardWidget({ card }) {
                   flexDirection: "row",
                   padding: 5,
                   paddingHorizontal: 10,
-                  borderRadius: 10,
+                  borderRadius: 5,
                   elevation: 1,
                 }}
               >
@@ -184,11 +210,11 @@ function CardWidget({ card }) {
                   {card.coffeesEarnt}/{card.coffees_required}
                 </Text>
                 <Icon
-                  type="ant-design"
+                  type="material-community"
                   name={
                     card.coffees_required == card.coffeesEarnt
-                      ? "star"
-                      : "staro"
+                      ? "coffee"
+                      : "coffee-outline"
                   }
                   style={{ paddingLeft: 3 }}
                   color="#7BC9FF"

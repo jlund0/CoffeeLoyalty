@@ -1,9 +1,10 @@
 import { Image } from "@rneui/themed";
-import { Text, View, Animated, Easing } from "react-native";
+import { Text, View, Animated, Easing, Pressable } from "react-native";
 import { LinearProgress } from "@rneui/themed";
 import { useRef, useState, useEffect } from "react";
+import { reload } from "firebase/auth";
 
-export function SplashPage() {
+export function SplashPage({ onPress, message }) {
   const [spinAnimation] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -31,12 +32,13 @@ export function SplashPage() {
   };
 
   return (
-    <View
+    <Pressable
       style={{
         flex: 1,
         alignItems: "center",
         justifyContent: "space-evenly",
       }}
+      onPress={(prev) => onPress(!prev)}
     >
       <View
         style={{
@@ -71,6 +73,7 @@ export function SplashPage() {
           width: "100%",
         }}
       >
+        <Text>{message}</Text>
         {/* <Text style={{ fontSize: 26 }}>Roasting Loyal Bean</Text> */}
         <LinearProgress
           style={{ width: "60%", marginTop: 10 }}
@@ -78,6 +81,6 @@ export function SplashPage() {
           trackColor="lightblue"
         />
       </View>
-    </View>
+    </Pressable>
   );
 }

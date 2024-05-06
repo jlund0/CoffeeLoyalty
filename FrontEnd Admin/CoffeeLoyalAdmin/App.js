@@ -8,13 +8,12 @@ import { EmployeeSignInScreen } from "./screens/employeeSignIn";
 import { MainScreen } from "./screens/main";
 import { NavigationContainer } from "@react-navigation/native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from "./firebase";
+import { app, auth } from "./firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScannedPopUp } from "./components/scannedPopup";
 import { SuccessScreen } from "./screens/success";
 import { useFonts } from "expo-font";
 
-const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
 function SplashScreen() {

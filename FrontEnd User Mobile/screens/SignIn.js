@@ -47,14 +47,16 @@ export default function SignInScreen({ navigation }) {
         }}
       >
         <View style={{ padding: 25 }}>
-          <View style={{ alignItems: "center" }}>
-            {/*Animated card login image*/}
-            <Image
-              source={require("../assets/coffeelogin.png")}
-              style={[{ height: 300, width: 300, marginBottom: 30 }]}
-              resizeMode="contain"
-            ></Image>
-          </View>
+          {!isFocused && (
+            <View style={{ alignItems: "center" }}>
+              {/*Animated card login image*/}
+              <Image
+                source={require("../assets/coffeelogin.png")}
+                style={[{ height: 300, width: 300, marginBottom: 30 }]}
+                resizeMode="contain"
+              ></Image>
+            </View>
+          )}
           {resetPassword ? (
             <ResetPassword onClick={() => setResetPassword(false)} />
           ) : (
@@ -85,8 +87,8 @@ export default function SignInScreen({ navigation }) {
                   onChangeText={setEmail}
                   inputMode="email"
                   style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-                  // onFocus={()=>setIsFocused(true)}
-                  // onBlur={()=>setIsFocused(false)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                 />
               </View>
               <View
@@ -105,8 +107,8 @@ export default function SignInScreen({ navigation }) {
                   onChangeText={setPassword}
                   secureTextEntry
                   style={{ flex: 1, paddingVertical: 0, paddingHorizontal: 10 }}
-                  // onFocus={() => setIsFocused(true)}
-                  // onBlur={() => setIsFocused(false)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                 />
                 <TouchableOpacity onPress={() => setResetPassword(true)}>
                   <Text>Forgot your password?</Text>

@@ -17,7 +17,7 @@ import {
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import * as geofire from "geofire-common";
-
+import { sortListbyDistance } from "./useful-functions";
 import { stampPushNotification, cardPushNotifcation } from "./notifications";
 import auth from "./firebase";
 
@@ -60,12 +60,12 @@ export async function getUserInfo() {
   console.log(`fetching ${user.uid} details`);
   const docRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(docRef);
-  cardListener(docSnap);
+  cardListener(docRef);
   if (docSnap.exists()) {
     let data = docSnap.data();
     data.userId = docSnap.id;
     let cards = await getCards(data.cards);
-    cardUpdateListener(data.cards);
+    // cardUpdateListener(data.cards);
     return { userdata: data, cardsdata: cards };
   } else {
     console.log("No user found adding user");
@@ -90,7 +90,8 @@ export async function getCards(cardRefs) {
     let storedata = await getStoreInfo(cards[index].storeId);
     cards[index] = Object.assign({}, storedata, cards[index]);
   }
-  console.log(cards);
+
+  // console.log(cards);
   return cards;
 }
 
@@ -181,28 +182,25 @@ export async function getStores(lat, lng) {
       const distanceInKm = geofire.distanceBetween([lat, lng], center);
       const distanceInM = distanceInKm * 1000;
       if (distanceInM <= radiusInM) {
-        matchingDocs.push(doc.data());
+        let data = doc.data();
+        data.distanceAway = distanceInM;
+        matchingDocs.push(data);
       }
     }
   }
   return matchingDocs;
 }
 
+export async function updateUserinfo(userid, updateInfo) {
+  const userRef = doc(db, "users", userid);
+  await updateDoc(userRef, updateInfo);
+}
+
 function cardListener(docSnap) {
-  const unsubscribe = onSnapshot(docSnap, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      console.log(change.doc.data());
-      if (change.type === "added") {
-        console.log("New city: ", change.doc.data());
-      }
-      if (change.type === "modified") {
-        console.log("Modified city: ", change.doc.data());
-      }
-      if (change.type === "removed") {
-        console.log("Removed city: ", change.doc.data());
-      }
-    });
+  const unsub = onSnapshot(docSnap, (doc) => {
+    console.log("Current data: ", doc.data());
   });
+  return;
 }
 
 //CardUpdate Listener
@@ -216,6 +214,7 @@ export function cardUpdateListener(cardRefs) {
       }
     });
   });
+  return;
 }
 
 export function resetPassword(email) {
