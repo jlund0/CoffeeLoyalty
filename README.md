@@ -7,7 +7,10 @@ The project is split into three folders.
 
 1. FrontEnd_User
    for the app the users use to track their loyalty cards
-   https://github.com/jlund0/CoffeeLoyalty/assets/72682409/734ba224-f549-4fed-a984-6641b82705b9
+
+![Screenshot_1715659506](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/3d4ae419-58f3-4ca3-a772-18dbf94b3684)
+![Screenshot_1715659523](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/780b99a8-248f-4d2c-aba2-1379fb7f23a2)
+![Screenshot_1715659509](https://github.com/jlund0/CoffeeLoyalty/assets/72682409/11c8584a-060d-47de-bd15-6c672af7ec11)
 
    test credentials:
    test@test.com
