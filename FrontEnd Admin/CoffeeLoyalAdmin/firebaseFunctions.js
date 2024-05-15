@@ -55,6 +55,8 @@ export async function getUser(userid) {
 }
 
 export async function createNewCard(userid, storeID, addStamps = 0) {
+  console.log("creating new card");
+  console.log(userid, storeID, addStamps);
   let data = {
     coffeesEarnt: addStamps,
     completed: false,
@@ -62,11 +64,12 @@ export async function createNewCard(userid, storeID, addStamps = 0) {
     userId: userid,
     redeemed: false,
     active: true,
+    dateIssued: new Date(),
   };
   const cardRef = collection(db, "cards");
   const docRef = await addDoc(cardRef, data);
   const docSnap = await updateDoc(doc(db, "users", userid), {
-    cards: arrayUnion(docRef.id),
+    cards: arrayUnion(docRef),
   });
   data["cardID"] = docRef.id;
   console.log(`added card with ${data} to user: ${userid}`);

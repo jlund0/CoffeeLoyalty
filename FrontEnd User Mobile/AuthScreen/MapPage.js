@@ -2,17 +2,11 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, ScrollView } from "react-native";
-import { getStoreLogo, getStores } from "../firebasefunctions";
+import { getStores } from "../firestoreFunctions";
 import { Button, Divider } from "@rneui/base";
 import { Card, ButtomSheet, Image } from "@rneui/themed";
 import { sortListbyDistance } from "../useful-functions";
 export default function MapPage({ location }) {
-  const [initialRegion, setInitialRegion] = useState({
-    latitude: location.latitude,
-    longitude: location.longitude,
-    latitudeDelta: 0.02,
-    longitudeDelta: 0.02,
-  });
   const mapRef = useRef(null);
   // const [currentLocation, setCurrentLocation] = useState(location);
   // const [initialRegion, setInitialRegion] = useState({
@@ -22,10 +16,21 @@ export default function MapPage({ location }) {
   //   longitudeDelta: 0.01,
   // });
   const [markers, setMarkers] = useState([]);
-  const [coordsStore, setcoordsStores] = useState(initialRegion);
+  const [coordsStore, setcoordsStores] = useState({
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: 0.0002,
+    longitudeDelta: 0.0002,
+  });
   const [scrolled, setScrolled] = useState(false);
   const [activeMarker, setActiveMarker] = useState(null);
   const [scanNewArea, setScanNewArea] = useState(false);
+  const [currentRegion, setCurrentRegion] = useState({
+    latitude: location.latitude,
+    longitude: location.longitude,
+    latitudeDelta: 0.0002,
+    longitudeDelta: 0.0002,
+  });
   // useEffect(() => {
   //   const getLocation = async () => {
   //     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -65,12 +70,13 @@ export default function MapPage({ location }) {
       setMarkers(storefetch);
     };
     fetchMarkers();
-
+    console.log("set current markers");
     console.log(markers);
   }, [scanNewArea]);
 
   const scanHerePress = () => {
-    setScanNewArea(!true);
+    setcoordsStores(currentRegion);
+    setScanNewArea(!scanNewArea);
     setScrolled(false);
   };
 
@@ -86,13 +92,13 @@ export default function MapPage({ location }) {
       <MapView
         ref={mapRef}
         style={{ width: "100%", height: "100%" }}
-        region={initialRegion}
+        region={currentRegion}
         showsUserLocation={true}
         loadingEnabled={true}
         followsUserLocation={true}
         showsMyLocationButton={true}
         onRegionChangeComplete={(region) => {
-          setcoordsStores(region);
+          setCurrentRegion(region);
           setScrolled(true);
         }}
         // mapType="mutedStandard"
@@ -100,7 +106,7 @@ export default function MapPage({ location }) {
       >
         {markers != null && mapMarkers(markers, () => setActiveMarker)}
       </MapView>
-      {activeMarker && MarkerPopup(activeMarker)}
+      {/* {activeMarker && MarkerPopup(activeMarker)} */}
       {scrolled && (
         <Button
           title="scan here"
@@ -124,31 +130,6 @@ export default function MapPage({ location }) {
   );
 }
 
-const StoreScroll = ({ markers }) => {
-  console.log("storeScroll");
-  console.log(markers);
-  return (
-    <ScrollView
-      style={{ position: "absolute", bottom: 60, width: "100%", height: 125 }}
-      horizontal={true}
-    >
-      {markers.map((marker, index) => {
-        return (
-          <Card key={index}>
-            <Image />
-            {/* <Image source={{ uri: getStoreLogo(marker.logo) }} /> */}
-            <Text>{marker.name}</Text>
-            <Divider />
-            <Text>{marker.location}</Text>
-            <Text>{marker.distanceAway}</Text>
-            <Text>Loyalty Program {marker.coffees_required}</Text>
-          </Card>
-        );
-      })}
-    </ScrollView>
-  );
-};
-
 const mapMarkers = (markers, setActiveMarker) => {
   return markers.map((marker, index) => {
     return (
@@ -159,7 +140,7 @@ const mapMarkers = (markers, setActiveMarker) => {
             longitude: marker.coords.longitude,
           }}
           title={marker.name}
-          key={marker.storeId + index}
+          key={`${marker.storeId} + ${index}`}
           image={require("../assets/marker.png")}
           width={12}
           height={12}
@@ -175,14 +156,14 @@ const mapMarkers = (markers, setActiveMarker) => {
   });
 };
 
-function MarkerPopup(activeMarker) {
-  console.log("activeMarker");
-  console.log(activeMarker);
-  return (
-    <Card style={{ position: "absolute", zIndex: 1 }}>
-      <Card.Title>{activeMarker.name}</Card.Title>
-      <Image source={{ uri: getStoreLogo(activeMarker.logo) }} />
-      <Text></Text>
-    </Card>
-  );
-}
+// function MarkerPopup(activeMarker) {
+//   console.log("activeMarker");
+//   console.log(activeMarker);
+//   return (
+//     <Card style={{ position: "absolute", zIndex: 1 }}>
+//       <Card.Title>{activeMarker.name}</Card.Title>
+//       <Image source={{ uri: getStoreLogo(activeMarker.logo) }} />
+//       <Text></Text>
+//     </Card>
+//   );
+// }

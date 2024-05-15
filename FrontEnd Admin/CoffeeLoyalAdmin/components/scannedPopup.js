@@ -70,7 +70,7 @@ export function ScannedPopUp({ route, navigation }) {
     console.log(userCard);
     const id = {
       userid: user.userID,
-      storeid: store.id,
+      storeid: store.storeId,
       cardid: userCard.cardID,
     };
     AddStamps(id, addCoffees, coffeesEarnt, stampsRequired);

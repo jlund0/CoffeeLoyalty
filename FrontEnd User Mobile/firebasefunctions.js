@@ -42,7 +42,6 @@ export async function AddUser(user, name) {
       coffee_earnt: 0,
       created_at: serverTimestamp(),
       role: "customer",
-      cards: [],
     };
     try {
       setDoc(doc(db, "users", uid), userData);
@@ -60,12 +59,14 @@ export async function getUserInfo() {
   console.log(`fetching ${user.uid} details`);
   const docRef = doc(db, "users", user.uid);
   const docSnap = await getDoc(docRef);
-  cardListener(docRef);
+
   if (docSnap.exists()) {
     let data = docSnap.data();
+    cardListener(docRef, data.cards.lenght);
     data.userId = docSnap.id;
     let cards = await getCards(data.cards);
-    // cardUpdateListener(data.cards);
+
+    cardUpdateListener(data.cards);
     return { userdata: data, cardsdata: cards };
   } else {
     console.log("No user found adding user");
@@ -77,6 +78,12 @@ export async function getUserInfo() {
 }
 
 export async function getCards(cardRefs) {
+  if (!cardRefs) {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    let data = docSnap.data();
+    cardRefs = data.cards;
+  }
   let cards = [];
   await Promise.all(
     cardRefs.map(async (cardRef) => {
@@ -196,17 +203,25 @@ export async function updateUserinfo(userid, updateInfo) {
   await updateDoc(userRef, updateInfo);
 }
 
-function cardListener(docSnap) {
-  const unsub = onSnapshot(docSnap, (doc) => {
-    console.log("Current data: ", doc.data());
+async function cardListener(docRef, oldCardLenght) {
+  docRef.onSnapshot((snapshot) => {
+    let userData = snapshot.data();
+
+    if (userData && userData.cards) {
+      cardUpdateListener(userData.cards);
+      if (userData.cards.lenght > oldCardLenght) {
+        console.log("New loyalty card added:", loyaltyCardDoc.id);
+      }
+    }
   });
   return;
 }
 
 //CardUpdate Listener
-export function cardUpdateListener(cardRefs) {
+function cardUpdateListener(cardRefs) {
   const unsubscribe = onSnapshot(cardRefs, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
+      console.log("Current data: ", doc.data());
       if (change.type === "modified") {
         console.log("card changes");
         console.log(change.doc.data());

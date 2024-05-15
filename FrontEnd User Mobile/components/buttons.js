@@ -141,13 +141,14 @@ export function UserButton({ navigation }) {
       onClose={() => setOpen(!open)}
       buttonStyle={{
         backgroundColor: "white",
-        width: 75,
-        height: 75,
+        width: 90,
+        height: 90,
         // borderRadius: 50,
         borderWidth: 5,
         borderColor: "black",
         borderRadius: 50,
       }}
+      style={{ zIndex: 2 }}
     >
       <SpeedDial.Action
         icon={{ name: "account-circle", type: "material-community" }}
@@ -194,7 +195,7 @@ export const RedeemButton = ({ disabled = false, card }) => {
 
   const interpolateColor = animation.interpolate({
     inputRange: [0, 1, 2],
-    outputRange: ["#89cff0ff", "rgba(0, 0, 255, 0.5)", "#89cff0ff"], // Change color from red to blue
+    outputRange: ["#89cff0ff", "white", "#89cff0ff"], // Change color from red to blue
   });
 
   const animatedStyle = {

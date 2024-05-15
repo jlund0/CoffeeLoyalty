@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Tab, Text, TabView, Button } from "@rneui/themed";
 import CardScreen from "../AuthScreen/CardPage";
 import HomeScreen from "../AuthScreen/HomePage";
-import { getUserInfo, getCards } from "../firebasefunctions";
+import { getUserInfo, getCards } from "../firestoreFunctions";
 import MapPage from "../AuthScreen/MapPage";
 import * as Location from "expo-location";
 import { sortListbyDistance } from "../useful-functions";
@@ -10,7 +10,7 @@ import { SplashPage } from "../AuthScreen/SplashPage";
 
 export default function Main({ navigation }) {
   const [index, setIndex] = useState(1);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [cards, setCards] = useState();
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -93,21 +93,17 @@ export default function Main({ navigation }) {
       setLocation(coords);
       return;
     };
-    getLocation();
-  }, []);
+    if (!location) getLocation();
 
-  useEffect(() => {
     const fetchUser = async () => {
       let { userdata, cardsdata } = await getUserInfo();
-      let cards = sortListbyDistance(cardsdata, location);
+      // let cards = sortListbyDistance(cardsdata, location);
       setUser(userdata);
-      setCards(cards);
+      setCards(cardsdata);
+      return;
     };
-    if (location) {
-      console.log("fetching user info");
-      fetchUser();
-    }
-  }, [location]);
+    if (!user) fetchUser();
+  }, []);
 
   if (!location || !user || !cards) {
     let message = "Loading";
@@ -161,7 +157,7 @@ export default function Main({ navigation }) {
           backgroundColor: "#e9e2d7",
           elevation: 1,
           height: "100%",
-          height: 90,
+          height: 80,
         }}
       >
         <Tab.Item

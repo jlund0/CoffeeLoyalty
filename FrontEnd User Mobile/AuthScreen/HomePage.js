@@ -99,22 +99,21 @@ export default function HomeScreen({ userDetails, navigation }) {
             </Text>
           </View>
           <Pressable
-            onPress={() => {
-              setOpen(true);
-            }}
+            onPress={() => setOpen(true)}
             style={{
               alignSelf: "flex-end",
               backgroundColor: "#604a33",
               borderRadius: 10,
-              padding: 15,
+              padding: 20,
               position: "absolute",
               bottom: -35,
               right: -15,
-              elevation: 1,
+              // elevation: 1,
               borderTopWidth: 2,
               borderLeftWidth: 2,
               borderBottomWidth: 8,
               borderRightWidth: 8,
+              zIndex: 3,
             }}
           >
             <Text
@@ -150,7 +149,7 @@ export default function HomeScreen({ userDetails, navigation }) {
             padding: 20,
             paddingHorizontal: 20,
             bottom: -35,
-            zIndex: 2,
+            zIndex: 1,
             borderRadius: 5,
           }}
         >
@@ -158,7 +157,6 @@ export default function HomeScreen({ userDetails, navigation }) {
             style={{
               fontSize: 50,
               fontWeight: "bold",
-              zIndex: 2,
             }}
           >
             Scan to Earn
