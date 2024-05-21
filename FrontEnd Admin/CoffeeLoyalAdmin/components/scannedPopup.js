@@ -12,7 +12,6 @@ import { getUser, getUserCard } from "../firebaseFunctions";
 import { useState, useEffect } from "react";
 import FontistoIcon from "react-native-vector-icons/Fontisto";
 import { ConfirmCoffee } from "./confirmCoffeeStamp";
-import { TouchableOpacity, Dimensions } from "react-native";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 // export function ScannedPopUp({ userid, store, navigation , route }) {
 import AddStamps from "./stampadder";
@@ -30,11 +29,11 @@ export function ScannedPopUp({ route, navigation }) {
 
   useEffect(() => {
     async function fetchdata() {
-      const card = await getUserCard(userid, store.storeID);
-      const userdata = await getUser(userid);
+      const { card, username } = await getUserCard(userid, store);
+      console.log(card);
+      setUser(username);
       setUserCard(card);
-      setUser(userdata);
-      setStampCardCount(card.coffeesEarnt);
+      setStampCardCount(card.points);
     }
     console.log(userid, store);
     fetchdata();
@@ -47,7 +46,7 @@ export function ScannedPopUp({ route, navigation }) {
     setStampCardCount(stampCardCount + 1);
     setChanged(true);
 
-    if ((addCoffees + userCard.coffeesEarnt) % store.coffees_required == 0) {
+    if ((addCoffees + userCard.points) % store.coffees_required == 0) {
       setCardsCompleted(cardsCompleted + 1);
       setStampCardCount(1);
     }
@@ -59,21 +58,21 @@ export function ScannedPopUp({ route, navigation }) {
   const onUndoPress = () => {
     setAddCoffees(0);
     setChanged(false);
-    setStampCardCount(userCard.coffeesEarnt);
+    setStampCardCount(userCard.points);
     setCardsCompleted(0);
   };
   const confirmComplete = () => {
     console.log("adding stamps to cards confirm complete");
     let stampsRequired = store.coffees_required;
-    let coffeesEarnt = userCard.coffeesEarnt;
+    let points = userCard.points;
     console.log(user);
     console.log(userCard);
     const id = {
-      userid: user.userID,
+      userid: userid,
       storeid: store.storeId,
       cardid: userCard.cardID,
     };
-    AddStamps(id, addCoffees, coffeesEarnt, stampsRequired);
+    AddStamps(id, addCoffees, points, stampsRequired);
     const name = user.name;
     navigation.navigate("Success", { name, addCoffees });
   };
@@ -158,7 +157,7 @@ export function ScannedPopUp({ route, navigation }) {
             </Pressable>
           )}
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("Main Page")}>
+        <Pressable onPress={() => navigation.navigate("Main Page")}>
           <Text
             style={{
               textDecorationLine: "underline",
@@ -169,7 +168,7 @@ export function ScannedPopUp({ route, navigation }) {
           >
             Cancel
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

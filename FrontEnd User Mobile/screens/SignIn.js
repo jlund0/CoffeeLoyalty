@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
   Pressable,
 } from "react-native";
-import { resetPassword } from "../firebasefunctions";
+import { resetPassword } from "../firestoreFunctions";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { app } from "../firebase";

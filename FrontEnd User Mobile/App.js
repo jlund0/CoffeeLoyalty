@@ -5,16 +5,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { app, signOut, auth } from "./firebase.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 //SCREENS
-import Home from "./screens/Home";
-import CardScreen from "./screens/Card";
-import SettingsScreen from "./screens/Settings";
 import SignInScreen from "./screens/SignIn";
 import SignUpScreen from "./screens/SignUp";
 import Main from "./screens/Main.js";
 import { useFonts } from "expo-font";
 import { registerForPushNotificationsAsync } from "./notifications.js";
 import * as Notifications from "expo-notifications";
-import Auth from "./auth.js";
 import { UserButton } from "./components/buttons.js";
 // import SplashPage from "./AuthScreen/SplashPage.js";
 import { SplashPage } from "./AuthScreen/SplashPage.js";

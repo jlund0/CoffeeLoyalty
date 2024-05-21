@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { BarCodeScanner } from "expo-barcode-scanner";
 import {
   Button,
   StyleSheet,
@@ -18,35 +17,36 @@ import BarcodeCamera from "../components/camera";
 import { useNavigation } from "@react-navigation/native";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import { getStore } from "../firebaseFunctions";
-export function MainScreen({ navigation }) {
-  const [defaultstore, setdefaultStore] = useState();
-  const [store, setStore] = useState();
-
-  const fetchstoreupdates = async (id) => {
-    const storedata = await getStore(id);
-    setStore(storedata);
-  };
-
-  useEffect(() => {
-    const getDefaultStore = async () => {
-      console.log("checking Default store");
-      try {
-        const jsonValue = await AsyncStorage.getItem("default-store");
-        jsonValue != null
-          ? fetchstoreupdates(JSON.parse(jsonValue).id)
-          : navigation.navigate("Change Store");
-      } catch (e) {
-        // error reading value
-        console.log(e);
-      }
-    };
-    getDefaultStore();
-  }, []);
-  console.log("store info");
+export function MainScreen({ route, navigation }) {
+  const store = route.params;
+  console.log("main page");
   console.log(store);
+  const [defaultstore, setdefaultStore] = useState();
+  const [currentStore, setStore] = useState(store);
 
-  if (store == null) {
-    return <Text>Getting Store</Text>;
+  // const fetchstoreupdates = async (id) => {
+  //   const storedata = await getStore(id);
+  //   setStore(storedata);
+  // };
+
+  // useEffect(() => {
+  //   const getDefaultStore = async () => {
+  //     console.log("checking Default currentStore");
+  //     try {
+  //       const jsonValue = await AsyncStorage.getItem("default-currentStore");
+  //       jsonValue != null
+  //         ? fetchstoreupdates(JSON.parse(jsonValue).id)
+  //         : navigation.navigate("Change currentStore");
+  //     } catch (e) {
+  //       // error reading value
+  //       console.log(e);
+  //     }
+  //   };
+  //   if (!store) getDefaultStore();
+  // }, []);
+
+  if (currentStore == null) {
+    return <Text>Getting current store</Text>;
   }
 
   return (
@@ -57,19 +57,17 @@ export function MainScreen({ navigation }) {
           numberOfLines={1}
           adjustsFontSizeToFit={true}
         >
-          {store.name}
+          {currentStore.name}
         </Text>
 
         <Text style={{ fontSize: 25 }}>
-          {store.location.split(",")[0]}
-          {"\n"}
+          {currentStore.location.split(",")[0]}
         </Text>
         <Text
           style={{
-            fontSize: 34,
+            fontSize: 30,
             textTransform: "uppercase",
             fontWeight: "bold",
-            color: "white",
           }}
           numberOfLines={1}
           adjustsFontSizeToFit={true}
@@ -78,30 +76,14 @@ export function MainScreen({ navigation }) {
         </Text>
       </View>
       <View style={styles.cameracontainer}>
-        <BarcodeCamera
-          navigation={navigation}
-          // onBarCodeScanned={handleBarCodeScanned}
-          store={store}
-        />
-
-        {/* <Button
-          title={"temp to move on"}
-          onPress={() =>
-            navigation.navigate("Scanned Popup", {
-              userid: "jsRvlL3bb4hE4HOV7hr1bUpWAY32",
-              store: store,
-            })
-          }
-        /> */}
+        <BarcodeCamera navigation={navigation} store={currentStore} />
       </View>
-      <View style={styles.bottomfill}></View>
     </View>
   );
 }
 
 const defaults = {};
 const styles = StyleSheet.create({
-  bottomfill: { flex: 1 },
   coffeeLoyal: {
     fontSize: 30,
     width: "100%",
@@ -111,13 +93,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   storeinfoContainer: {
-    flex: 2,
-    width: "100%",
+    // height: "30%",
+
     alignItems: "center",
     alignContent: "center",
     justifyContent: "space-evenly",
     padding: 20,
-    paddingBottom: 0,
+    position: "absolute",
+    zIndex: 2,
+    backgroundColor: "white",
+    top: 40,
+    borderRadius: 3,
   },
   maincontainer: {
     flex: 1,
@@ -131,7 +117,7 @@ const styles = StyleSheet.create({
   },
   cameracontainer: {
     width: "100%",
-    flex: 5,
+    flex: 1,
   },
   camera: {
     borderRadius: 20,
@@ -141,5 +127,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   logo: { width: 80, height: 80 },
-  storename: { fontSize: 56, textTransform: "uppercase", fontWeight: "900" },
+  storename: { fontSize: 38, textTransform: "uppercase", fontWeight: "900" },
 });

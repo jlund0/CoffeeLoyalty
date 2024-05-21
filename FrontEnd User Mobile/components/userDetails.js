@@ -9,7 +9,7 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { updateUserinfo } from "../firebasefunctions";
+import { updateUserinfo } from "../Old/firebasefunctions";
 
 export function UserDetailsPage({}) {
   const auth = getAuth();

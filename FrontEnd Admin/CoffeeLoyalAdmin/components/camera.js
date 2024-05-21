@@ -1,5 +1,5 @@
-import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { useState, useEffect } from "react";
 import {
   Button,
   StyleSheet,
@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   View,
   Image,
+  ActivityIndicator,
 } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+
 import IonIcons from "react-native-vector-icons/Ionicons";
-import { getStoreLogoUrl } from "../firebaseFunctions";
+import { RedeemCard, getStoreLogoUrl } from "../firebaseFunctions";
+import { RedeemPopup } from "../screens/redeemPopup";
+
 export default function BarcodeCamera({ navigation, store }) {
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -30,40 +34,51 @@ export default function BarcodeCamera({ navigation, store }) {
       </View>
     );
   }
+  navigation.addListener("focus", () => {
+    setScanned(false);
+  });
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     console.log("qr Scanned");
-    console.log(data.split("/")[0]);
-    if (data.split("/")[1] == "scan") {
+    console.log(data);
+    let dataSplit = data.split("/");
+    if (dataSplit[1] == "scan") {
       console.log("users popup");
+      console.log(dataSplit[0]);
       navigation.navigate("Scanned Popup", {
-        userid: data.split("/")[0],
+        userid: dataSplit[0],
         store: store,
       });
     }
-    if (data.split("/")[1] == "redeem") {
+    if (dataSplit[2] == "redeem") {
       console.log("redeem popup");
-      navigation.navigate("Redeem Popup", { cardid: data.split("/")[0] });
+      navigation.navigate("redeem Popup", {
+        userId: dataSplit[0],
+        cardId: dataSplit[1],
+        points_required: store.coffees_required,
+        store_Id: store.storeId,
+      });
     }
-    setScanned(false);
   };
-  console.log(store);
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={{ uri: store.logo }}
-        width={250}
-        height={250}
-        resizeMode="center"
-      />
-      <Camera
+      <View style={{ zIndex: 2, position: "absolute", alignSelf: "center" }}>
+        <Image
+          style={styles.logo}
+          source={{ uri: store.logo }}
+          width={250}
+          height={250}
+          resizeMode="center"
+          placeholder={<ActivityIndicator />}
+        />
+      </View>
+      <CameraView
         style={styles.camera}
-        barCodeScannerSettings={{
-          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        barcodeScannerSettings={{
+          barcodeTypes: ["qr"],
         }}
-        onBarCodeScanned={!scanned ? handleBarCodeScanned : null}
+        onBarcodeScanned={!scanned ? handleBarCodeScanned : null}
       >
         <IonIcons
           name="scan"
@@ -71,7 +86,7 @@ export default function BarcodeCamera({ navigation, store }) {
           color="white"
           style={styles.cameraicon}
         />
-      </Camera>
+      </CameraView>
     </View>
   );
 }
@@ -86,11 +101,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cameraicon: {
-    zIndex: 2,
+    zIndex: 3,
   },
   logo: {
-    position: "absolute",
-    zIndex: 1,
+    zIndex: 3,
     alignSelf: "center",
     opacity: 0.5,
   },

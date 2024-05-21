@@ -102,7 +102,7 @@ export default function Main({ navigation }) {
       setCards(cardsdata);
       return;
     };
-    if (!user) fetchUser();
+    if (!user || !location) fetchUser();
   }, []);
 
   if (!location || !user || !cards) {
@@ -183,7 +183,7 @@ export default function Main({ navigation }) {
           icon={(active) => ({
             name: "home",
             size: 40,
-            type: "font-awesome-5",
+            type: "entypo",
             color: active ? "#604a33" : "#e1b894",
           })}
         />

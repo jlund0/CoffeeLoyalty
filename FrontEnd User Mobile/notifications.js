@@ -69,12 +69,12 @@ Notifications.setNotificationHandler({
 // );
 //}
 
-export async function stampPushNotification(num, storename) {
+export async function stampPushNotification() {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: "Stamps Added ☕",
-      body: `${num} stamps just added to your ${storename} card`,
-      data: { data: "goes here" },
+      body: `stamps just added to one of your card`,
+      // data: { data: "goes here" },
     },
     trigger: { seconds: 2 },
   });

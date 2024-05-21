@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScannedPopUp } from "./components/scannedPopup";
 import { SuccessScreen } from "./screens/success";
 import { useFonts } from "expo-font";
+import { RedeemPopup } from "./screens/redeemPopup";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,18 +68,20 @@ export default function App() {
   return (
     <NavigationContainer>
       {userToken ? (
-        <Stack.Navigator initialRouteName={"Main Page"}>
-          <Stack.Screen
-            name="Main Page"
-            component={MainScreen}
-            options={TopBanner}
-          />
+        <Stack.Navigator initialRouteName={"Change Store"}>
           <Stack.Screen
             name="Change Store"
             component={HomeScreen}
             initialParams={{ userToken }}
             options={TopBanner}
           />
+          <Stack.Screen
+            name="Main Page"
+            component={MainScreen}
+            options={TopBanner}
+            initialParams={{ userToken }}
+          />
+
           <Stack.Screen
             name="Scanned Popup"
             component={ScannedPopUp}
@@ -87,6 +90,11 @@ export default function App() {
           <Stack.Screen
             name="Success"
             component={SuccessScreen}
+            options={TopBanner}
+          />
+          <Stack.Screen
+            name="redeem Popup"
+            component={RedeemPopup}
             options={TopBanner}
           />
           {/* <Stack.Screen name="Settings" component={Settings} /> */}

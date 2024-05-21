@@ -13,27 +13,34 @@ import { RedeemButton } from "../components/buttons";
 import { getCards } from "../firestoreFunctions";
 import { LinearGradient } from "expo-linear-gradient";
 import { BackgroundImage } from "@rneui/base";
-
+import { List } from "reactstrap";
+import { linkWithRedirect } from "firebase/auth";
+import { sortListbyDistance } from "../useful-functions";
 export default function CardScreen({ cards, location, user }) {
   const [search, setSearch] = useState("");
   const [cardsList, setCardsList] = useState(cards);
   const [refreshing, setRefreshing] = useState(false);
-
+  const [gridLayout, setGridLayout] = useState(false);
   const updateSearch = (search) => {
     setSearch(search);
   };
 
   const filterList = (list) => {
-    // list = sortListbyDistance(list, location);
+    list = sortListbyDistance(list, location);
+
     return list.filter((card) =>
       card.name.toLowerCase().includes(search.toLowerCase())
     );
   };
 
-  function handleRefresh() {
+  async function handleRefresh() {
     try {
       setRefreshing(true);
-      const cards = getCards(user.userId);
+      console.log("refreshing");
+      console.log(user);
+      console.log(cardsList);
+      const cards = await getCards(user);
+      console.log(cards);
       setCardsList(cards);
       setRefreshing(false);
     } catch (error) {
@@ -51,35 +58,33 @@ export default function CardScreen({ cards, location, user }) {
         paddingTop: 50,
       }}
     >
-      <View style={{}}>
-        <SearchBar
-          onChangeText={updateSearch}
-          value={search}
-          placeholder="Find store"
-          lightTheme={true}
-          containerStyle={{
-            paddingHorizontal: 15,
-            paddingTop: 20,
-            borderRadius: 2,
-            backgroundColor: "transparent",
-            borderBottomLeftRadius: 5,
-            borderBottomRightRadius: 5,
+      <SearchBar
+        onChangeText={updateSearch}
+        value={search}
+        placeholder="Find store"
+        lightTheme={true}
+        containerStyle={{
+          paddingHorizontal: 15,
+          paddingTop: 20,
+          borderRadius: 2,
+          backgroundColor: "transparent",
+          borderBottomLeftRadius: 5,
+          borderBottomRightRadius: 5,
 
-            borderWidth: 0,
-          }}
-          inputContainerStyle={{
-            backgroundColor: "white",
-            borderRadius: 5,
-            borderTopWidth: 2,
-            borderLeftWidth: 2,
-            borderBottomWidth: 8,
-            borderRightWidth: 8,
-            borderColor: "black",
-          }}
-          round={true}
-          platform="android"
-        />
-      </View>
+          borderWidth: 0,
+        }}
+        inputContainerStyle={{
+          backgroundColor: "white",
+          borderRadius: 5,
+          borderTopWidth: 2,
+          borderLeftWidth: 2,
+          borderBottomWidth: 8,
+          borderRightWidth: 8,
+          borderColor: "black",
+        }}
+        round={true}
+        platform="android"
+      />
 
       <ScrollView
         style={{
@@ -98,17 +103,22 @@ export default function CardScreen({ cards, location, user }) {
         }
       >
         {filterList(cardsList).map((card, index) => (
-          <CardWidget card={card} key={index} />
+          <CardWidget
+            card={card}
+            key={index}
+            user={user}
+            fetchCards={handleRefresh}
+          />
         ))}
+        <View style={{ height: 150 }}></View>
       </ScrollView>
     </BackgroundImage>
   );
 }
 
-function CardWidget({ card }) {
+function CardWidget({ card, user, fetchCards }) {
   const [expanded, setExpanded] = useState(false);
   const [width, setWidth] = useState(0);
-  let coffeesRequired = card.coffees_required / 2;
 
   const Stampcard = ({ i }) => {
     const Row = ({ list }) => (
@@ -161,6 +171,7 @@ function CardWidget({ card }) {
         ))}
       </View>
     );
+
     const list = [...Array(card.coffees_required).keys()];
     const half_length = Math.ceil(list.length / 2);
     const list1 = list.slice(0, half_length);
@@ -181,7 +192,7 @@ function CardWidget({ card }) {
           marginHorizontal: 20,
           borderRadius: 10,
           backgroundColor: "#C4A484",
-          marginBottom: 20,
+          marginBottom: 10,
           zIndex: 1,
           borderWidth: 3,
           borderColor: "black",
@@ -196,6 +207,7 @@ function CardWidget({ card }) {
             source={{ uri: card.logo }}
             containerStyle={styles.logo}
             PlaceholderContent={<ActivityIndicator />}
+            resizeMode="contain"
           />
           <ListItem.Content
             style={{
@@ -213,14 +225,17 @@ function CardWidget({ card }) {
             <ListItem.Title
               style={{
                 fontWeight: "bold",
-                fontSize: 30,
+                fontSize: 16,
                 flex: 1,
               }}
               numberOfLines={1}
-              adjustsFontSizeToFit={true}
+              // adjustsFontSizeToFit={true}
             >
               {card.name}
             </ListItem.Title>
+            <ListItem.Subtitle numberOfLines={1} style={{ fontSize: 12 }}>
+              {card.location}
+            </ListItem.Subtitle>
           </ListItem.Content>
           {!expanded && (
             <View
@@ -250,10 +265,12 @@ function CardWidget({ card }) {
                   padding: 5,
                   paddingHorizontal: 10,
                   elevation: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
                 <Text
-                  style={{ fontSize: 22, textAlign: "center", color: "white" }}
+                  style={{ fontSize: 18, textAlign: "center", color: "white" }}
                 >
                   {card.points}/{card.coffees_required}
                 </Text>
@@ -265,8 +282,9 @@ function CardWidget({ card }) {
                       : "coffee-outline"
                   }
                   style={{ paddingLeft: 3 }}
+                  size={22}
                   color="#7BC9FF"
-                ></Icon>
+                />
               </LinearGradient>
             </View>
           )}
@@ -291,25 +309,12 @@ function CardWidget({ card }) {
         }}
       >
         <ListItem.Content>
-          {/* <FlatList
-            data={[...new Array(card.coffees_required)].map((_, i) => i)}
-            style={styles.list}
-            columnWrapperStyle={{
-              justifyContent: "space-around",
-            }}
-            numColumns={coffeesRequired}
-            keyExtractor={(e) => e}
-            // horizontal={true}
-            renderItem={(index) => <Stampcard i={index} />}
-          ></FlatList> */}
-
-          {/* {[...Array(card.coffees_required).keys()].map((index) => ( */}
           <Stampcard />
-          {/* ))} */}
-
           <RedeemButton
             disabled={card.coffees_required == card.points ? false : true}
             card={card}
+            uid={user.uid}
+            fetchCards={fetchCards}
           />
         </ListItem.Content>
       </ListItem>
@@ -324,10 +329,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     aspectRatio: 1,
-    width: "15%",
-    borderRadius: 5,
+    width: "18%",
+    borderRadius: 2,
     border: 2,
-    resizeMode: "cover",
+    resizeMode: "contain",
+    height: "100%",
+    backgroundColor: "white",
   },
   stampbox: {
     // aspectRatio: 1,

@@ -41,102 +41,10 @@ export function UserButton({ navigation }) {
     console.log("add card");
   };
   return (
-    // <>
-    //   <Icon
-    //     name="settings"
-    //     type="feather"
-    //     size={30}
-    //     raised
-    //     onPress={() => setIsVisible(true)}
-    //   />
-    //   <BottomSheet
-    //     isVisible={isVisible}
-    //     onBackdropPress={() => setIsVisible(false)}
-    //     backdropStyle={{
-    //       opacity: 0,
-    //     }}
-    //   >
-    //     <ListItem
-    //       containerStyle={{
-    //         margin: 10,
-    //         borderRadius: 10,
-    //       }}
-    //     >
-    //       <ListItem.Content
-    //         style={{
-    //           justifyContent: "center",
-    //           alignItems: "center",
-    //           alignContent: "center",
-    //         }}
-    //       >
-    //         <Pressable
-    //           onPress={() => {
-    //             navigation.navigate("userDetails");
-    //             setIsVisible(false);
-    //           }}
-    //           style={{ flexDirection: "row", gap: 10 }}
-    //         >
-    //           <Icon type="font-awesome" name="user" />
-    //           <ListItem.Title style={{ alignSelf: "center" }}>
-    //             User details
-    //           </ListItem.Title>
-    //         </Pressable>
-    //       </ListItem.Content>
-    //     </ListItem>
-    //     <ListItem
-    //       containerStyle={{
-    //         margin: 10,
-    //         borderRadius: 10,
-    //       }}
-    //     >
-    //       <ListItem.Content
-    //         style={{
-    //           justifyContent: "center",
-    //           alignItems: "center",
-    //           alignContent: "center",
-    //           flexDirection: "row",
-    //           gap: 10,
-    //         }}
-    //       >
-    //         <Icon type="material-community" name="wallet-plus-outline" />
-    //         <ListItem.Title style={{ alignSelf: "center" }}>
-    //           Add to wallet
-    //         </ListItem.Title>
-    //       </ListItem.Content>
-    //     </ListItem>
-    //     <ListItem
-    //       onPress={() => handleLogout}
-    //       containerStyle={{
-    //         backgroundColor: "red",
-    //         margin: 10,
-    //         borderRadius: 10,
-    //         marginBottom: 50,
-    //       }}
-    //     >
-    //       <ListItem.Content
-    //         style={{
-    //           justifyContent: "center",
-    //           alignItems: "center",
-    //           alignContent: "center",
-    //         }}
-    //       >
-    //         <Pressable
-    //           style={{ flexDirection: "row", gap: 10 }}
-    //           onPress={handleLogout}
-    //         >
-    //           <Icon type="material-community" name="logout" />
-    //           <ListItem.Title style={{ color: "white", alignSelf: "center" }}>
-    //             Log out
-    //           </ListItem.Title>
-    //         </Pressable>
-    //       </ListItem.Content>
-    //     </ListItem>
-    //   </BottomSheet>
-    // </>
     <SpeedDial
       isOpen={open}
-      icon={{ name: "settings", color: "black" }}
-      openIcon={{ name: "close" }}
+      icon={{ name: "settings", color: "black", size: 50 }}
+      openIcon={{ name: "close", size: 50 }}
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}
       buttonStyle={{
@@ -148,33 +56,64 @@ export function UserButton({ navigation }) {
         borderColor: "black",
         borderRadius: 50,
       }}
-      style={{ zIndex: 2 }}
+      containerStyle={{ padding: 0 }}
+      iconContainerStyle={{
+        padding: 0,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      style={{ zIndex: 2, flex: 1 }}
     >
       <SpeedDial.Action
-        icon={{ name: "account-circle", type: "material-community" }}
+        icon={{ name: "account-circle", type: "material-community", size: 40 }}
         title="User details"
         onPress={() => {
           navigation.navigate("userDetails");
         }}
         color="white"
+        iconContainerStyle={{
+          padding: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        buttonStyle={{ width: 60, height: 60 }}
+        titleStyle={{ fontSize: 35 }}
       />
       <SpeedDial.Action
-        icon={{ name: "wallet-plus-outline", type: "material-community" }}
+        icon={{
+          name: "wallet-plus-outline",
+          type: "material-community",
+          size: 40,
+        }}
         title="Add to wallet"
         onPress={addCardtoWallet}
         color="white"
+        iconContainerStyle={{
+          padding: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        buttonStyle={{ width: 60, height: 60 }}
+        titleStyle={{ fontSize: 35 }}
       />
       <SpeedDial.Action
-        icon={{ name: "logout" }}
+        icon={{ name: "logout", size: 40 }}
         title="Log out"
         onPress={handleLogout}
         color="red"
+        iconContainerStyle={{
+          padding: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        buttonStyle={{ width: 60, height: 60 }}
+        titleStyle={{ fontSize: 35 }}
       />
     </SpeedDial>
   );
 }
 
-export const RedeemButton = ({ disabled = false, card }) => {
+export const RedeemButton = ({ disabled = false, card, uid, fetchCards }) => {
   const [isdisabled, setDisabled] = useState(disabled);
   const [animation] = useState(new Animated.Value(0));
   const [redeem, setRedeem] = useState(false);
@@ -249,6 +188,7 @@ export const RedeemButton = ({ disabled = false, card }) => {
         isVisible={redeem}
         onBackdropPress={() => {
           setRedeem(false);
+          fetchCards();
         }}
         style={{
           backgroundColor: "orange",
@@ -270,7 +210,7 @@ export const RedeemButton = ({ disabled = false, card }) => {
         </Text>
         <Divider width={5} />
         <View style={{ alignSelf: "center", padding: 20 }}>
-          <QRCode value={`${card.cardId}/redeem`} size={150} />
+          <QRCode value={`${uid}/${card.cardId}/redeem`} size={150} />
         </View>
       </Dialog>
     </Pressable>

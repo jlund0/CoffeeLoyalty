@@ -17,6 +17,8 @@ import {
 import { sendPasswordResetEmail, getAuth } from "firebase/auth";
 import { getStorage, getDownloadURL, ref } from "firebase/storage";
 import * as geofire from "geofire-common";
+import { stampPushNotification } from "./notifications";
+import { sortListbyDistance } from "./useful-functions";
 
 const db = getFirestore(app);
 const storage = getStorage(app);
@@ -60,7 +62,7 @@ export async function getUserInfo() {
   let dataUser;
   if (docSnap.exists()) {
     dataUser = docSnap.data();
-    dataUser.userId = docSnap.id;
+    dataUser.uid = docSnap.id;
 
     cards = await getCards(user);
   } else {
@@ -134,31 +136,32 @@ export function resetPassword(email) {
 export async function getCards(user) {
   console.log("getCards");
   console.log("fetching " + user.uid + " cards");
-  const cardsSnap = await getDocs(
-    collection(db, "users", user.uid, "loyalty_cards")
+  const q = query(
+    collection(db, "users", user.uid, "loyalty_cards"),
+    where("redeemed", "==", false)
   );
+  const cardsSnap = await getDocs(q);
   let cards = [];
-  let fullCard = [];
   cardsSnap.forEach((cardData) => {
     console.log(cardData.id, " => ", cardData.data());
     let card = cardData.data();
+    card.cardId = cardData.id;
     cards.push(card);
   });
 
   await Promise.all(
-    cards.map(async (card) => {
+    cards.map(async (card, index) => {
       const cardDoc = await getDoc(doc(db, "stores", card.store_Id));
       if (cardDoc.exists) {
         let cardData = cardDoc.data();
-        console.log(cardData);
         cardData.logo = await getDownloadURL(ref(storage, cardData.logo));
-        fullCard.push({ ...card, ...cardData });
+        cards[index] = { ...card, ...cardData };
       }
     })
   );
 
-  console.log(fullCard);
-  return fullCard;
+  console.log(cards);
+  return cards;
 }
 
 function cardListener(userId) {
@@ -169,7 +172,9 @@ function cardListener(userId) {
         console.log("New Card: ", change.doc.data());
       }
       if (change.type === "modified") {
+        console.log(change);
         console.log("Card Changed: ", change.doc.data());
+        stampPushNotification();
       }
       if (change.type === "removed") {
         console.log("Card Deleted: ", change.doc.data());

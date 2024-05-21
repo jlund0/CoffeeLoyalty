@@ -95,14 +95,13 @@ export default function MapPage({ location }) {
         region={currentRegion}
         showsUserLocation={true}
         loadingEnabled={true}
-        followsUserLocation={true}
         showsMyLocationButton={true}
         onRegionChangeComplete={(region) => {
           setCurrentRegion(region);
           setScrolled(true);
         }}
         // mapType="mutedStandard"
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE}
       >
         {markers != null && mapMarkers(markers, () => setActiveMarker)}
       </MapView>

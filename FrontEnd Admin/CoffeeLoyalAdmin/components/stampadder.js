@@ -12,12 +12,17 @@ export default async function AddStamps(
   console.log(id);
   if (completedCards == 0) {
     console.log(`no cards complete: adding ${stampsToAdd} to users card`);
-    await updateUserCard(id.cardid, stampsToAdd);
+    await updateUserCard(id.userid, id.cardid, stampsToAdd);
   } else if (completedCards >= 1) {
     console.log(
       ` completeing users card and adding ${AddtoNewCard} to new card `
     );
-    await updateUserCard(id.cardid, stampsRequired - coffeesEarnt, true);
+    await updateUserCard(
+      id.userid,
+      id.cardid,
+      stampsRequired - coffeesEarnt,
+      true
+    );
     await createNewCard(id.userid, id.storeid, AddtoNewCard);
     if (completedCards > 1) {
       console.log(`adding ${completedCards - 1} completed cards`);

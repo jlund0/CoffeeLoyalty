@@ -58,7 +58,8 @@ export default function HomeScreen({ userDetails, navigation }) {
             width: "100%",
             borderRadius: 10,
             padding: 20,
-            height: 150,
+            // height: 150,
+            height: "fit-content",
             flexDirection: "row",
             alignItems: "center",
             elevation: 1,
@@ -98,8 +99,14 @@ export default function HomeScreen({ userDetails, navigation }) {
               {userDetails.name.split(" ")[0]}
             </Text>
           </View>
+          <Dialog isVisible={open} onBackdropPress={() => setOpen(false)}>
+            <Dialog.Title title="🥤 Drink Tally ☕" />
+            <Text>
+              CupCount has earnt you {userDetails.coffee_earnt} free drinks 🥳
+            </Text>
+          </Dialog>
           <Pressable
-            onPress={() => setOpen(true)}
+            onPress={() => setOpen(!open)}
             style={{
               alignSelf: "flex-end",
               backgroundColor: "#604a33",
@@ -113,30 +120,19 @@ export default function HomeScreen({ userDetails, navigation }) {
               borderLeftWidth: 2,
               borderBottomWidth: 8,
               borderRightWidth: 8,
-              zIndex: 3,
+              zIndex: 10,
             }}
           >
             <Text
               style={{
                 fontSize: 36,
                 fontWeight: "bold",
+                color: "white",
               }}
             >
-              ☕👋
+              {userDetails.coffee_earnt} ☕👋
             </Text>
           </Pressable>
-
-          <Dialog
-            isVisible={open}
-            onBackdropPress={() => {
-              setOpen(false);
-            }}
-          >
-            <Dialog.Title title="🥤 Drink Tally ☕" />
-            <Text>
-              Loyal Bean has earnt you {userDetails.coffee_earnt} free drinks 🥳
-            </Text>
-          </Dialog>
         </View>
         <View
           style={{
@@ -166,13 +162,13 @@ export default function HomeScreen({ userDetails, navigation }) {
           style={{
             width: "fit-content",
             backgroundColor: "#C4A484",
-            padding: 20,
+            padding: 40,
             justifyContent: "center",
             alignItems: "center",
             alignContent: "center",
             borderRadius: 10,
             aspectRatio: 1,
-            width: "100%",
+            // width: "100%",
             elevation: 1,
             // height: 425,
             borderTopWidth: 2,
@@ -201,7 +197,7 @@ export default function HomeScreen({ userDetails, navigation }) {
         /> */}
 
           <QRCode
-            value={`${userDetails.userId}/scan`}
+            value={`${userDetails.uid}/scan`}
             size={280}
             backgroundColor={"transparent"}
             logo={require("../assets/logo.png")}

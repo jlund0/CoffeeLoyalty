@@ -10,22 +10,23 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-      
-    },"plugins": [
+    },
+    "plugins": [
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          "cameraPermission": "Allow CupCount to access your camera."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "infoPlist":{
-       "NSCameraUsageDescription": "This Loyal Coffee to access your camera"
+      "infoPlist": {
+        "NSCameraUsageDescription": "This Loyal Coffee to access your camera"
       }
     },
     "android": {
