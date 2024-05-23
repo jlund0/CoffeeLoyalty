@@ -23,7 +23,10 @@ import HelpPage from "./pages/consolePages/NeedHelpPage";
 import DetailsPage from "./pages/consolePages/YourDetailsPage";
 import BillingPage from "./pages/consolePages/BillingPage";
 import NavBar from "./NavBar";
-
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import NewStore from "./pages/consolePages/NewStore";
+import Dashboard from "./pages/consolePages/Dashboard";
 const auth = getAuth(app);
 function App() {
   const [userId, setUserId] = useState();
@@ -71,18 +74,27 @@ function App() {
               path="/signin"
               element={
                 <CheckAuth>
-                  <SignInPage />
+                  <SignIn />
+                </CheckAuth>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <CheckAuth>
+                  <SignUp />
                 </CheckAuth>
               }
             />
             <Route path="/contact" element={<ContactPage />} />
+
             <Route
               path="/console/:id"
               element={
                 <RequireAuth>
-                  <ConsoleLayout>
-                    <ConsolePage />
-                  </ConsoleLayout>
+                  {/* <ConsoleLayout> */}
+                  <Dashboard />
+                  {/* </ConsoleLayout> */}
                 </RequireAuth>
               }
             />
@@ -93,6 +105,16 @@ function App() {
                   <ConsolesPagesLayout userId>
                     <ManageStorePage />
                   </ConsolesPagesLayout>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/console/:id/addstore"
+              element={
+                <RequireAuth>
+                  <ConsoleLayout userId>
+                    <NewStore />
+                  </ConsoleLayout>
                 </RequireAuth>
               }
             />

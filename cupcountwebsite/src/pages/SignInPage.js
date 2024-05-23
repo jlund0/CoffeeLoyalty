@@ -13,27 +13,55 @@ import { eye } from "react-icons-kit/feather/eye";
 import AddUserToFirestore from "../firebase/createUser";
 import { Navigate } from "react-router-dom";
 import Logo from "../components/logo";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 const auth = getAuth(app);
 
 function SignInPage(type = "login") {
   const [screenType, setType] = useState(type);
+
   return (
     <section className="w-screen h-screen flex-col">
       <header className=" flex w-screen justify-between h-20 absolute top-0">
         <Logo />
-        <h1 className="">Store Owner Sign In</h1>
+        <h1 className="">Admin Console</h1>
         <button>
           <Link to="/">Back to site</Link>
         </button>
       </header>
-      <div>
-        <button onClick={() => setType("login")}>Login</button>
-        <button onClick={() => setType("register")}>SignUp</button>
-        {screenType === "login" ? (
-          <SignIn onClick={() => setType("register")} />
-        ) : (
-          <SignUp onClick={() => setType("login")} />
-        )}
+      <div className="flex">
+        <div className="border-4">
+          {screenType === "login" ? (
+            <SignIn onClick={() => setType("register")} />
+          ) : (
+            <>
+              <Button onClick={() => setType("login")}>
+                Already have an account?
+              </Button>
+            </>
+          )}
+        </div>
+        <div className="border-4">
+          {screenType === "register" ? (
+            <SignUp onClick={() => setType("login")} />
+          ) : (
+            <>
+              <Button onClick={() => setType("register")}>
+                Sign up your store today
+              </Button>
+            </>
+          )}
+        </div>
+
+        {/* <div className="border-4">
+          <button onClick={() => setType("login")}>Login</button>
+          <button onClick={() => setType("register")}>SignUp</button>
+          {screenType === "login" ? (
+            <SignIn onClick={() => setType("register")} />
+          ) : (
+            <SignUp onClick={() => setType("login")} />
+          )}
+        </div> */}
       </div>
     </section>
   );
@@ -80,8 +108,17 @@ function SignUp({ onClick }) {
   };
   return (
     <div>
-      <div className="flex-col">
-        <label>Name</label>
+      <div className="flex-col ">
+        <h1>Create account</h1>
+        <TextField
+          label="Email"
+          variant="outlined"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField label="Password" variant="outlined" />
+        <TextField label="Confirm Password" variant="outlined" />
+
+        {/* <label>Name</label>
         <input type="text" onChange={(e) => setName(e.target.value)} />
         <label>Phone</label>
         <input type="text" onChange={(e) => setNumber(e.target.value)} />
@@ -102,7 +139,7 @@ function SignUp({ onClick }) {
             <Icon class="absolute mr-10" icon={icon} size={25} />
           </span>
           <PasswordStrengthBar password={password} />
-        </div>
+        </div> */}
 
         {/* <div id="message">
           <h3>Password must contain the following:</h3>
@@ -119,13 +156,16 @@ function SignUp({ onClick }) {
             Minimum <b>8 characters</b>
           </p>
         </div> */}
-        <button type="submit" value="Create account" onClick={createNewUser}>
+        <Button
+          type="submit"
+          value="Create account"
+          onClick={createNewUser}
+          variant="contained"
+        >
           Create Account
-        </button>
+        </Button>
       </div>
-      <div>
-        <button onClick={onClick}>Already have an account?</button>
-      </div>
+
       {userid ? <Navigate to={`/console/${userid}`} replace={true} /> : null}
     </div>
   );
@@ -163,29 +203,26 @@ function SignIn({ onClick }) {
       });
   };
   return (
-    <div>
-      <label>Email or Phone number</label>
-      <input onChange={(e) => setEmail(e.target.value)} type="email" />
-      <div>
-        <label>Password</label>
-
-        <input
-          type={type}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <span className="" onClick={handleToggle}>
-          <Icon className="absolute mr-10" icon={icon} size={25} />
-        </span>
-      </div>
-      <button>forgot password?</button>
-      <button title="Login" onClick={() => signInUser()}>
+    <div className="flex-col">
+      <h1>Sign In</h1>
+      <TextField
+        required
+        label="Email"
+        variant="outlined"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        id="outlined-password-input"
+        label="Password"
+        type="password"
+        autoComplete="current-password"
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      <Button variant="contained" onClick={() => signInUser()}>
         Login
-      </button>
+      </Button>
 
-      <div>
-        <button onClick={onClick}>or sign up your store for free?</button>
-      </div>
       {userid ? <Navigate to={`/console/${userid}`} replace={true} /> : null}
     </div>
   );
