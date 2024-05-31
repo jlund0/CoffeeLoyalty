@@ -19,13 +19,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { StoresList, BottomList } from "../../components/ListItems";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { LineChart } from "@mui/x-charts/LineChart";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from "@mui/icons-material/Check";
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
 import getStores from "../../firebase/getStores";
-import { ListItem, ListItemText, Stack, TextField } from "@mui/material";
+import { Fab, ListItem, ListItemText, Stack, TextField } from "@mui/material";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { BarChart } from "@mui/x-charts";
+import EditIcon from "@mui/icons-material/Edit";
+import GoogleMaps from "../../components/autocompleteplaces";
 const storage = getStorage();
 
 function Copyright(props) {
@@ -39,7 +45,7 @@ function Copyright(props) {
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         CupCount
-      </Link>{" "}
+      </Link>
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -98,6 +104,17 @@ const defaultTheme = createTheme();
 export default function Dashboard() {
   const { id } = useParams();
   const [open, setOpen] = React.useState(true);
+  const day = new Date().getDay();
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const [edit, setEdit] = React.useState(false);
   const [stores, setStores] = React.useState([
     {
       name: "The Bell Tower",
@@ -152,7 +169,6 @@ export default function Dashboard() {
       id: "nco9b56Fi48Ixiq55b1r",
     },
   ]);
-
   const [activeStore, setActiveStore] = React.useState({
     name: "The Bell Tower",
     owner: "XXsfIYJK2qOsWVGvffL82MQaT5J3",
@@ -166,7 +182,14 @@ export default function Dashboard() {
     logo: "https://firebasestorage.googleapis.com/v0/b/loyal-coffee-bad9d.appspot.com/o/STORES%2FLogos%2FseGkfKcY739bYE6zWknO.jpg?alt=media&token=25b04f40-b701-431d-81ce-55bae1070a04",
     id: "seGkfKcY739bYE6zWknO",
   });
-
+  const googlemapKey = process.env.GOOGLE_MAPS_API_KEY;
+  console.log(googlemapKey);
+  let embbedMapURL =
+    "https://www.google.com/maps/embed/v1/place?key=" +
+    process.env.GOOGLE_MAPS_API_KEY +
+    "&q=" +
+    activeStore.location.replaceAll(" ", "+");
+  console.log(embbedMapURL);
   // React.useEffect(() => {
   //   const fetchStores = async () => {
   //     let data = await getStores(id);
@@ -210,11 +233,6 @@ export default function Dashboard() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -238,10 +256,18 @@ export default function Dashboard() {
               textAlign="center"
               color="grey"
             >
-              Stores
+              {open ? "Mangage your Stores" : "Stores"}
             </Typography>
-            <StoresList list={stores} />
+            <StoresList list={stores} setStore={setActiveStore} />
             <Divider sx={{ my: 1 }} />
+            <Typography
+              variant="subtitle1"
+              fontWeight="bold"
+              textAlign="center"
+              color="grey"
+            >
+              {open ? "Your Info" : "Info"}
+            </Typography>
             {BottomList}
           </List>
         </Drawer>
@@ -258,89 +284,39 @@ export default function Dashboard() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Stack direction="row" spacing={2}>
-                  <Paper>
-                    <LineChart
-                      xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
-                      series={[
-                        {
-                          data: [2, 5.5, 2, 8.5, 1.5, 5],
-                        },
-                      ]}
-                      width={500}
-                      height={300}
-                    />
-                  </Paper>
-                  <Paper></Paper>
-                  <Paper></Paper>
-                  <Paper></Paper>
-                </Stack>
-              </Paper>
-            </Grid>
+          <Container maxWidth="lg" sx={{ p: 10 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                >
-                  <Typography variant="h6" gutterBottom>
-                    Store Info
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText
-                        primary="Name"
-                        secondary={activeStore.name}
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemText
-                        primary="Location"
-                        secondary={activeStore.location}
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemText
-                        primary="Loyalty Program"
-                        secondary={activeStore.coffees_required}
-                      />
-                    </ListItem>
-                    <Divider variant="inset" component="li" />
-                    <ListItem>
-                      <ListItemText primary="Logo" />
-                      <img
-                        alt="store logo"
-                        src={activeStore.logo}
-                        width={50}
-                        height={50}
-                      />
-                    </ListItem>
-                  </List>
+              <Grid item xs={12}>
+                <StatsBox />
+              </Grid>
 
-                  {/* <Chart /> */}
-                </Paper>
+              <Grid item xs={8} md={8}>
+                <StoreInfoBox activeStore={activeStore} />
               </Grid>
               {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+              <Grid item xs={4}>
                 <Paper
                   sx={{
-                    p: 2,
+                    // p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: "100%",
+                    width: "100%",
                   }}
                 >
-                  {/* <Deposits /> */}
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    title="storemap"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src={
+                      "https://www.google.com/maps/embed/v1/place?key=AIzaSyDhvMFjBGQode7tIJQWN7NyeXJ7fsy6Xzo" +
+                      "&q=" +
+                      activeStore.location.replaceAll(" ", "+")
+                    }
+                  ></iframe>
                 </Paper>
               </Grid>
               {/* Recent Orders */}
@@ -350,5 +326,195 @@ export default function Dashboard() {
         </Box>
       </Box>
     </ThemeProvider>
+  );
+}
+
+function StatsBox() {
+  const StatBox = ({ title, stat }) => {
+    return (
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          boxShadow: 1,
+          borderRadius: 2,
+          p: 2,
+          // minWidth: 300,
+        }}
+      >
+        <Box sx={{ color: "text.secondary" }}>{title}</Box>
+        <Box
+          sx={{
+            color: "text.primary",
+            fontSize: 34,
+            fontWeight: "medium",
+          }}
+        >
+          {stat}
+        </Box>
+        <Box
+          sx={{
+            color: "success.dark",
+            display: "inline",
+            fontWeight: "bold",
+            mx: 0.5,
+            fontSize: 14,
+          }}
+        >
+          +18.77%
+        </Box>
+        <Box
+          sx={{
+            color: "text.secondary",
+            display: "inline",
+            fontSize: 14,
+          }}
+        >
+          vs. last month
+        </Box>
+      </Box>
+    );
+  };
+  return (
+    <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+      <Typography variant="h6" gutterBottom>
+        Today's Stats
+      </Typography>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ justifyContent: "space-around" }}
+      >
+        <StatBox title="New users" stat="98" />
+        <StatBox title="Returning Customers" stat="98" />
+        <StatBox title="Cups Redeemed" stat="98" />
+        <StatBox title="CupCount" stat="98" />
+      </Stack>
+    </Paper>
+  );
+}
+
+function StoreInfoBox({ activeStore }) {
+  const [editName, setEditName] = React.useState(false);
+  const [editLogo, setEditLogo] = React.useState(false);
+  const [editPoints, setEditPoints] = React.useState(false);
+  const [editLocation, setEditLocation] = React.useState(false);
+  const handleNameChange = () => {};
+  const handleLogoChange = () => {};
+  const handlePointsChange = () => {};
+  const handleLocationChange = () => {};
+
+  const StoreSection = ({
+    edit,
+    handleChange,
+    setEdit,
+    title,
+    placeholder,
+    children,
+  }) => {
+    return (
+      <ListItem>
+        <ListItemText
+          primary={title}
+          secondary={
+            title === "Logo" ? (
+              <img src={placeholder} alt="Store Logo" width={60} />
+            ) : (
+              placeholder
+            )
+          }
+        />
+
+        {!edit ? (
+          <>
+            <IconButton aria-label="edit"></IconButton>
+            <EditIcon onClick={() => setEdit(!edit)} />
+          </>
+        ) : (
+          <>
+            {children}
+            <CheckIcon onPress={handleChange} />
+            <CloseIcon onClick={() => setEdit(!edit)} />
+          </>
+        )}
+      </ListItem>
+    );
+  };
+  return (
+    <Paper
+      sx={{
+        p: 2,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Store Info
+        </Typography>
+      </Box>
+
+      <Divider />
+      <List>
+        <StoreSection
+          edit={editName}
+          activeStore={activeStore}
+          handleChange={handleNameChange}
+          setEdit={setEditName}
+          title="Name"
+          placeholder={activeStore.name}
+        >
+          <TextField
+            id="outlined-basic"
+            placeholder={`Change Name`}
+            variant="outlined"
+          />
+        </StoreSection>
+        <Divider component="li" />
+        <StoreSection
+          edit={editLocation}
+          activeStore={activeStore}
+          handleChange={handleLocationChange}
+          setEdit={setEditLocation}
+          title="Location"
+          placeholder={activeStore.location}
+        >
+          <GoogleMaps />
+        </StoreSection>
+        <Divider component="li" />
+        <StoreSection
+          edit={editPoints}
+          activeStore={activeStore}
+          handleChange={handlePointsChange}
+          setEdit={setEditPoints}
+          title="Points"
+          placeholder={activeStore.coffees_required}
+        >
+          <TextField
+            id="outlined-basic"
+            placeholder={`Change Points`}
+            variant="outlined"
+            type="number"
+          />
+        </StoreSection>
+        <Divider component="li" />
+        <StoreSection
+          edit={editLogo}
+          activeStore={activeStore}
+          handleChange={handleLogoChange}
+          setEdit={setEditLogo}
+          title="Logo"
+          placeholder={activeStore.logo}
+        >
+          <input type="file"></input>
+        </StoreSection>
+      </List>
+    </Paper>
   );
 }

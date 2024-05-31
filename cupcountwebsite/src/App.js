@@ -27,6 +27,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NewStore from "./pages/consolePages/NewStore";
 import Dashboard from "./pages/consolePages/Dashboard";
+import { Return, CheckoutForm } from "./pages/consolePages/checkout";
 const auth = getAuth(app);
 function App() {
   const [userId, setUserId] = useState();
@@ -78,6 +79,8 @@ function App() {
                 </CheckAuth>
               }
             />
+            <Route path="/checkout" element={<CheckoutForm />} />
+            <Route path="/return" element={<Return />} />
             <Route
               path="/signup"
               element={
