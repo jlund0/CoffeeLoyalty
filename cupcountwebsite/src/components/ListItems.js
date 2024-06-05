@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { getAuth, signOut } from "firebase/auth";
-
+import HelpIcon from "@mui/icons-material/Help";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Typography } from "@mui/material";
 const auth = getAuth();
@@ -48,6 +48,12 @@ export const BottomList = (
         <ReceiptIcon sx={{ fontSize: 35 }} />
       </ListItemIcon>
       <ListItemText primary="Billing" />
+    </ListItemButton>
+    <ListItemButton>
+      <ListItemIcon>
+        <HelpIcon sx={{ fontSize: 35 }} />
+      </ListItemIcon>
+      <ListItemText primary="Need Help?" />
     </ListItemButton>
     <ListItemButton onClick={() => signOut(auth)}>
       <ListItemIcon>

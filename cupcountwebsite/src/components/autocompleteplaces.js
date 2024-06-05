@@ -28,7 +28,7 @@ export default function GoogleMaps() {
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
-  const GOOGLE_MAPS_API_KEY = "AIzaSyCwxx4oNlaE19Q4X0enF8HaZUvRU4GF3n8";
+  const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(

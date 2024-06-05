@@ -14,7 +14,7 @@ import {
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 // This is your test public API key.
-const stripePromise = loadStripe("pk_test_51OlkjJJa8PGlyzmamcnOLpjb0EWybS6TEuewTdYNve9BM1nmgnrcA29xGJgEtwptNS8X6l8VhhQHa5ASfJpxGj6w00Xvyeue2n");
+const stripePromise = loadStripe('pk_test_51OlkjJJa8PGlyzmamcnOLpjb0EWybS6TEuewTdYNve9BM1nmgnrcA29xGJgEtwptNS8X6l8VhhQHa5ASfJpxGj6w00Xvyeue2n');
 
 export const CheckoutForm = () => {
   const fetchClientSecret = useCallback(async() => {

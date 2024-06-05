@@ -182,11 +182,11 @@ export default function Dashboard() {
     logo: "https://firebasestorage.googleapis.com/v0/b/loyal-coffee-bad9d.appspot.com/o/STORES%2FLogos%2FseGkfKcY739bYE6zWknO.jpg?alt=media&token=25b04f40-b701-431d-81ce-55bae1070a04",
     id: "seGkfKcY739bYE6zWknO",
   });
-  const googlemapKey = process.env.GOOGLE_MAPS_API_KEY;
+  const googlemapKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   console.log(googlemapKey);
   let embbedMapURL =
     "https://www.google.com/maps/embed/v1/place?key=" +
-    process.env.GOOGLE_MAPS_API_KEY +
+    googlemapKey +
     "&q=" +
     activeStore.location.replaceAll(" ", "+");
   console.log(embbedMapURL);
@@ -338,7 +338,7 @@ function StatsBox() {
           boxShadow: 1,
           borderRadius: 2,
           p: 2,
-          // minWidth: 300,
+          Width: "100%",
         }}
       >
         <Box sx={{ color: "text.secondary" }}>{title}</Box>

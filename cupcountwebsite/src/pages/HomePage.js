@@ -2,6 +2,8 @@ import "../App.css";
 import { useState } from "react";
 import BottomNav from "../bottomNav";
 import NavBar from "../NavBar";
+import { Box, Container, Typography } from "@mui/material";
+
 const HomePage = () => {
   let rollerText = [
     "carrying loyalty cards",
@@ -16,8 +18,9 @@ const HomePage = () => {
     <body id-="homePage">
       <NavBar />
       <section id="landing" className="h-screen">
+        <LandingPage />
         {/* <h1 class="lobster-regular"></h1> */}
-        <div id="heroContianer" className="flex justify-center content-center ">
+        {/* <div id="heroContianer" className="flex justify-center content-center ">
           <div id="heroText" className="flex-col w-6/12 h-4/12self-center">
             <h1 className="py-5 lobster-regular">
               <span id="hero-title" className="lobster-regular">
@@ -74,7 +77,7 @@ const HomePage = () => {
               className="object-cover"
             ></img>
           </div>
-        </div>
+        </div> */}
       </section>
       <section
         id="howitworksbox"
@@ -155,3 +158,28 @@ const HomePage = () => {
   );
 };
 export default HomePage;
+
+function LandingPage() {
+  return (
+    <div className="h-screen w-full flex justify-center items-center">
+      <Box id="heroTextBox">
+        <Typography variant="h1">Sip. Scan. Save</Typography>
+        <Typography variant="h3">
+          Easily track and manage your favourite coffee shop rewards in one
+          convenient app.
+        </Typography>
+        <Box>
+          <img
+            src="/download-on-the-app-store-apple-logo-svgrepo-com.svg"
+            alt="download app store"
+          />
+          <img
+            src="/google-play-badge-logo-svgrepo-com.svg"
+            alt="download google play"
+          />
+        </Box>
+      </Box>
+      <Box id="heroImagePhoneBox"></Box>
+    </div>
+  );
+}
