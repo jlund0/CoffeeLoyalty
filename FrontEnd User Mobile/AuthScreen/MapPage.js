@@ -1,12 +1,17 @@
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import MapView, {
+  PROVIDER_GOOGLE,
+  PROVIDER_DEFAULT,
+  Marker,
+} from "react-native-maps";
 import * as Location from "expo-location";
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Pressable, ScrollView } from "react-native";
+import { View, Text, Pressable, ScrollView, Platform } from "react-native";
 import { getStores } from "../firestoreFunctions";
 import { Button, Divider } from "@rneui/base";
 import { Card, ButtomSheet, Image } from "@rneui/themed";
 import { sortListbyDistance } from "../useful-functions";
 export default function MapPage({ location }) {
+  console.log("Location :", location);
   const mapRef = useRef(null);
   // const [currentLocation, setCurrentLocation] = useState(location);
   // const [initialRegion, setInitialRegion] = useState({
@@ -101,11 +106,12 @@ export default function MapPage({ location }) {
           setScrolled(true);
         }}
         // mapType="mutedStandard"
-        // provider={PROVIDER_GOOGLE}
+        provider={
+          Platform.OS === "android" ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
+        }
       >
-        {markers != null && mapMarkers(markers, () => setActiveMarker)}
+        {markers != null && mapMarkers(markers)}
       </MapView>
-      {/* {activeMarker && MarkerPopup(activeMarker)} */}
       {scrolled && (
         <Button
           title="scan here"
@@ -124,35 +130,30 @@ export default function MapPage({ location }) {
           onPress={scanHerePress}
         />
       )}
-      {/* <StoreScroll markers={markers} /> */}
     </>
   );
 }
 
 const mapMarkers = (markers, setActiveMarker) => {
-  return markers.map((marker, index) => {
-    return (
-      <>
-        <Marker
-          coordinate={{
-            latitude: marker.coords.latitude,
-            longitude: marker.coords.longitude,
-          }}
-          title={marker.name}
-          key={`${marker.storeId} + ${index}`}
-          image={require("../assets/marker.png")}
-          width={12}
-          height={12}
-          onClick={setActiveMarker(marker)}
-          onDeselect={setActiveMarker(null)}
-          description={`${marker.location.substr(
-            0,
-            marker.location.lastIndexOf(",")
-          )}`}
-        ></Marker>
-      </>
-    );
-  });
+  return markers.map((marker, index) => (
+    <Marker
+      coordinate={{
+        latitude: marker.coords.latitude,
+        longitude: marker.coords.longitude,
+      }}
+      title={marker.name}
+      key={`${marker.storeId} + ${index}`}
+      image={require("../assets/coffeemarker.png")}
+      // width={12}
+      // height={12}
+      // onClick={setActiveMarker(marker)}
+      // onDeselect={setActiveMarker(null)}
+      description={`${marker.location.substr(
+        0,
+        marker.location.lastIndexOf(",")
+      )}`}
+    ></Marker>
+  ));
 };
 
 // function MarkerPopup(activeMarker) {

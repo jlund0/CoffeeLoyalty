@@ -151,13 +151,14 @@ export default function Main({ navigation }) {
         indicatorStyle={{
           backgroundColor: "#604a33",
           height: 5,
+          top: 0,
         }}
         variant="default"
         containerStyle={{
           backgroundColor: "#e9e2d7",
           elevation: 1,
           height: "100%",
-          height: 80,
+          height: 90,
         }}
       >
         <Tab.Item

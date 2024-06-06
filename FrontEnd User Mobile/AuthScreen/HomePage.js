@@ -141,7 +141,7 @@ export default function HomeScreen({ userDetails, navigation }) {
             borderLeftWidth: 2,
             borderBottomWidth: 8,
             borderRightWidth: 8,
-            transform: "skewY(2deg)",
+            // transform: "skewY(2deg)",
             padding: 20,
             paddingHorizontal: 20,
             bottom: -35,
