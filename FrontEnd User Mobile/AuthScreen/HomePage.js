@@ -10,8 +10,11 @@ import { UserButton } from "../components/buttons.js";
 import { useState } from "react";
 import { Divider, Icon } from "@rneui/base";
 import { Tooltip, Dialog, Image } from "@rneui/themed";
-import { useFonts, RockSalt_400Regular } from "@expo-google-fonts/rock-salt";
 
+import {
+  useFonts,
+  PermanentMarker_400Regular,
+} from "@expo-google-fonts/permanent-marker";
 export default function HomeScreen({ userDetails, navigation }) {
   let greetingslist = ["Hello", "Welcome back", "Hey", "Good Morning"];
   const [greetings, setGreetings] = useState(
@@ -19,7 +22,7 @@ export default function HomeScreen({ userDetails, navigation }) {
   );
   const [open, setOpen] = useState(false);
   let [fontsLoaded] = useFonts({
-    RockSalt_400Regular,
+    PermanentMarker_400Regular,
   });
   if (!fontsLoaded) {
     return null;
@@ -87,7 +90,7 @@ export default function HomeScreen({ userDetails, navigation }) {
               style={[
                 {
                   fontWeight: "800",
-                  fontSize: 40,
+                  fontSize: 46,
                   backgroundColor: "white",
                   borderBottomWidth: 3,
                   borderStyle: "dashed",
@@ -225,6 +228,6 @@ export default function HomeScreen({ userDetails, navigation }) {
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "RockSalt_400Regular",
+    fontFamily: "PermanentMarker_400Regular",
   },
 });

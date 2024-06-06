@@ -121,6 +121,8 @@ function CardWidget({ card, user, fetchCards }) {
   const [width, setWidth] = useState(0);
 
   const Stampcard = ({ i }) => {
+    let stamps = ["cup", "star", "bean", "star1"];
+    randomStamp = stamps[Math.floor(Math.random() * stamps.length)];
     const Row = ({ list }) => (
       <View
         style={{
@@ -144,10 +146,19 @@ function CardWidget({ card, user, fetchCards }) {
                   zIndex: 1,
                   position: "absolute",
                   alignItems: "center",
+                  padding: 5,
                 }}
               >
                 <Image
-                  source={require("../assets/bean_stamp.png")}
+                  source={
+                    randomStamp === "cup"
+                      ? require("../assets/stamps/cup.png")
+                      : randomStamp === "star"
+                      ? require("../assets/stamps/star.png")
+                      : randomStamp === "star1"
+                      ? require("../assets/stamps/star1.png")
+                      : require("../assets/stamps/bean.png")
+                  }
                   style={{
                     width: "100%",
                     height: undefined,
@@ -160,7 +171,7 @@ function CardWidget({ card, user, fetchCards }) {
               style={{
                 fontSize: 64,
                 fontWeight: "bold",
-                color: "#B7CADB",
+                color: "#C4A484",
               }}
               adjustsFontSizeToFit={true}
               // numberOfLines={1}
@@ -207,7 +218,7 @@ function CardWidget({ card, user, fetchCards }) {
             source={{ uri: card.logo }}
             containerStyle={styles.logo}
             PlaceholderContent={<ActivityIndicator />}
-            resizeMode="contain"
+            // resizeMode="center"
           />
           <ListItem.Content
             style={{
@@ -254,9 +265,13 @@ function CardWidget({ card, user, fetchCards }) {
                 borderBottomWidth: 8,
                 borderRightWidth: 8,
                 overflow: "hidden",
+                backgroundColor: "#604a33",
+                flexDirection: "row",
+                padding: 5,
+                paddingHorizontal: 10,
               }}
             >
-              <LinearGradient
+              {/* <LinearGradient
                 colors={["#604a33", "#8e6c49"]}
                 style={{
                   width: "101%",
@@ -268,24 +283,24 @@ function CardWidget({ card, user, fetchCards }) {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
+              > */}
+              <Text
+                style={{ fontSize: 18, textAlign: "center", color: "white" }}
               >
-                <Text
-                  style={{ fontSize: 18, textAlign: "center", color: "white" }}
-                >
-                  {card.points}/{card.coffees_required}
-                </Text>
-                <Icon
-                  type="material-community"
-                  name={
-                    card.coffees_required == card.points
-                      ? "coffee"
-                      : "coffee-outline"
-                  }
-                  style={{ paddingLeft: 3 }}
-                  size={22}
-                  color="#7BC9FF"
-                />
-              </LinearGradient>
+                {card.points}/{card.coffees_required}
+              </Text>
+              <Icon
+                type="material-community"
+                name={
+                  card.coffees_required == card.points
+                    ? "coffee"
+                    : "coffee-outline"
+                }
+                style={{ paddingLeft: 3 }}
+                size={22}
+                color="#7BC9FF"
+              />
+              {/* </LinearGradient> */}
             </View>
           )}
         </>
@@ -330,11 +345,13 @@ const styles = StyleSheet.create({
   logo: {
     aspectRatio: 1,
     width: "18%",
-    borderRadius: 2,
+    borderRadius: 50,
     border: 2,
     resizeMode: "contain",
     height: "100%",
     backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   stampbox: {
     // aspectRatio: 1,

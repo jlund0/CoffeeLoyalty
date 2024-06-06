@@ -125,9 +125,9 @@ export const RedeemButton = ({ disabled = false, card, uid, fetchCards }) => {
     Animated.loop(
       Animated.timing(animation, {
         toValue: 2,
-        duration: 2000,
-        easing: Easing.linear,
-        useNativeDriver: false,
+        duration: 3000,
+        // easing: Easing.linear,
+        useNativeDriver: true,
       })
     ).start();
   };
@@ -138,7 +138,7 @@ export const RedeemButton = ({ disabled = false, card, uid, fetchCards }) => {
   });
 
   const animatedStyle = {
-    borderColor: interpolateColor,
+    backgroundColor: interpolateColor,
   };
 
   return (
