@@ -38,7 +38,7 @@ export default function HomeScreen({ userDetails, navigation }) {
       <View
         style={{
           flex: 1,
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           alignItems: "center",
           marginHorizontal: 25,
           paddingTop: 100,
@@ -114,10 +114,10 @@ export default function HomeScreen({ userDetails, navigation }) {
               alignSelf: "flex-end",
               backgroundColor: "#604a33",
               borderRadius: 10,
-              padding: 20,
+              padding: 10,
               position: "absolute",
               bottom: -35,
-              right: -15,
+              right: -0,
               // elevation: 1,
               borderTopWidth: 2,
               borderLeftWidth: 2,
@@ -128,7 +128,7 @@ export default function HomeScreen({ userDetails, navigation }) {
           >
             <Text
               style={{
-                fontSize: 36,
+                fontSize: 26,
                 fontWeight: "bold",
                 color: "white",
               }}
@@ -145,7 +145,7 @@ export default function HomeScreen({ userDetails, navigation }) {
             borderBottomWidth: 8,
             borderRightWidth: 8,
             // transform: "skewY(2deg)",
-            padding: 20,
+            padding: 10,
             paddingHorizontal: 20,
             bottom: -35,
             zIndex: 1,
@@ -154,7 +154,7 @@ export default function HomeScreen({ userDetails, navigation }) {
         >
           <Text
             style={{
-              fontSize: 50,
+              fontSize: 40,
               fontWeight: "bold",
             }}
           >
@@ -201,7 +201,7 @@ export default function HomeScreen({ userDetails, navigation }) {
 
           <QRCode
             value={`${userDetails.uid}/scan`}
-            size={280}
+            size={250}
             backgroundColor={"transparent"}
             logo={require("../assets/logo.png")}
             logoSize={100}
