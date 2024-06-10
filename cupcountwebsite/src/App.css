@@ -46,7 +46,7 @@ nav a:hover {
 }
 
 #landing{
-  padding-top:2.5em;
+  /* padding-top:2.5em; */
   background-image: url("../public/background.svg");
   background-color: white;
  

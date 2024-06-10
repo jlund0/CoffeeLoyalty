@@ -3,7 +3,7 @@ import { useState } from "react";
 import BottomNav from "../bottomNav";
 import NavBar from "../NavBar";
 import { Box, Container, Typography } from "@mui/material";
-
+import Grid from "@mui/system/Unstable_Grid";
 const HomePage = () => {
   let rollerText = [
     "carrying loyalty cards",
@@ -16,7 +16,7 @@ const HomePage = () => {
 
   return (
     <body id-="homePage">
-      <NavBar />
+      {/* <NavBar /> */}
       <section id="landing" className="h-screen">
         <LandingPage />
         {/* <h1 class="lobster-regular"></h1> */}
@@ -79,7 +79,7 @@ const HomePage = () => {
           </div>
         </div> */}
       </section>
-      <section
+      {/* <section
         id="howitworksbox"
         className="background-image h-screen relative"
       >
@@ -89,12 +89,12 @@ const HomePage = () => {
             className="bg-[#89cff0]  backdrop-blur-lg flex-col h-full  shadow-2xl"
           >
             <h1>How it works</h1>
-            {/* <div className="w-full bg-white flex justify-evenly ">
+            <div className="w-full bg-white flex justify-evenly ">
               <div className="border-2 p-5 aspect-square rounded-full">1</div>
               <div>2</div>
               <div>3</div>
               <div>4</div>
-            </div> */}
+            </div> 
             <div id="screenWrapper" className="flex p-10 gap-3">
               <img
                 src={`${screens[screenShow]}.png`}
@@ -152,7 +152,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
       <BottomNav bgColor="#3E230F" />
     </body>
   );
@@ -161,25 +161,62 @@ export default HomePage;
 
 function LandingPage() {
   return (
-    <div className="h-screen w-full flex justify-center items-center">
-      <Box id="heroTextBox">
-        <Typography variant="h1">Sip. Scan. Save</Typography>
-        <Typography variant="h3">
-          Easily track and manage your favourite coffee shop rewards in one
-          convenient app.
-        </Typography>
-        <Box>
+    <div className="h-screen w-full flex flex-col justify-between items-center ">
+      <Grid container sx={{ maxWidth: 1000 }}>
+        <Grid xs={12}>
+          <Typography
+            variant="h1"
+            sx={{ fontWeight: "bold", textAlign: "center" }}
+          >
+            Sip. Scan. Save
+          </Typography>
+        </Grid>
+        <Grid xs={12}>
+          <Typography variant="h3" sx={{ color: "grey", textAlign: "center" }}>
+            Easily track and manage your favourite coffee shop rewards in one
+            convenient app.
+          </Typography>
+        </Grid>
+        <Grid xs={12}>
+          <div className="flex flex-row justify-center gap-10">
+            <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4">
+              <img src="/appleicon.png" cal alt="applelogo" className="p-1" />
+              <Typography variant="h5">App Store</Typography>
+            </div>
+            <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4">
+              <img src="/googleicon.png" cal alt="applelogo" className="p-1" />
+              <Typography variant="h5">App Store</Typography>
+            </div>
+          </div>
+        </Grid>
+      </Grid>
+      <Box
+        id="heroImagePhoneBox"
+        className="h-3/6 w-full border-2 flex justify-center overflow-hidden relative "
+      >
+        <div>
           <img
-            src="/download-on-the-app-store-apple-logo-svgrepo-com.svg"
-            alt="download app store"
+            src="/AppScreens/Card.png"
+            height={800}
+            alt="App Card screen"
+            className="absolute top-0  z-0 rotate-[30deg] origin-bottom-left"
           />
+
           <img
-            src="/google-play-badge-logo-svgrepo-com.svg"
-            alt="download google play"
+            src="/AppScreens/Home.png"
+            height={800}
+            alt="App Home screen"
+            className=""
           />
-        </Box>
+
+          <img
+            src="/AppScreens/Map.png"
+            height={800}
+            alt="App Map screen"
+            className="absolute rotate-[-30deg] top-0 origin-bottom-right left"
+          />
+        </div>
       </Box>
-      <Box id="heroImagePhoneBox"></Box>
     </div>
   );
 }

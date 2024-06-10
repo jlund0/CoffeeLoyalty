@@ -28,7 +28,6 @@ export default function MapPage({ location }) {
     longitudeDelta: 0.0002,
   });
   const [scrolled, setScrolled] = useState(false);
-  const [activeMarker, setActiveMarker] = useState(null);
   const [scanNewArea, setScanNewArea] = useState(false);
   const [currentRegion, setCurrentRegion] = useState({
     latitude: location.latitude,
@@ -85,12 +84,12 @@ export default function MapPage({ location }) {
     setScrolled(false);
   };
 
-  if (!coordsStore)
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading...</Text>
-      </View>
-    );
+  // if (!coordsStore)
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  //       <Text>Loading...</Text>
+  //     </View>
+  //   );
 
   return (
     <>
