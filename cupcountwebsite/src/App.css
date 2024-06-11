@@ -11,6 +11,11 @@ nav {
   font-size:1.5rem;
   z-index: 1; */
 }
+.permanent-marker-regular {
+  font-family: "Permanent Marker", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
 
 .lobster-regular {
   font-family: "Lobster", sans-serif;
@@ -18,32 +23,8 @@ nav {
   font-style: normal;
 }
 
-nav ul {
-  /* list-style-type: none;
-  margin: 0;
-  padding: 0; */
-}
 
-nav li {
-  /* display: inline-block;
-  padding-top: 24px;
-  padding-bottom: 24px; */
-}
-.nav-item {
-  display: inline-block;
-  padding-top: 24px;
-  padding-bottom: 24px;
-}
-nav a {
-  text-decoration: none;
-  font-weight: bold;
-  padding: 24px 32px;
-}
 
-nav a:hover {
-  background: black;
-  color: white;
-}
 
 #landing{
   /* padding-top:2.5em; */
@@ -326,4 +307,3 @@ background-color: #89cff0;
   #homePage #bottomNav{
     background-color:"#3E230F";
   }
-

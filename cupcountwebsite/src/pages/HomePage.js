@@ -16,7 +16,7 @@ const HomePage = () => {
 
   return (
     <body id-="homePage">
-      {/* <NavBar /> */}
+      <NavBar />
       <section id="landing" className="h-screen">
         <LandingPage />
         {/* <h1 class="lobster-regular"></h1> */}
@@ -153,7 +153,7 @@ const HomePage = () => {
           </div>
         </div>
       </section> */}
-      <BottomNav bgColor="#3E230F" />
+      {/* <BottomNav bgColor="#3E230F" /> */}
     </body>
   );
 };
@@ -161,59 +161,101 @@ export default HomePage;
 
 function LandingPage() {
   return (
-    <div className="h-screen w-full flex flex-col justify-between items-center ">
-      <Grid container sx={{ maxWidth: 1000 }}>
-        <Grid xs={12}>
-          <Typography
-            variant="h1"
-            sx={{ fontWeight: "bold", textAlign: "center" }}
-          >
-            Sip. Scan. Save
-          </Typography>
-        </Grid>
-        <Grid xs={12}>
-          <Typography variant="h3" sx={{ color: "grey", textAlign: "center" }}>
-            Easily track and manage your favourite coffee shop rewards in one
-            convenient app.
-          </Typography>
-        </Grid>
-        <Grid xs={12}>
-          <div className="flex flex-row justify-center gap-10">
-            <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4">
-              <img src="/appleicon.png" cal alt="applelogo" className="p-1" />
-              <Typography variant="h5">App Store</Typography>
+    <div className="h-screen w-full flex flex-col justify-between  ">
+      <div className="absolute  w-62 text-center flex flex-col items-end left-[18%] rotate-[-10deg] top-[40%]">
+        <div className="animate-[wiggle_1s_ease-in-out_infinite]">
+          <img src="arrow.svg" alt="arrow" width={150} className="scale-y-90" />
+        </div>
+        <text className="permanent-marker-regular text-5xl w-72 self-start">
+          Start saving today
+        </text>
+      </div>
+      <img
+        src="/drawnsvg/drawnbean.svg"
+        alt="drawn bean"
+        className="absolute right-[15%] top-[40%] rotate-[15deg]"
+        width={150}
+        height={150}
+      />
+      <img
+        src="/drawnsvg/drawncup.svg"
+        alt="drawn cup"
+        className="absolute right-[18%] top-[55%] rotate-[30deg]"
+        width={150}
+        height={150}
+      />
+      <img
+        src="/drawnsvg/drawnstar.svg"
+        alt="drawn star"
+        className="absolute right-[25%] top-[40%] rotate-[-15deg]"
+        width={150}
+        height={150}
+      />
+      <div className="h-2/4 flex justify-center items-end">
+        <Grid container sx={{ maxWidth: 1000, height: "fit-content" }}>
+          <Grid xs={12}>
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: "800",
+                textAlign: "center",
+              }}
+            >
+              Sip. Scan. Save
+            </Typography>
+          </Grid>
+          <Grid xs={12}>
+            <Typography
+              variant="h3"
+              sx={{ color: "grey", textAlign: "center" }}
+            >
+              Easily track and manage your favourite coffee shop rewards in one
+              convenient app.
+            </Typography>
+          </Grid>
+          <Grid xs={12}>
+            <div className="flex flex-row justify-center gap-10 py-8">
+              <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-green-400 hover:to-blue-500 hover:shadow-lg hover:scale-110">
+                <img src="/appleicon.png" cal alt="applelogo" className="p-1" />
+                <Typography variant="h5">App Store</Typography>
+              </div>
+              <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-green-400 hover:to-blue-500 hover:shadow-lg hover:scale-110">
+                <img
+                  src="/googleicon.png"
+                  cal
+                  alt="applelogo"
+                  className="p-1"
+                />
+                <Typography variant="h5">App Store</Typography>
+              </div>
             </div>
-            <div className="flex h-16 content-center bg-black text-white px-8 py-4 rounded-full gap-4">
-              <img src="/googleicon.png" cal alt="applelogo" className="p-1" />
-              <Typography variant="h5">App Store</Typography>
-            </div>
-          </div>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
       <Box
         id="heroImagePhoneBox"
-        className="h-3/6 w-full border-2 flex justify-center overflow-hidden relative "
+        className="h-3/6 w-full  flex justify-center overflow-hidden relative "
       >
         <div>
           <img
             src="/AppScreens/Card.png"
             height={800}
             alt="App Card screen"
-            className="absolute top-0  z-0 rotate-[30deg] origin-bottom-left"
+            className="absolute top-0  z-0 rotate-[30deg] origin-bottom-left right-[35%] hover:-translate-y-24 hover:translate-x-16"
           />
 
           <img
             src="/AppScreens/Home.png"
             height={800}
             alt="App Home screen"
-            className=""
+            className="relative z-10"
           />
 
           <img
             src="/AppScreens/Map.png"
             height={800}
             alt="App Map screen"
-            className="absolute rotate-[-30deg] top-0 origin-bottom-right left"
+            className="absolute rotate-[-30deg] top-0 origin-bottom-right left-[35%] hover:-translate-y-24 hover:-translate-x-16"
           />
         </div>
       </Box>

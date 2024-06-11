@@ -66,6 +66,11 @@ function App() {
         @import
         url('https://fonts.googleapis.com/css2?family=Lobster&display=swap')
       </style>
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+      </style>
+
       <div className="App">
         <div id="page-body">
           <Routes>
