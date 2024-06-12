@@ -63,9 +63,6 @@ nav {
 section {
   margin:0;
   /* height:100vh; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom; 

@@ -2,158 +2,30 @@ import "../App.css";
 import { useState } from "react";
 import BottomNav from "../bottomNav";
 import NavBar from "../NavBar";
-import { Box, Container, Typography } from "@mui/material";
+import { Footer } from "../NavBar";
+import { Box, Button, Container, Typography } from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
+import StarIcon from "@mui/icons-material/Star";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+
 const HomePage = () => {
-  let rollerText = [
-    "carrying loyalty cards",
-    "not getting free coffee",
-    "losing your loyalty card",
-  ];
-  const [screenShow, setScreen] = useState(0);
-
-  let screens = ["homescreen", "rewardscreen", "mapscreen"];
-
   return (
     <body id-="homePage">
       <NavBar />
       <section id="landing" className="h-screen">
         <LandingPage />
-        {/* <h1 class="lobster-regular"></h1> */}
-        {/* <div id="heroContianer" className="flex justify-center content-center ">
-          <div id="heroText" className="flex-col w-6/12 h-4/12self-center">
-            <h1 className="py-5 lobster-regular">
-              <span id="hero-title" className="lobster-regular">
-                Tired of
-              </span>
-              <div class="roller">
-                <span id="rolltext" className="">
-                  {rollerText[0]}
-                  <br />
-                  {rollerText[1]}
-                  <br />
-                  {rollerText[2]}
-                  <br />
-                </span>
-                <br />
-              </div>
-            </h1>
-            <h2 id="hero-slogan" className="py-10">
-              Simplify your coffee rewards with CupCount! Have all your cafe
-              loyalty cards in one place. Ensuring every sip counts towards
-              something great!
-            </h2>
-            <button className="rounded-full border-4 px-5  border-black transition ease-in-out delay-150 bg-white hover:bg-[#89cff0] duration-300 hover:text-white  ">
-              <h1>Get the app</h1>
-            </button>
-            <div id="download-wrap" className="py-10 gap-10">
-              <img
-                src="applestore.svg"
-                alt="download on ios"
-                height={70}
-                className="h-20"
-              />
-              <img
-                src="google-play-badge.png"
-                alt="download on google play"
-                height={70}
-                className="h-20"
-              />
-            </div>
-          </div>
-          <div id="heroImageContainer">
-            <img
-              src="coffeebean.svg"
-              alt="coffeebeansketch"
-              id="beansvg"
-              fill=""
-            />
-            <img
-              id="heroimage"
-              src="homescreen.png"
-              alt="heroImg"
-              height={800}
-              width={400}
-              className="object-cover"
-            ></img>
-          </div>
-        </div> */}
       </section>
-      {/* <section
-        id="howitworksbox"
-        className="background-image h-screen relative"
-      >
-        <div className="">
-          <div
-            id="about-box"
-            className="bg-[#89cff0]  backdrop-blur-lg flex-col h-full  shadow-2xl"
-          >
-            <h1>How it works</h1>
-            <div className="w-full bg-white flex justify-evenly ">
-              <div className="border-2 p-5 aspect-square rounded-full">1</div>
-              <div>2</div>
-              <div>3</div>
-              <div>4</div>
-            </div> 
-            <div id="screenWrapper" className="flex p-10 gap-3">
-              <img
-                src={`${screens[screenShow]}.png`}
-                alt="heroImg"
-                width={250}
-                className="object-cover h-full"
-              ></img>
 
-              <div id="about" className="w-10/12">
-                <div
-                  id="tabbox"
-                  className="grid grid-flow-row justify-stretch gap-5 py-5"
-                >
-                  <div
-                    className="border-2 rounded-3xl px-10 flex-col justify-center  bg-slate-200 cursor-pointer"
-                    onClick={() => setScreen(0)}
-                  >
-                    <h2 className="">Your unqiue card</h2>
+      <FeatureStrip />
 
-                    <p className="">
-                      All you need to do is get you QR code scanned after
-                      purchasing a coffee at participating stores and watch the
-                      rewards come in
-                    </p>
-                  </div>
-                  <div
-                    className="border-2 rounded-3xl px-10 w-full bg-slate-200 cursor-pointer"
-                    onClick={() => setScreen(1)}
-                  >
-                    <h2>See your currrent rewards</h2>
-                    <p>
-                      View all your current loyalty cards in progress and redeem
-                      your free coffees
-                    </p>
-                  </div>
-                  <div
-                    className="border-2 rounded-3xl px-10 w-full bg-slate-200 cursor-pointer"
-                    onClick={() => setScreen(2)}
-                  >
-                    <h2>Find your closest cafe</h2>
-                    <p>
-                      See a map overview of all the cafes close to you to get
-                      your next coffee
-                    </p>
-                  </div>
-                  <div
-                    className="border-2 rounded-3xl px-10 w-full bg-slate-200 cursor-pointer"
-                    onClick={() => setScreen(2)}
-                  >
-                    <h2>Claim your Free coffee</h2>
-                    <p>Redeem and enjoy</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-      {/* <BottomNav bgColor="#3E230F" /> */}
+      <ContactUs />
+
+      <Footer />
     </body>
   );
 };
@@ -161,7 +33,7 @@ export default HomePage;
 
 function LandingPage() {
   return (
-    <div className="h-screen w-full flex flex-col justify-between  ">
+    <div className="h-full w-full flex flex-col justify-between  ">
       <div className="absolute  w-62 text-center flex flex-col items-end left-[18%] rotate-[-10deg] top-[40%]">
         <div className="animate-[wiggle_1s_ease-in-out_infinite]">
           <img src="arrow.svg" alt="arrow" width={150} className="scale-y-90" />
@@ -223,10 +95,10 @@ function LandingPage() {
                 <img
                   src="/googleicon.png"
                   cal
-                  alt="applelogo"
+                  alt="google play logo"
                   className="p-1"
                 />
-                <Typography variant="h5">App Store</Typography>
+                <Typography variant="h5">Play Store</Typography>
               </div>
             </div>
           </Grid>
@@ -259,6 +131,133 @@ function LandingPage() {
           />
         </div>
       </Box>
+    </div>
+  );
+}
+
+function FeatureStrip() {
+  const [activeStep, setActiveStep] = useState(0);
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+  return (
+    <div className="w-full flex flex-col items-center m-0">
+      <h1>How it all work?</h1>
+      <div className="flex justify-evenly">
+        <img alt="phones" />
+        <div className="w-2/6">
+          <Stepper orientation="vertical">
+            <Step>
+              <StepLabel>Scan</StepLabel>
+              <StepContent>
+                Simply get your unqiue QR code scanned after buying your coffee
+                and let CupCount add it to your Loyalty card wallet
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel>Manage</StepLabel>
+              <StepContent>
+                View all your cafe rewards in one place and see how you're
+                tracking for your next free coffee
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel>Redeem</StepLabel>
+              <StepContent>
+                Once you complete a loyalty card you can then redeem it in store
+                though the CupCount app and enjoy your free drink
+              </StepContent>
+            </Step>
+            <Step>
+              <StepLabel>Find</StepLabel>
+              <StepContent>
+                Simply get your unqiue QR code scanned after buying your coffee
+                and let CupCount add it to your Loyalty card wallet
+              </StepContent>
+            </Step>
+          </Stepper>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReviewsAndStats() {
+  const ReviewBox = ({ review, name }) => {
+    <div className="">
+      <div>
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+        <StarIcon />
+      </div>
+      <div>
+        <h3>{review}</h3>
+        <h4>~ {name}</h4>
+      </div>
+    </div>;
+  };
+  return (
+    <div className="w-screen m-0">
+      <h1>Happy Customers</h1>
+      <h3>
+        Read what our customers have to say about their experience with
+        CupCount.
+      </h3>
+      <ReviewBox
+        name={"Julian"}
+        review={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Auctor urna nunc id cursus metus. Mattis nunc sed blandit libero volutpat sed cras."
+        }
+      />
+      <ReviewBox
+        name={"Satisfied Customer"}
+        review={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus."
+        }
+      />
+      <ReviewBox
+        name={"Satisfied Customer"}
+        review={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      />
+    </div>
+  );
+}
+
+function ContactUs() {
+  return (
+    <div className="w-full flex flex-col gap-8 items-center bg-black p-24 m-0">
+      <div>
+        <h1 className="text-center text-white ">Contact Us</h1>
+        <h3 className="text-white text-center">
+          Have a question about CupCount? <br />
+          Contact us now!
+        </h3>
+      </div>
+      <div className="w-2/6 bg-white p-10 rounded-xl">
+        <div className="flex flex-col gap-8">
+          <TextField label="Your name" />
+          <TextField label="Your email" required />
+          <TextField rows={4} multiline label="Leave us a message" required />
+          <button
+            variant="contained"
+            className="self-center rounded-full bg-sky-500 px-8 py-4 "
+          >
+            Submit <SendIcon />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

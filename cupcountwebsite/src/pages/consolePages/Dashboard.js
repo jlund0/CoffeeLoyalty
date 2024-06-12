@@ -32,6 +32,8 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { BarChart } from "@mui/x-charts";
 import EditIcon from "@mui/icons-material/Edit";
 import GoogleMaps from "../../components/autocompleteplaces";
+import Button from "@mui/material/Button";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 const storage = getStorage();
 
 function Copyright(props) {
@@ -512,9 +514,30 @@ function StoreInfoBox({ activeStore }) {
           title="Logo"
           placeholder={activeStore.logo}
         >
-          <input type="file"></input>
+          <Button
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload file
+            <VisuallyHiddenInput type="file" />
+          </Button>
         </StoreSection>
       </List>
     </Paper>
   );
 }
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
