@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function NavBar() {
   return (
-    <nav className="fixed text-lg flex w-full p-6 h-28  z-50 justify-center items-center ">
+    <nav className="fixed text-lg flex w-full p-6   z-50 justify-center items-center ">
       {/* <h1 className="logo lobster-regular m-auto">Loyal Bean</h1> */}
 
       <div className="absolute top-0 left-0 flex flex-row justify-center items-center p-5">
@@ -16,7 +16,7 @@ export default function NavBar() {
         />
         <h2 className="lobster-regular">CupCount</h2>
       </div>
-      <div className="shadow-xl px-10 py-2 justify-self-center flex flex-row  self-center bg-white rounded-full gap-5 border-2 border-black">
+      <div className="shadow-xl px-2 py-2 justify-self-center flex flex-row  self-center bg-white rounded-full gap-5 border-2 border-black">
         <Link to="/">
           <h3 className="hover:text-white hover:bg-black rounded-full p-2 px-4">
             Home
@@ -68,7 +68,7 @@ export function Footer() {
             Convenient app for tracking coffee loyalty cards in one place.
           </text>
           <text>support@cupcount.com</text>
-          <h3>Download Today</h3>
+        
           <div className="flex flex-row  gap-3 w-3/5">
             <div className="flex h-10  content-center bg-black text-white px-2 py-2 rounded-full gap-2 bg-gradient-to-r hover:from-green-400 hover:to-blue-500 hover:shadow-lg hover:scale-110">
               <img

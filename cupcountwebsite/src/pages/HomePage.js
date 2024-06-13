@@ -1,5 +1,5 @@
 import "../App.css";
-import { useState } from "react";
+import { useState ,useRef, useEffect} from "react";
 import BottomNav from "../bottomNav";
 import NavBar from "../NavBar";
 import { Footer } from "../NavBar";
@@ -16,7 +16,9 @@ import StepContent from "@mui/material/StepContent";
 const HomePage = () => {
   return (
     <body id-="homePage">
+      <RevealOnScroll>
       <NavBar />
+      </RevealOnScroll>
       <section id="landing" className="h-screen">
         <LandingPage />
       </section>
@@ -34,7 +36,7 @@ export default HomePage;
 function LandingPage() {
   return (
     <div className="h-full w-full flex flex-col justify-between  ">
-      <div className="absolute  w-62 text-center flex flex-col items-end left-[18%] rotate-[-10deg] top-[40%]">
+      <div className="absolute  w-62 text-center flex flex-col items-end left-[15%] rotate-[-10deg] top-[35%]">
         <div className="animate-[wiggle_1s_ease-in-out_infinite]">
           <img src="arrow.svg" alt="arrow" width={150} className="scale-y-90" />
         </div>
@@ -76,10 +78,10 @@ function LandingPage() {
               Sip. Scan. Save
             </Typography>
           </Grid>
-          <Grid xs={12}>
+          <Grid xs={12} sx={{}}>
             <Typography
-              variant="h3"
-              sx={{ color: "grey", textAlign: "center" }}
+              variant="h5"
+              sx={{ color: "grey", textAlign: "center" ,width:"80%" ,margin:"auto"}}
             >
               Easily track and manage your favourite coffee shop rewards in one
               convenient app.
@@ -261,3 +263,36 @@ function ContactUs() {
     </div>
   );
 }
+
+
+const RevealOnScroll = ({ children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+      const scrollObserver = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+              setIsVisible(true);
+              scrollObserver.unobserve(entry.target);
+          }
+      });
+
+      scrollObserver.observe(ref.current);
+
+      return () => {
+          if (ref.current) {
+              scrollObserver.unobserve(ref.current);
+          }
+      };
+  }, []);
+
+  const classes = `transition-opacity duration-1000 
+      ${isVisible ? "opacity-100" : "opacity-0"
+      }`;
+
+  return (
+      <div ref={ref} className={classes}>
+          {children}
+      </div>
+  );
+};
