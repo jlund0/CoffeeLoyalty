@@ -1,9 +1,19 @@
 import "../App.css";
-import { useState ,useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import BottomNav from "../bottomNav";
 import NavBar from "../NavBar";
 import { Footer } from "../NavBar";
-import { Box, Button, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Rating,
+  StepButton,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/system/Unstable_Grid";
 import StarIcon from "@mui/icons-material/Star";
 import TextField from "@mui/material/TextField";
@@ -12,19 +22,24 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
+import StepConnector, {
+  stepConnectorClasses,
+} from "@mui/material/StepConnector";
+import { styled } from "@mui/material/styles";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const HomePage = () => {
   return (
     <body id-="homePage">
-      <RevealOnScroll>
       <NavBar />
-      </RevealOnScroll>
+
       <section id="landing" className="h-screen">
         <LandingPage />
       </section>
 
       <FeatureStrip />
-
+      <ReviewsAndStats />
       <ContactUs />
 
       <Footer />
@@ -37,8 +52,13 @@ function LandingPage() {
   return (
     <div className="h-full w-full flex flex-col justify-between  ">
       <div className="absolute  w-62 text-center flex flex-col items-end left-[15%] rotate-[-10deg] top-[35%]">
-        <div className="animate-[wiggle_1s_ease-in-out_infinite]">
-          <img src="arrow.svg" alt="arrow" width={150} className="scale-y-90" />
+        <div className="animate-[wiggle_1s_ease-in-out_infinite] ">
+          <img
+            src="arrow.svg"
+            alt="arrow"
+            width={150}
+            className="scale-y-90 rotate-[7deg]"
+          />
         </div>
         <text className="permanent-marker-regular text-5xl w-72 self-start">
           Start saving today
@@ -81,7 +101,12 @@ function LandingPage() {
           <Grid xs={12} sx={{}}>
             <Typography
               variant="h5"
-              sx={{ color: "grey", textAlign: "center" ,width:"80%" ,margin:"auto"}}
+              sx={{
+                color: "grey",
+                textAlign: "center",
+                width: "80%",
+                margin: "auto",
+              }}
             >
               Easily track and manage your favourite coffee shop rewards in one
               convenient app.
@@ -138,101 +163,131 @@ function LandingPage() {
 }
 
 function FeatureStrip() {
-  const [activeStep, setActiveStep] = useState(0);
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  const featureRef = useRef(null);
+  const [onFocus, setOnFocused] = useState(0);
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const title = ["Scan", "Manage", "Redeem", "Find"];
+  const description = [
+    "Simply get your unqiue QR code scanned after buying your coffee and let CupCount add it to your Loyalty card wallet",
+    "View all your cafe rewards in one place and see how you're tracking for your next free coffee",
+    "Once you complete a loyalty card you can then redeem it in store though the CupCount app and enjoy your free drink",
+    "See cafes near you and find a new favourite",
+  ];
+  const phonescreens = ["Home.png", "Card.png", "Redeem.png", "Map.png"];
+  console.log(onFocus);
   return (
-    <div className="w-full flex flex-col items-center m-0">
-      <h1>How it all work?</h1>
-      <div className="flex justify-evenly">
-        <img alt="phones" />
-        <div className="w-2/6">
-          <Stepper orientation="vertical">
-            <Step>
-              <StepLabel>Scan</StepLabel>
-              <StepContent>
-                Simply get your unqiue QR code scanned after buying your coffee
-                and let CupCount add it to your Loyalty card wallet
-              </StepContent>
-            </Step>
-            <Step>
-              <StepLabel>Manage</StepLabel>
-              <StepContent>
-                View all your cafe rewards in one place and see how you're
-                tracking for your next free coffee
-              </StepContent>
-            </Step>
-            <Step>
-              <StepLabel>Redeem</StepLabel>
-              <StepContent>
-                Once you complete a loyalty card you can then redeem it in store
-                though the CupCount app and enjoy your free drink
-              </StepContent>
-            </Step>
-            <Step>
-              <StepLabel>Find</StepLabel>
-              <StepContent>
-                Simply get your unqiue QR code scanned after buying your coffee
-                and let CupCount add it to your Loyalty card wallet
-              </StepContent>
-            </Step>
-          </Stepper>
+    <div
+      className="w-full h-fit flex flex-col items-center m-0  bg-blue-50 py-10 justify-center snap-center"
+      ref={featureRef}
+    >
+      <h1>CupCount</h1>
+      <h3 className="pb-5">Coffee loyalty made simple</h3>
+      <div className=" overflow-hidden  w-[50rem]  relative">
+        {/* <div className="flex overflow-hidden  w-[60rem] flex-nowrap px-20 gap-20"> */}
+        {onFocus !== 3 && (
+          <div className="absolute h-full flex justify-center items-center right-0 ">
+            <IconButton
+              id="right"
+              sx={{
+                rotate: "180deg",
+                zIndex: 1,
+              }}
+              size="large"
+              onClick={() => setOnFocused(onFocus + 1)}
+            >
+              <ArrowForwardIosNewIcon fontSize="inherit" />
+            </IconButton>
+          </div>
+        )}
+        {onFocus !== 0 && (
+          <div className="absolute h-full flex justify-center items-center left-0 ">
+            <IconButton
+              sx={{ zIndex: 1 }}
+              size="large"
+              onClick={() => setOnFocused(onFocus - 1)}
+            >
+              <ArrowBackIosNewIcon fontSize="inherit" />
+            </IconButton>
+          </div>
+        )}
+        <div
+          className={`flex transition-transform ease-in-out duration-500 px-20 gap-x-20`}
+        >
+          <div
+            className={`flex justify-evenly items-center min-w-[40rem] border-2 h-[30rem] bg-slate-300 rounded-2xl px-10 py-10 `}
+          >
+            <div className="p-5 h-full relative">
+              <img
+                alt="phones"
+                src={`/AppScreens/${phonescreens[onFocus]}`}
+                className=""
+              />
+              {/* <img
+                alt="magnifying glass"
+                src="/magnifying-glass.svg"
+                className="absolute top-0 rotate-[80deg]"
+              /> */}
+            </div>
+
+            <div className="w-96  text-center">
+              <h2>{title[onFocus]}</h2>
+              <h3>{description[onFocus]}</h3>
+            </div>
+          </div>
         </div>
       </div>
+
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <Radio value="a" name="radio-buttons" checked={onFocus === 0} />
+        <Radio value="b" name="radio-buttons" checked={onFocus === 1} />
+        <Radio value="c" name="radio-buttons" checked={onFocus === 2} />
+        <Radio value="d" name="radio-buttons" checked={onFocus === 3} />
+      </RadioGroup>
     </div>
   );
 }
 
 function ReviewsAndStats() {
   const ReviewBox = ({ review, name }) => {
-    <div className="">
-      <div>
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
-        <StarIcon />
+    return (
+      <div className=" shadow-xl rounded-xl w-80 flex flex-col px-10 py-5 gap-5">
+        <Rating name="size-small" readOnly value={5} />
+        <div>
+          <h3>{review}</h3>
+          <h4 className="text-end">{name}</h4>
+        </div>
       </div>
-      <div>
-        <h3>{review}</h3>
-        <h4>~ {name}</h4>
-      </div>
-    </div>;
+    );
   };
   return (
-    <div className="w-screen m-0">
-      <h1>Happy Customers</h1>
-      <h3>
-        Read what our customers have to say about their experience with
-        CupCount.
-      </h3>
-      <ReviewBox
-        name={"Julian"}
-        review={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Auctor urna nunc id cursus metus. Mattis nunc sed blandit libero volutpat sed cras."
-        }
-      />
-      <ReviewBox
-        name={"Satisfied Customer"}
-        review={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nec dui nunc mattis enim ut tellus."
-        }
-      />
-      <ReviewBox
-        name={"Satisfied Customer"}
-        review={
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        }
-      />
+    <div className="w-screen flex flex-col justify-center items-center p-20 gap-10">
+      <div>
+        <h1>Join the 500+ CupCount users already saving</h1>
+      </div>
+      <div className="flex w-full justify-around">
+        <ReviewBox
+          name={"Julian"}
+          review={
+            "CupCount has made my life so much easier. I no longer have to carry around a stack of loyalty cards everywhere I go. Thank you!"
+          }
+        />
+        <ReviewBox
+          name={"Satisfied Customer"}
+          review={
+            "I love using CupCount to keep track of all my coffee loyalty cards in one place. It's so convenient and easy to use!"
+          }
+        />
+        <ReviewBox
+          name={"Satisfied Customer"}
+          review={
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          }
+        />
+      </div>
     </div>
   );
 }
@@ -263,36 +318,3 @@ function ContactUs() {
     </div>
   );
 }
-
-
-const RevealOnScroll = ({ children }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-      const scrollObserver = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-              setIsVisible(true);
-              scrollObserver.unobserve(entry.target);
-          }
-      });
-
-      scrollObserver.observe(ref.current);
-
-      return () => {
-          if (ref.current) {
-              scrollObserver.unobserve(ref.current);
-          }
-      };
-  }, []);
-
-  const classes = `transition-opacity duration-1000 
-      ${isVisible ? "opacity-100" : "opacity-0"
-      }`;
-
-  return (
-      <div ref={ref} className={classes}>
-          {children}
-      </div>
-  );
-};
