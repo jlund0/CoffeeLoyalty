@@ -33,7 +33,7 @@ function Home() {
           </h2>
 
           <div>
-            <button className="rounded-full border-4 px-5 my-2 py-2 border-black transition ease-in-out delay-150 bg-white hover:bg-[#89cff0]  duration-300">
+            <button className="rounded-full border-4 px-5 my-2 py-2 border-black transition ease-in-out delay-150 bg-white hover:bg-[#89cff0]  duration-300 text-4xl">
               Sign up free today
             </button>
           </div>
