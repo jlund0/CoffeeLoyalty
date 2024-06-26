@@ -304,3 +304,91 @@ background-color: #89cff0;
   #homePage #bottomNav{
     background-color:"#3E230F";
   }
+
+
+
+#contactUs{
+  background-image: url("../public/gradient-background.svg");
+}
+
+
+.scrollanimation div:nth-child(1) {
+  animation:scroll-right1 20s linear infinite
+}
+.scrollanimation div:nth-child(2) {
+  animation:scroll-right2 20s linear infinite
+}
+.scrollanimation div:nth-child(3) {
+  animation:scroll-right3 20s linear infinite
+}
+
+.dotted-bg{
+--dot-bg: #ffffff;
+--dot-color: grey;
+--dot-size: 2px;
+--dot-space: 20px;
+background:
+  linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+  linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+  var(--dot-color);
+}
+
+.grid-bg{
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+  
+}
+
+.underlined {
+  /*   background: red; */
+    position: relative;
+  }
+  
+  .underline-mask:after {
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid hsl(280 80% 50%);
+    /* Use a conic gradient mask to hide and show the bits you want */
+    --spread: 140deg;
+    --start: 290deg;
+    mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
+  }
+  
+  
+  .underline-overflow {
+    display: inline-block;
+    /* A little extra padding and overflow hidden   */
+    overflow: hidden;
+    padding-bottom: clamp(1rem, 2vmin, 2rem);
+  }
+  .underline-overflow:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    height: 150%;
+    aspect-ratio: 2.5 / 1;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    border-radius: 50%;
+    border: 6px solid hsl(10 80% 50%);
+  }
+  
+  .underline-clip:after {
+    content: '';
+    position: absolute;
+    top: 95%;
+    width: 150%;
+    aspect-ratio: 3 / 1;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border-radius: 50%;
+    border: 6px solid hsl(130 80% 50%);
+    /* Use a clip-path to hide and show the bits you want */
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+  }
