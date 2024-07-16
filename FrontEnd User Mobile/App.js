@@ -15,6 +15,7 @@ import { UserButton } from "./components/buttons.js";
 // import SplashPage from "./AuthScreen/SplashPage.js";
 import { SplashPage } from "./AuthScreen/SplashPage.js";
 import { UserDetailsPage } from "./components/userDetails.js";
+import { StampPage } from "./AuthScreen/StampCardPape.js";
 const Stack = createNativeStackNavigator();
 
 //Workaround
@@ -161,8 +162,10 @@ export default function App() {
               //   ),
               // })}
               options={{ headerShown: false }}
+              
             />
             <Stack.Screen name="userDetails" component={UserDetailsPage} />
+            <Stack.Screen name="stamppage" component={StampPage} />
           </>
         )}
       </Stack.Navigator>

@@ -4,7 +4,7 @@ import { LinearProgress } from "@rneui/themed";
 import { useRef, useState, useEffect } from "react";
 import { reload } from "firebase/auth";
 
-export function SplashPage({ onPress, message }) {
+export function SplashPage({ onPress, message="Loading Page" }) {
   const [spinAnimation] = useState(new Animated.Value(0));
 
   useEffect(() => {

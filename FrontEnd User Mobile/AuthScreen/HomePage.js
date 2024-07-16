@@ -133,7 +133,7 @@ export default function HomeScreen({ userDetails, navigation }) {
                 color: "white",
               }}
             >
-              {userDetails.coffee_earnt} ☕👋
+              {userDetails.coffee_earnt} 
             </Text>
           </Pressable>
         </View>

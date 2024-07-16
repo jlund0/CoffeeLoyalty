@@ -16,7 +16,7 @@ import { BackgroundImage } from "@rneui/base";
 import { List } from "reactstrap";
 import { linkWithRedirect } from "firebase/auth";
 import { sortListbyDistance } from "../useful-functions";
-export default function CardScreen({ cards, location, user }) {
+export default function CardScreen({ navigation, cards, location, user }) {
   const [search, setSearch] = useState("");
   const [cardsList, setCardsList] = useState(cards);
   const [refreshing, setRefreshing] = useState(false);
@@ -103,11 +103,12 @@ export default function CardScreen({ cards, location, user }) {
         }
       >
         {filterList(cardsList).map((card, index) => (
-          <CardWidget
+          <CardWidgetv2
             card={card}
             key={index}
             user={user}
             fetchCards={handleRefresh}
+            navigation={navigation}
           />
         ))}
         <View style={{ height: 150 }}></View>
@@ -364,3 +365,47 @@ const styles = StyleSheet.create({
     position: "relative",
   },
 });
+
+
+function CardWidgetv2({navigation, card, user, fetchCards }){
+  console.log(card)
+  return(
+<ListItem onPress={()=>{navigation.navigate("stamppage",{card})}} >
+     <Image
+            source={{ uri: card.logo }}
+            containerStyle={styles.logo}
+            PlaceholderContent={<ActivityIndicator />}
+            // resizeMode="center"
+          />
+          <ListItem.Content
+            style={{
+              paddingHorizontal: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              width: "100%",
+              backgroundColor: "white",
+              padding: 10,
+              marginHorizontal: 10,
+              borderRadius: 3,
+            }}
+          >
+            <ListItem.Title
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+                flex: 1,
+              }}
+              numberOfLines={1}
+              // adjustsFontSizeToFit={true}
+            >
+              {card.name}
+            </ListItem.Title>
+            <ListItem.Subtitle numberOfLines={1} style={{ fontSize: 12 }}>
+              {card.location}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+    <ListItem.Chevron />
+    </ListItem>
+  )
+}

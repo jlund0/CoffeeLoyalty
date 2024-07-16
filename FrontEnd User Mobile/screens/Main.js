@@ -126,7 +126,7 @@ export default function Main({ navigation }) {
             backgroundColor: "red",
           }}
         >
-          <CardScreen cards={cards} location={location} user={user} />
+          <CardScreen cards={cards} location={location} user={user} navigation={navigation}/>
         </TabView.Item>
         <TabView.Item
           style={{
