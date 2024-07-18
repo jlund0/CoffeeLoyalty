@@ -113,7 +113,7 @@ export function UserButton({ navigation }) {
   );
 }
 
-export const RedeemButton = ({ disabled = false, card, uid, fetchCards }) => {
+export const RedeemButton = ({ disabled = false, card, uid, fetchCards=()=>null }) => {
   const [isdisabled, setDisabled] = useState(disabled);
   const [animation] = useState(new Animated.Value(0));
   const [redeem, setRedeem] = useState(false);

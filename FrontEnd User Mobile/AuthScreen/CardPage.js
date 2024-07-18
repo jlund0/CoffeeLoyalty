@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
 function CardWidgetv2({navigation, card, user, fetchCards }){
   console.log(card)
   return(
-<ListItem onPress={()=>{navigation.navigate("stamppage",{card})}} >
+<ListItem onPress={()=>{navigation.navigate("stamppage",{card,  user})}} >
      <Image
             source={{ uri: card.logo }}
             containerStyle={styles.logo}
