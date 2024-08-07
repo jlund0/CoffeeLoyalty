@@ -94,37 +94,22 @@ export async function updateUserCard(userid, cardId, AddStamps) {
 // }
 
 export async function getUserCard(userid, store) {
-  const docSnap = await getDoc(doc(db, "users", userid));
-  const userData = docSnap.data();
-  console.log("User data snap");
-  console.log(docSnap.data());
-  console.log(store);
-  try {
-    const cardRef = collection(db, "users", userid, "loyalty_cards");
-
-    const q = query(
-      cardRef,
+  const userData = await getUser(userid);
+  const cardSnapshot = await getDocs(
+    query(
+      collection(db, "users", userid, "loyalty_cards"),
       where("store_Id", "==", store.storeId),
       where("redeemed", "==", false),
       where("points", "<", store.coffees_required)
-    );
-    const docSnap = await getDocs(q);
-    if (docSnap.empty) {
-      console.log(
-        "No matching card found for the user in the specified store."
-      );
-      const card = await createNewCard(userid, store.storeId);
-      console.log(card);
-      return { card: card, username: userData };
-    }
-    const card = docSnap.docs[0].data();
-    card["cardID"] = docSnap.docs[0].id;
-    console.log(card);
+    )
+  );
+  if (cardSnapshot.empty) {
+    const card = await createNewCard(userid, store.storeId);
     return { card: card, username: userData };
-  } catch (error) {
-    console.error("Error getting card:", error);
-    throw error;
   }
+  const card = cardSnapshot.docs[0].data();
+  card["cardID"] = cardSnapshot.docs[0].id;
+  return { card: card, username: userData };
 }
 
 export async function RedeemCard(userId, cardId, points_required, store_id) {

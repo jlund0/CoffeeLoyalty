@@ -13,7 +13,7 @@ export default function NavBar({ showConsoleButton = false }) {
   if (isTabletOrMobile) return <MobileMenu />;
 
   return (
-    <nav className="fixed text-lg flex w-full p-6   z-50 justify-center items-center">
+    <nav className="fixed text-lg flex w-full p-6 z-50 justify-center items-center">
       {/* <h1 className="logo lobster-regular m-auto">Loyal Bean</h1> */}
       <div className="absolute top-0 left-0 flex flex-row justify-center items-center p-5">
         <img

@@ -1,6 +1,6 @@
 import "../App.css";
 import { useState, useRef, useCallback, useEffect } from "react";
-
+import AppleIcon from "@mui/icons-material/Apple";
 import NavBar from "../NavBar";
 import { Footer } from "../NavBar";
 import { Box, IconButton, Radio, RadioGroup, Rating } from "@mui/material";
@@ -70,19 +70,13 @@ function LandingPage({ isTabletOrMobile }) {
 
         {!isTabletOrMobile ? (
           <div className="flex flex-col gap-5 lg:flex-row justify-center  lg:w-3/6 py-2  border-blue-200 relative">
-            <div className="flex content-center bg-black items-center text-white  px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-green-400 hover:to-[#42AFBC] hover:shadow-lg hover:scale-110">
-              <img
-                src="/appleicon.png"
-                cal
-                alt="applelogo"
-                className="p-1 h-8"
-              />
+            <div className="flex content-center bg-black items-center text-white blackHoverbutton px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-green-400 hover:to-[#42AFBC] hover:shadow-lg hover:scale-110">
+              <AppleIcon height={8} />
               <h5 variant="h5">App Store</h5>
             </div>
-            <div className="flex content-center items-center bg-black text-white px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-[#42AFBC] hover:to-blue-500 hover:shadow-lg hover:scale-110">
+            <div className="blackHoverbutton flex content-center items-center bg-black text-white px-8 py-4 rounded-full gap-4 bg-gradient-to-r hover:from-[#42AFBC] hover:to-blue-500 hover:shadow-lg hover:scale-110">
               <img
                 src="/googleicon.png"
-                cal
                 alt="google play logo"
                 className="p-1 h-8"
               />
@@ -158,7 +152,7 @@ function LandingPage({ isTabletOrMobile }) {
             src="/AppScreens/Card.png"
             width={isTabletOrMobile ? 200 : 350}
             alt="App Card screen"
-            className="absolute top-0  z-0 rotate-[30deg] origin-bottom-left right-[35%] hover:-translate-y-24 hover:translate-x-16"
+            className="absolute top-0  z-0 rotate-[30deg] origin-bottom-left right-[35%] lg:hover:-translate-y-24 lg:hover:translate-x-16"
           />
 
           <img
@@ -172,7 +166,7 @@ function LandingPage({ isTabletOrMobile }) {
             src="/AppScreens/Map.png"
             width={isTabletOrMobile ? 200 : 350}
             alt="App Map screen"
-            className="absolute rotate-[-30deg] top-0 origin-bottom-right left-[35%] hover:-translate-y-24 hover:-translate-x-16"
+            className="absolute rotate-[-30deg] top-0 origin-bottom-right left-[35%] lg:hover:-translate-y-24 lg:hover:-translate-x-16"
           />
         </div>
       </Box>
@@ -438,7 +432,7 @@ function ReviewsAndStats({ isTabletOrMobile }) {
   };
   return (
     <div className="w-full flex flex-col justify-center items-center py-10 gap-3 bg-white shadow-xl overflow-hidden dotted-bg">
-      <h1 className="lg:text-5xl text-3xl text-center pb-10">
+      <h1 className="lg:text-5xl text-3xl text-center ">
         Join the 500+ CupCount users already saving
       </h1>
       <div className="flex">
@@ -510,6 +504,27 @@ function ReviewsAndStats({ isTabletOrMobile }) {
 }
 
 export function ContactUs() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
+
+    if (response.ok) {
+      alert("Email sent successfully!");
+    } else {
+      alert("Failed to send email.");
+    }
+  };
   return (
     <div
       // id="contactUs"
@@ -523,17 +538,33 @@ export function ContactUs() {
         </h3>
       </div>
       <div className="xl:w-3/6 w-5/6 bg-white lg:p-10 p-5 rounded-xl shadow-xl border-4 border-r-8 border-b-8 border-black">
-        <div className="flex flex-col lg:gap-8 gap-2">
-          <TextField label="Your name" />
-          <TextField label="Your email" required />
-          <TextField rows={4} multiline label="Leave us a message" required />
-          <button
-            variant="contained"
-            className="self-center rounded-full bg-sky-500 lg:px-8 lg:py-4 px-4 py-2 "
-          >
-            Submit <SendIcon />
-          </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col lg:gap-8 gap-2">
+            <TextField
+              label="Your name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              label="Your email"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              rows={4}
+              multiline
+              label="Leave us a message"
+              required
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button
+              variant="contained"
+              type="submit"
+              className="self-center rounded-full bg-sky-500 lg:px-8 lg:py-4 px-4 py-2 "
+            >
+              Send <SendIcon />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -20,20 +20,20 @@ export default PricingPage;
 
 function Home() {
   return (
-    <section className="lg:h-screen flex justify-center items-center dotted-bg flex-col">
-      <div id="nav_buffer h-24"></div>
-      <div id="store-owner" className="flex justify-center h-2/4">
+    <section className="lg:h-screen flex justify-center items-center dotted-bg flex-col p-10">
+      <div id="nav_buffer" className="h-28 "></div>
+      <div id="store-owner" className="flex justify-center h-2/4 px-10 lg:px-0">
         <div className="flex flex-col ">
-          <h1 className="lg:text-8xl bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-amber-900 font-extrabold py-2">
+          <h1 className="lg:text-8xl bg-clip-text text-5xl text-transparent bg-gradient-to-r from-amber-500 to-amber-900 font-extrabold py-2">
             Get on CupCount Today:
           </h1>
-          <h2 className="text-5xl my-2">
+          <h2 className="text-xl lg:text-5xl my-2">
             Expand Your Reach <br />
             and connect with Coffee Lovers Everywhere!
           </h2>
 
           <div>
-            <button className="rounded-full border-4 px-5 my-2 py-2 border-black transition ease-in-out delay-150 bg-white hover:bg-[#89cff0]  duration-300 text-4xl">
+            <button className="blackHoverbutton lg:text-4xl rounded-full border-4 px-5 my-2 py-2 border-black transition ease-in-out delay-150 bg-white   duration-300 text-2xl bg-gradient-to-r hover:from-green-400 hover:to-blue-500 hover:shadow-lg">
               Sign up free today
             </button>
           </div>
@@ -68,33 +68,35 @@ function Home() {
       </div> */}
       <div
         id="perks"
-        className=" lg:absolute bottom-20 flex flex-col lg:flex-row w-full justify-around gap-5"
+        className="bottom-20 flex flex-col lg:flex-row w-11/12 justify-around  lg:gap-0 gap-10 bg-white border-2 lg:p-10 p-5 rounded-xl"
       >
-        <div className="lg:w-2/12 text-center border-2 p-5 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black] ">
-          <h2>Save</h2>
-          <text className="text-xl">
+        <div className="lg:w-2/12 text-center border-2 lg:p-5 p-2 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black]">
+          <h2 className="text-2xl">Save</h2>
+          <text className="lg:text-base">
             Ditch the cost of constantly buying physical cards
           </text>
         </div>
-        <div className="lg:w-2/12 text-center border-2 p-5 rounded-lg bg-white flex flex-col justify-center  shadow-[0px_10px_black] hover:shadow-[10px_10px_black] ">
-          <h2>Easy to setup</h2>
-          <text className="text-xl">Set your store up in under 5 minutes</text>
+        <div className="lg:w-2/12 text-center border-2 lg:p-5 p-2 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black]">
+          <h2 className="text-2xl">Easy to setup</h2>
+          <text className="lg:text-base">
+            Set your store up in under 5 minutes
+          </text>
         </div>
-        <div className="lg:w-2/12 text-center border-2 p-5 rounded-lg bg-white flex flex-col justify-center  shadow-[0px_10px_black] hover:shadow-[10px_10px_black] ">
-          <h2>Be found</h2>
-          <text className="text-xl">
+        <div className="lg:w-2/12 text-center border-2 lg:p-5 p-2 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black]">
+          <h2 className="text-2xl">Be found</h2>
+          <text className="lg:text-base">
             Get your store discovered by thousands of customers
           </text>
         </div>
-        <div className="lg:w-2/12 text-center border-2 p-5 rounded-lg bg-white flex flex-col justify-center  shadow-[0px_10px_black] hover:shadow-[10px_10px_black] ">
-          <h2>Sustainable</h2>
-          <text className="text-xl">
+        <div className="lg:w-2/12 text-center border-2 lg:p-5 p-2 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black]">
+          <h2 className="text-2xl">Sustainable</h2>
+          <text className="lg:text-base">
             Reduce your waste of single use loyalty cards
           </text>
         </div>
-        <div className="lg:w-2/12 text-center border-2 p-5 rounded-lg bg-white flex flex-col justify-center  shadow-[0px_10px_black] hover:shadow-[10px_10px_black] ">
-          <h2 className="text-3xl">Trackable stats</h2>
-          <text className="text-xl">
+        <div className="lg:w-2/12 text-center border-2 lg:p-5 p-2 rounded-lg bg-white flex flex-col justify-center shadow-[0px_10px_black] hover:shadow-[10px_10px_black]">
+          <h2 className="text-2xl">Trackable stats</h2>
+          <text className="lg:text-base">
             Track your store's sales and customer base
           </text>
         </div>
@@ -108,11 +110,11 @@ function Pricing() {
   return (
     <div
       id="pricing"
-      className="w-full flex flex-col items-center gap-10 py-10"
+      className="w-full flex flex-col items-center gap-10 p-10 "
     >
       <h1>Try CupCount for Free</h1>
-      <div className="flex w-6/12 gap-10 justify-between ">
-        <div className="w-1/2 flex justify-between px-10 py-10 border-2 rounded-xl relative">
+      <div className="flex lg:flex-row flex-col lg:w-6/12 w-full gap-10 justify-between ">
+        <div className="lg:w-1/2  w-full lg:m-0  flex justify-between px-10 py-10 border-2 rounded-xl relative">
           <div className="flex flex-col ">
             <div className="bg-black text-white px-3 py-2 rounded-lg absolute -top-4 ">
               <text>Save 33%</text>
@@ -129,7 +131,7 @@ function Pricing() {
             checked={subscriptionType === "yearly" ? true : false}
           />
         </div>
-        <div className="w-1/2 flex justify-between px-10 py-10 border-2 relative rounded-xl">
+        <div className="lg:w-1/2  w-full lg:m-0  flex justify-between px-10 py-10 border-2 rounded-xl relative">
           <div className="flex flex-col ">
             <text>Month</text>
             <text className="text-xl">

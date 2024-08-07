@@ -392,3 +392,27 @@ background:
     /* Use a clip-path to hide and show the bits you want */
     clip-path: polygon(0 0, 50% 50%, 100% 0);
   }
+
+  .blackHoverbutton {
+    background-color: white;
+    color: black;
+    border-radius: 10em;
+    /* font-size: 17px; */
+    font-weight: 600;
+    padding: 1em 2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid black;
+    box-shadow: 0 0 0 0 black;
+  }
+  
+  .blackHoverbutton:hover {
+    transform: translateY(-4px) translateX(-2px);
+    box-shadow: 2px 5px 0 0 black;
+  };
+  
+  .blackHoverbutton:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 black;
+  };
+

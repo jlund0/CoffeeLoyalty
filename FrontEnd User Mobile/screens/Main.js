@@ -126,7 +126,7 @@ export default function Main({ navigation }) {
             backgroundColor: "red",
           }}
         >
-          <CardScreen cards={cards} location={location} user={user} navigation={navigation}/>
+          <CardScreen cards={cards} location={location} user={user} navigation={navigation} />
         </TabView.Item>
         <TabView.Item
           style={{
@@ -158,7 +158,7 @@ export default function Main({ navigation }) {
           backgroundColor: "#e9e2d7",
           elevation: 1,
           height: "100%",
-          height: 90,
+          height: 70,
         }}
       >
         <Tab.Item
@@ -170,7 +170,7 @@ export default function Main({ navigation }) {
           })}
           icon={(active) => ({
             name: "wallet",
-            size: 40,
+            size: 30,
             type: "material-community",
             color: active ? "#604a33" : "#e1b894",
           })}
@@ -183,7 +183,7 @@ export default function Main({ navigation }) {
           })}
           icon={(active) => ({
             name: "home",
-            size: 40,
+            size: 30,
             type: "entypo",
             color: active ? "#604a33" : "#e1b894",
           })}
@@ -197,7 +197,7 @@ export default function Main({ navigation }) {
           })}
           icon={(active) => ({
             name: "map",
-            size: 40,
+            size: 30,
             type: "font-awesome-5",
             color: active ? "#604a33" : "#e1b894",
           })}

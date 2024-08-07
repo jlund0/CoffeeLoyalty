@@ -1,4 +1,4 @@
-import { StyleSheet, View, ActivityIndicator, Text, Image } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Text, Image, FlatListComponent } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -24,31 +24,31 @@ const Stack = createNativeStackNavigator();
 // const auth = getAuth(app);
 
 const defaultcard = {
-        active: true,
-        cardId: "2aL9rKAb7VZAoKvBTpLI",
-        coffeeId: "Starbucks_test",
-        coffeesEarnt: 6,
-        coffees_required: 6,
-        completed: true,
-        coords: ["31.94957336300768° S", "115.8618892559894° E"],
-        geohash: "qd66hxb01",
-        location: "Perth Cultural Centre, Perth WA 6000",
-        logo: "https://firebasestorage.googleapis.com/v0/b/loyal-coffee-bad9d.appspot.com/o/STORES%2FLogos%2FStarbucks_test.png?alt=media&token=7787804c-203c-45f9-97c5-4846f153a08b",
-        name: "Starbucks",
-        owner: "XXsfIYJK2qOsWVGvffL82MQaT5J3",
-        redeemed: false,
-        storeId: "Starbucks_test",
-        userId: "IEsXtFRgdOeMSgY0BRiXycWMJ2K2",
-        terms: "Only purchases over $3 will count toward a card"
-  
+  active: true,
+  cardId: "2aL9rKAb7VZAoKvBTpLI",
+  coffeeId: "Starbucks_test",
+  coffeesEarnt: 6,
+  coffees_required: 6,
+  completed: true,
+  coords: ["31.94957336300768° S", "115.8618892559894° E"],
+  geohash: "qd66hxb01",
+  location: "Perth Cultural Centre, Perth WA 6000",
+  logo: "https://firebasestorage.googleapis.com/v0/b/loyal-coffee-bad9d.appspot.com/o/STORES%2FLogos%2FStarbucks_test.png?alt=media&token=7787804c-203c-45f9-97c5-4846f153a08b",
+  name: "Starbucks",
+  owner: "XXsfIYJK2qOsWVGvffL82MQaT5J3",
+  redeemed: false,
+  storeId: "Starbucks_test",
+  userId: "IEsXtFRgdOeMSgY0BRiXycWMJ2K2",
+  terms: "Only purchases over $3 will count toward a card"
+
 }
 const defaultuser = {
   coffee_earnt: 0,
-    created_at: { nanoseconds: 265000000, seconds: 1706514029 },
-    email: "test@test.com",
-    name: "User",
-    role: "customer",
-    userId: "IEsXtFRgdOeMSgY0BRiXycWMJ2K2",
+  created_at: { nanoseconds: 265000000, seconds: 1706514029 },
+  email: "test@test.com",
+  name: "User",
+  role: "customer",
+  userId: "IEsXtFRgdOeMSgY0BRiXycWMJ2K2",
 }
 
 
@@ -182,7 +182,7 @@ export default function App() {
           </>
         ) : (
           <>
-          <Stack.Screen options={{headerBackground:"transparent", headerTitleStyle:{fontSize:30}} }name="stamppage" component={StampPage}  initialParams={{ card: defaultcard , user:defaultuser }}/>
+
             <Stack.Screen
               name="Main"
               component={Main}
@@ -192,9 +192,10 @@ export default function App() {
               //   ),
               // })}
               options={{ headerShown: false }}
-              
+
             />
             <Stack.Screen name="userDetails" component={UserDetailsPage} />
+            <Stack.Screen options={{ headerTitle: '', headerTransparent: true, headerBackTitleVisible: false, headerLargeTitleShadowVisible: false, headerTintColor: '#white', headerTitleStyle: { fontSize: 38 } }} name="stamppage" component={StampPage} initialParams={{ card: defaultcard, user: defaultuser }} />
           </>
         )}
       </Stack.Navigator>
